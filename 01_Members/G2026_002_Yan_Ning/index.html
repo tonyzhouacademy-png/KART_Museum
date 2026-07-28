@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yan Ning | KART Museum</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --white: #fffdf7;
+      --ink: #252521;
+      --muted: #746d61;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --sage: #6f7d61;
+      --moss: #31392f;
+      --blue: #315f75;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand strong {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span,
+    .nav a,
+    .kicker,
+    .meta,
+    .tag,
+    .card p,
+    .lead,
+    .work p,
+    .button,
+    .caption,
+    .wall-note p,
+    .footer {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .brand span,
+    .meta,
+    .card p,
+    .lead,
+    .work p,
+    .caption,
+    .wall-note p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .brand span,
+    .meta,
+    .kicker {
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a,
+    .button {
+      min-height: 34px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      font-size: 13px;
+    }
+
+    .nav a:hover,
+    .button:hover {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
+      gap: 18px;
+      padding: 24px 0 28px;
+    }
+
+    .hero-main,
+    .side-panel,
+    .card,
+    .work,
+    .figure,
+    .wall-note {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .hero-main {
+      min-height: 620px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 360px;
+      padding: clamp(12px, 2vw, 22px);
+      background: #d8d0c2;
+    }
+
+    .hero-art img {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      object-position: 50% 68%;
+      border: 1px solid rgba(37, 37, 33, .22);
+      box-shadow: 0 10px 28px rgba(37, 37, 33, .14);
+      filter: saturate(.98) contrast(1.01);
+    }
+
+    .hero-art::after {
+      content: "";
+      position: absolute;
+      inset: clamp(12px, 2vw, 22px);
+      background:
+        linear-gradient(180deg, transparent 35%, rgba(246, 244, 239, .18)),
+        linear-gradient(90deg, rgba(37, 37, 33, .1), transparent 42%);
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      padding: clamp(22px, 4vw, 42px);
+      border-top: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(56px, 9vw, 112px);
+      line-height: .88;
+      font-weight: 400;
+    }
+
+    .hero-copy p {
+      max-width: 720px;
+      margin: 20px 0 0;
+    }
+
+    .side-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .side-block {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-block:last-child { border-bottom: 0; }
+
+    .side-block h2,
+    .section h2,
+    .card h3,
+    .work h3 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .side-block h2 {
+      margin-top: 8px;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .kicker {
+      color: var(--wood);
+    }
+
+    .section-eyebrow {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .74);
+      font-size: 12px;
+    }
+
+    .section {
+      scroll-margin-top: 88px;
+      padding: 30px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(280px, 1.15fr);
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      font-size: clamp(34px, 6vw, 76px);
+      line-height: .95;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      min-height: 180px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .work {
+      min-height: 108px;
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 16px;
+      align-items: stretch;
+      margin-bottom: 12px;
+    }
+
+    .work-number {
+      display: grid;
+      place-items: center;
+      border-right: 1px solid var(--line);
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .work div {
+      padding: 18px 18px 18px 0;
+    }
+
+    .work h3 {
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .work p {
+      margin: 8px 0 0;
+    }
+
+    .index-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .figure {
+      min-height: 320px;
+      padding: 14px;
+      background: #ebe5da;
+    }
+
+    .figure img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: 1px solid rgba(37, 37, 33, .18);
+      box-shadow: 0 8px 20px rgba(37, 37, 33, .1);
+      filter: saturate(.98) contrast(1.01);
+      background: #ded5c4;
+    }
+
+    .crop-process { object-position: 50% 60%; }
+    .crop-urban { object-position: 50% 62%; }
+    .crop-color { object-position: 50% 56%; }
+    .crop-landscape { object-position: 50% 68%; }
+
+    .caption {
+      margin: 12px 0 0;
+    }
+
+    .wall-note {
+      padding: clamp(22px, 4vw, 42px);
+    }
+
+    .wall-note blockquote {
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(26px, 4vw, 46px);
+      line-height: 1.2;
+    }
+
+    .wall-note p {
+      margin: 18px 0 0;
+      max-width: 760px;
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding: 18px 0 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .section-head,
+      .grid,
+      .grid.three {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main {
+        min-height: auto;
+      }
+
+      .hero-art,
+      .hero-art img {
+        min-height: 320px;
+      }
+
+      .work {
+        grid-template-columns: 64px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="../../index.html#members">
+        <strong>KART</strong>
+        <span>Human Condition Archive</span>
+      </a>
+      <nav class="nav" aria-label="Yan Ning archive sections">
+        <a href="#profile">档案首页</a>
+        <a href="#growth">成长线索</a>
+        <a href="#index">写生索引</a>
+        <a href="#note">策展短评</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="profile">
+      <div class="hero-main">
+        <div class="hero-art">
+          <img src="images/yan-ning-landscape-study-08.jpg" alt="Yan Ning watercolor mountain and house study">
+        </div>
+        <div class="hero-copy">
+          <span class="kicker">G2026-002 / 导师课会员</span>
+          <h1>Yan Ning</h1>
+          <p>她在写生训练中开始提取结构、色键和空间层次，让水彩不只是记录对象，而成为组织观看的方法。</p>
+        </div>
+      </div>
+
+      <aside class="side-panel" aria-label="Archive summary">
+        <div class="side-block">
+          <span class="kicker">Public Archive</span>
+          <h2>写生训练中的概括与色键</h2>
+          <div class="tags">
+            <span class="tag">导师课会员</span>
+            <span class="tag">写生训练</span>
+            <span class="tag">色键提取</span>
+            <span class="tag">概括归纳</span>
+            <span class="tag">空间层次</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <span class="kicker">Archive Line</span>
+          <h2>从对象再现到观看判断</h2>
+          <p class="meta">这份公开档案保存她在植物、器皿与风景写生之间形成的观察方法。</p>
+        </div>
+        <div class="side-block">
+          <span class="kicker">KART Museum</span>
+          <h2>成长卷宗</h2>
+          <p class="meta">成长不是把画面画得更满，而是知道哪些信息可以被概括，哪些色彩关系必须被保留。</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="growth">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Growth Lines</span>
+          <h2>成长线索</h2>
+        </div>
+        <p class="lead">Yan Ning 的进步集中体现在写生判断上：她开始从复杂现场里提炼结构关系、主色关系和空间节奏。</p>
+      </div>
+      <div class="grid three">
+        <article class="card">
+          <h3>观看</h3>
+          <p>她从枝干、叶组、器皿、山体和房屋之间寻找结构关系，而不是停留在局部描摹。</p>
+        </article>
+        <article class="card">
+          <h3>色键</h3>
+          <p>她能够把黄、绿、蓝、褐等主色关系提取出来，让颜色成为组织空间的工具。</p>
+        </article>
+        <article class="card">
+          <h3>空间</h3>
+          <p>她把山体、天空、房屋和前景概括为清晰块面，画面开始拥有更稳定的空间层次。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="index">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Sketch Index</span>
+          <h2>写生索引</h2>
+        </div>
+        <p class="lead">这组索引展示她如何在同一训练线索中处理植物结构、色彩提取与风景空间。</p>
+      </div>
+      <div class="grid">
+        <figure class="figure">
+          <img class="crop-process" src="images/yan-ning-studio-process-05.jpg" alt="Yan Ning painting a landscape study in the studio">
+          <figcaption class="caption">创作现场被纳入档案：从参考图像、调色到落笔，草稿呈现的是持续判断与修正的过程。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img class="crop-urban" src="images/yan-ning-urban-sketch-06.jpg" alt="Urban watercolor studies across an open sketchbook">
+          <figcaption class="caption">城市、人物与建筑被压缩成轻快的色块，速写本保留了她寻找空间节奏的路径。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img class="crop-color" src="images/yan-ning-color-study-07.jpg" alt="Watercolor color studies of flowers and peppers">
+          <figcaption class="caption">花朵与果实被拆解为红、绿、黄之间的色彩关系，局部试验逐渐形成清晰的色键意识。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img class="crop-landscape" src="images/yan-ning-landscape-study-08.jpg" alt="Watercolor mountain and house study beside a paint palette">
+          <figcaption class="caption">山体、房屋与前景被概括为大块冷暖关系，明亮的绿地成为组织画面纵深的核心。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="note">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Curatorial Note</span>
+          <h2>策展短评</h2>
+        </div>
+        <p class="lead">KART 以美术馆的方式保存一个人的变化：让练习中的判断、选择和转译变得可见。</p>
+      </div>
+      <div class="wall-note">
+        <blockquote>写生在这里不只是面对对象，而是从复杂现场里提取结构、色键和观看路线。</blockquote>
+        <p>Yan Ning 的画面开始出现一种更清晰的组织意识：她不再只是把看见的东西完整放进去，而是在判断哪些关系决定画面成立。</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum OS</span>
+      <span><a href="../../index.html#members">返回人物馆藏</a></span>
+    </footer>
+  </main>
+</body>
+</html>

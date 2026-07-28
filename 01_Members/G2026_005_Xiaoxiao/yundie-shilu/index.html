@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>云叠室庐 | KART Museum</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --white: #fffdf7;
+      --ink: #252521;
+      --muted: #746d61;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --moss: #31392f;
+      --sage: #6f7d61;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand strong {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span,
+    .nav a,
+    .kicker,
+    .meta,
+    .tag,
+    .card p,
+    .lead,
+    .figure figcaption,
+    .footer {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .brand span,
+    .meta,
+    .card p,
+    .lead,
+    .figure figcaption {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .brand span,
+    .meta,
+    .kicker {
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      min-height: 34px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      font-size: 13px;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+      gap: 18px;
+      padding: 24px 0 30px;
+    }
+
+    .hero-image,
+    .hero-copy,
+    .card,
+    .figure,
+    .statement {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .hero-image {
+      min-height: 640px;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      min-height: 640px;
+      object-fit: cover;
+      filter: saturate(1.02) contrast(1.02);
+    }
+
+    .hero-copy {
+      padding: clamp(24px, 4vw, 46px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(58px, 9vw, 118px);
+      line-height: .88;
+      font-weight: 400;
+    }
+
+    .hero-copy p {
+      max-width: 620px;
+      margin: 18px 0 0;
+      color: var(--moss);
+      font-size: clamp(20px, 2.3vw, 28px);
+      line-height: 1.38;
+    }
+
+    .kicker { color: var(--wood); }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .74);
+      font-size: 12px;
+    }
+
+    .section {
+      scroll-margin-top: 88px;
+      padding: 30px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(280px, 1.15fr);
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 76px);
+      line-height: .95;
+      font-weight: 400;
+    }
+
+    .lead { margin: 0; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      min-height: 220px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .card h3 {
+      margin: 0;
+      color: var(--moss);
+      font-size: 30px;
+      line-height: 1.05;
+      font-weight: 400;
+    }
+
+    .card p { margin: 0; }
+
+    .statement {
+      padding: clamp(26px, 4vw, 48px);
+    }
+
+    .statement blockquote {
+      max-width: 920px;
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(28px, 4.6vw, 56px);
+      line-height: 1.1;
+    }
+
+    .statement p {
+      max-width: 760px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .figure {
+      margin: 0;
+      padding: 14px;
+    }
+
+    .figure.feature {
+      grid-column: span 2;
+    }
+
+    .figure img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #ded5c4;
+      filter: saturate(1.02) contrast(1.02);
+    }
+
+    .figure.tall img {
+      aspect-ratio: 3 / 4;
+    }
+
+    .figure figcaption {
+      margin: 12px 0 0;
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding: 18px 0 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 860px) {
+      .topbar-inner,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .section-head,
+      .grid,
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image,
+      .hero-image img {
+        min-height: 420px;
+      }
+
+      .figure.feature {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="../../../index.html#members">
+        <strong>KART</strong>
+        <span>Human Condition Archive</span>
+      </a>
+      <nav class="nav" aria-label="Yundie Shilu sections">
+        <a href="#profile">项目首页</a>
+        <a href="#hotel">酒店气质</a>
+        <a href="#activity">文化活动</a>
+        <a href="#gallery">图像记录</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="profile">
+      <div class="hero-image">
+        <img src="images/event-space.jpg" alt="云叠室庐文化活动现场">
+      </div>
+      <div class="hero-copy">
+        <div>
+          <span class="kicker">Yun Die Shi Lu / Project Memory</span>
+          <h1>云叠室庐</h1>
+          <p>一处面向山水、云海与当代文人生活的山野设计酒店，也是潇潇成长卷宗中真实发生过文化活动的场域。</p>
+        </div>
+        <div class="tags">
+          <span class="tag">山野设计酒店</span>
+          <span class="tag">明代文人空间</span>
+          <span class="tag">烟云供养</span>
+          <span class="tag">水墨精神</span>
+          <span class="tag">KART 项目记忆</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="hotel">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Design Hotel</span>
+          <h2>酒店气质</h2>
+        </div>
+        <p class="lead">云叠室庐的高级之处，不在于把山景作为装饰，而在于让山水、材料、露台、窗景与人的停留方式组成一个可栖居的审美场域。</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="kicker">01</span>
+          <h3>山水进入室内</h3>
+          <p>大面积窗景、露台与山脉关系，使房间不只是住宿空间，而是观看云海与山色的停留点。</p>
+        </article>
+        <article class="card">
+          <span class="kicker">02</span>
+          <h3>文人空间转译</h3>
+          <p>项目资料将它连接到《长物志》的室庐理想：清雅、素朴、有木竹气息，并让人愿意停留。</p>
+        </article>
+        <article class="card">
+          <span class="kicker">03</span>
+          <h3>当代生活方式</h3>
+          <p>资料中记录，云叠室庐曾获得美国室内设计年度 Best of Year 2025 相关奖项。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="activity">
+      <div class="statement">
+        <blockquote>《烟云供养》把酒店从空间变成现场：人们在山里谈水墨、看云气、读文人空间，也重新理解当代生活的审美可能。</blockquote>
+        <p>KART 在云叠室庐完成《烟云供养：水墨精神与当代艺术实践》与《水墨讲稿｜云叠室庐》相关内容。这类活动的价值，不是把讲座搬进酒店，而是让酒店成为一处文化发生地：山水是背景，水墨是方法，讨论是人与空间重新建立关系的方式。</p>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Image Notes</span>
+          <h2>图像记录</h2>
+        </div>
+        <p class="lead">这些图像保存的是云叠室庐的三层气质：山景、空间与文化活动。它们共同构成潇潇成长卷宗里的一份项目记忆。</p>
+      </div>
+      <div class="gallery">
+        <figure class="figure feature">
+          <img src="images/cloud-sea.jpg" alt="云叠室庐云海山景">
+          <figcaption>云海与山景：云叠室庐名字里的“云叠”，首先是一种真实的地理与观看经验。</figcaption>
+        </figure>
+        <figure class="figure tall">
+          <img src="images/ink-by-window.jpg" alt="窗边水墨作品">
+          <figcaption>窗边水墨：山水不只在窗外，也进入纸面、桌面和人的观看方式。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="images/cultural-salon.jpg" alt="云叠室庐文化沙龙现场">
+          <figcaption>文化沙龙现场：空间、作品与讨论共同构成一次文化活动。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="images/event-space.jpg" alt="云叠室庐活动空间">
+          <figcaption>活动空间：酒店成为可以容纳讲座、作品和共同观看的现场。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="images/table-still-life.jpg" alt="云叠室庐桌面陈设">
+          <figcaption>桌面陈设：器物、花、画册与水墨材料让活动保持亲近而不失分寸。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum OS / Yun Die Shi Lu Project Memory</span>
+      <span><a href="../index.html#memory">返回潇潇成长记忆</a></span>
+    </footer>
+  </main>
+</body>
+</html>

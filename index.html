@@ -1,0 +1,1741 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KART Museum</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --paper-deep: #ebe5d8;
+      --ink: #252521;
+      --muted: #736b5f;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --olive: #5f6d4f;
+      --moss: #31392f;
+      --brick: #8a463d;
+      --white: #fffdf7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 150px;
+    }
+
+    .brand strong {
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav button {
+      min-height: 36px;
+      padding: 0 14px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      background: transparent;
+      font: 14px/1 "Helvetica Neue", Arial, sans-serif;
+      cursor: pointer;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    main {
+      padding: 22px 0 56px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .hero {
+      min-height: calc(100vh - 86px);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 22px;
+    }
+
+    .hero-image {
+      position: relative;
+      min-height: 42vh;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: var(--paper-deep);
+    }
+
+    .editorial-wall {
+      min-height: 42vh;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr 1.2fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 14px;
+      padding: clamp(16px, 2.4vw, 28px);
+      background:
+        linear-gradient(90deg, rgba(201, 190, 169, .5) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(201, 190, 169, .35) 1px, transparent 1px),
+        var(--paper);
+      background-size: 48px 48px;
+    }
+
+    .wall-panel {
+      min-height: 150px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .74);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wall-panel.large {
+      grid-row: span 2;
+    }
+
+    .wall-panel.dark {
+      background: var(--moss);
+      color: var(--white);
+    }
+
+    .wall-panel.warm {
+      background: #d8c8ae;
+    }
+
+    .wall-panel.olive {
+      background: #dfe3d2;
+    }
+
+    .panel-label {
+      position: absolute;
+      left: 16px;
+      bottom: 14px;
+      z-index: 1;
+      max-width: 230px;
+      font-size: clamp(18px, 2.4vw, 32px);
+      line-height: 1.05;
+      font-weight: 400;
+    }
+
+    .wall-panel.large .panel-label {
+      top: 16px;
+      bottom: auto;
+    }
+
+    .panel-number {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .still-life {
+      position: absolute;
+      inset: 18px;
+      border-bottom: 1px solid rgba(37, 37, 33, .45);
+    }
+
+    .still-life::before,
+    .still-life::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      border: 1px solid rgba(37, 37, 33, .45);
+      background: rgba(255, 253, 247, .55);
+    }
+
+    .still-life::before {
+      left: 12%;
+      width: 26%;
+      height: 44%;
+      border-radius: 50% 50% 8px 8px;
+    }
+
+    .still-life::after {
+      right: 14%;
+      width: 30%;
+      height: 62%;
+      transform: skew(-8deg);
+    }
+
+    .palette-dots {
+      position: absolute;
+      inset: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      align-content: center;
+    }
+
+    .palette-dots i {
+      aspect-ratio: 1;
+      border: 1px solid rgba(37, 37, 33, .35);
+      border-radius: 50%;
+      background: var(--paper);
+    }
+
+    .palette-dots i:nth-child(2) { background: var(--wood); }
+    .palette-dots i:nth-child(3) { background: var(--olive); }
+    .palette-dots i:nth-child(4) { background: var(--brick); }
+
+    .line-study {
+      position: absolute;
+      inset: 22px;
+      background:
+        linear-gradient(135deg, transparent 0 47%, rgba(37, 37, 33, .55) 48% 50%, transparent 51%),
+        radial-gradient(circle at 72% 32%, transparent 0 34px, rgba(37, 37, 33, .45) 35px 36px, transparent 37px);
+      border: 1px solid rgba(37, 37, 33, .28);
+    }
+
+    .hero-title {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: clamp(22px, 5vw, 56px);
+      background: linear-gradient(180deg, rgba(246, 244, 239, .02), rgba(246, 244, 239, .88));
+      color: var(--ink);
+      pointer-events: none;
+    }
+
+    .hero-title h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(42px, 8vw, 96px);
+      line-height: .9;
+      font-weight: 400;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 18px;
+    }
+
+    .statement {
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+      padding: 22px 0;
+      font-size: clamp(22px, 3vw, 38px);
+      line-height: 1.35;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .62);
+    }
+
+    .fact {
+      min-height: 112px;
+      padding: 18px;
+      border-right: 1px solid var(--line);
+    }
+
+    .fact:last-child {
+      border-right: 0;
+    }
+
+    .fact b {
+      display: block;
+      color: var(--moss);
+      font-size: clamp(32px, 6vw, 54px);
+      line-height: .95;
+      font-weight: 400;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .landing-links {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      align-self: end;
+    }
+
+    .portal-card,
+    .member-card,
+    .theme-card,
+    .file-card,
+    .program-card,
+    .path-card {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .portal-card {
+      min-height: 150px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .portal-card:hover,
+    .member-card:hover,
+    .theme-card:hover,
+    .file-card:hover,
+    .program-card:hover,
+    .path-card:hover {
+      border-color: var(--wood);
+      background: var(--white);
+    }
+
+    .kicker {
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .portal-card h2,
+    .member-card h3,
+    .theme-card h3,
+    .section-title h2 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .portal-card p,
+    .member-card p,
+    .theme-card p,
+    .file-card p,
+    .program-card p,
+    .project-feature p,
+    .path-card p {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 0 18px;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .section-title-main {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .section-eyebrow,
+    .en-note {
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .section-eyebrow {
+      text-transform: uppercase;
+    }
+
+    .en-note {
+      display: block;
+      margin-top: 8px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(34px, 7vw, 74px);
+      line-height: .95;
+    }
+
+    .section-title p {
+      max-width: 390px;
+      margin: 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .member-card {
+      min-height: 280px;
+      padding: 20px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 22px;
+    }
+
+    .member-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .member-mark-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .member-logo {
+      width: 60px;
+      height: 60px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--moss);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 253, 247, .96) 0 34%, transparent 35%),
+        linear-gradient(135deg, rgba(255, 253, 247, .92), rgba(201, 190, 169, .42));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-logo::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(49, 57, 47, .34);
+      border-radius: inherit;
+    }
+
+    .member-logo::after {
+      position: relative;
+      z-index: 1;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .logo-artist {
+      background:
+        linear-gradient(135deg, rgba(255, 253, 247, .96), rgba(167, 129, 85, .36)),
+        var(--paper);
+    }
+
+    .logo-artist::after {
+      content: "A";
+    }
+
+    .logo-member {
+      border-radius: 10px;
+      background:
+        linear-gradient(90deg, rgba(49, 57, 47, .12) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(49, 57, 47, .1) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(255, 253, 247, .94), rgba(111, 125, 97, .22));
+      background-size: 18px 18px, 18px 18px, auto;
+    }
+
+    .logo-member::before {
+      inset: 10px;
+      border-radius: 50%;
+    }
+
+    .logo-member::after {
+      content: "S";
+    }
+
+    .member-card h3 {
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1;
+    }
+
+    .badge {
+      height: 28px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: var(--paper);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .quote {
+      align-self: end;
+      color: var(--moss);
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.35;
+    }
+
+    .file-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .file-row a,
+    .file-card a {
+      min-height: 34px;
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .74);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .file-row a:hover,
+    .file-card a:hover {
+      border-color: var(--olive);
+      background: var(--paper);
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .theme-card {
+      min-height: 178px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theme-card::after {
+      content: "";
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--theme-dot, rgba(95, 109, 79, .08));
+    }
+
+    .theme-card:nth-child(1) { --theme-dot: rgba(181, 93, 74, .24); }
+    .theme-card:nth-child(2) { --theme-dot: rgba(73, 118, 145, .22); }
+    .theme-card:nth-child(3) { --theme-dot: rgba(178, 106, 130, .22); }
+    .theme-card:nth-child(4) { --theme-dot: rgba(91, 125, 90, .22); }
+    .theme-card:nth-child(5) { --theme-dot: rgba(192, 144, 64, .24); }
+    .theme-card:nth-child(6) { --theme-dot: rgba(77, 144, 153, .20); }
+    .theme-card:nth-child(7) { --theme-dot: rgba(213, 111, 72, .22); }
+    .theme-card:nth-child(8) { --theme-dot: rgba(112, 102, 145, .20); }
+    .theme-card:nth-child(9) { --theme-dot: rgba(123, 137, 73, .22); }
+    .theme-card:nth-child(10) { --theme-dot: rgba(171, 144, 108, .22); }
+    .theme-card:nth-child(11) { --theme-dot: rgba(71, 142, 124, .20); }
+    .theme-card:nth-child(12) { --theme-dot: rgba(135, 77, 108, .20); }
+
+    .themes-visual {
+      width: min(100%, 720px);
+      margin: 18px auto 0;
+    }
+
+    .themes-visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--line);
+      filter: saturate(.92) contrast(1.02);
+    }
+
+    .themes-visual figcaption {
+      margin-top: 10px;
+    }
+
+    .theme-card h3 {
+      max-width: calc(100% - 46px);
+      font-size: 28px;
+      line-height: 1.05;
+    }
+
+    .theme-meta {
+      display: grid;
+      gap: 6px;
+    }
+
+    .theme-month {
+      color: var(--brick);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .system-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .file-card {
+      min-height: 160px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .file-card strong {
+      font-size: 24px;
+      font-weight: 400;
+    }
+
+    .program-hero {
+      min-height: calc(100vh - 140px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+      gap: 18px;
+      align-items: stretch;
+      padding-top: 20px;
+    }
+
+    .program-statement {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+      padding: clamp(24px, 4vw, 46px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 34px;
+    }
+
+    .program-statement h2 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(50px, 9vw, 118px);
+      line-height: .9;
+      font-weight: 400;
+    }
+
+    .program-title-cn {
+      display: block;
+      margin-top: 16px;
+      color: var(--moss);
+      font-size: clamp(30px, 4.6vw, 62px);
+      line-height: 1.05;
+    }
+
+    .program-statement p {
+      max-width: 640px;
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(20px, 2.4vw, 30px);
+      line-height: 1.34;
+    }
+
+    .program-principles {
+      display: grid;
+      gap: 12px;
+    }
+
+    .program-service-image {
+      position: relative;
+      min-height: 220px;
+      margin: 0;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: var(--paper-deep);
+    }
+
+    .program-service-image img {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      object-fit: cover;
+      filter: saturate(.96) contrast(1.04);
+    }
+
+    .program-service-image figcaption {
+      position: absolute;
+      left: 16px;
+      bottom: 14px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 253, 247, .62);
+      color: var(--white);
+      background: rgba(37, 37, 33, .42);
+      backdrop-filter: blur(10px);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .principle {
+      border: 1px solid var(--line);
+      background: rgba(235, 229, 216, .7);
+      padding: 18px;
+    }
+
+    .principle strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--moss);
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .principle strong span {
+      display: block;
+      margin-top: 8px;
+      color: var(--ink);
+      font-size: clamp(20px, 2.4vw, 30px);
+      line-height: 1.12;
+    }
+
+    .program-atmosphere {
+      min-height: 300px;
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: var(--paper-deep);
+    }
+
+    .program-atmosphere .editorial-wall {
+      min-height: 300px;
+    }
+
+    .program-grid,
+    .path-grid,
+    .resource-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .program-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .program-grid.project-index {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .path-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .resource-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .program-card,
+    .path-card {
+      min-height: 220px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      overflow: hidden;
+    }
+
+    .program-card::before,
+    .path-card::before {
+      content: "";
+      display: block;
+      height: 54px;
+      margin: -18px -18px 0;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(120deg, rgba(255, 253, 247, .92), rgba(201, 190, 169, .38)),
+        linear-gradient(90deg, rgba(49, 57, 47, .16) 1px, transparent 1px);
+      background-size: auto, 28px 100%;
+      flex: 0 0 auto;
+    }
+
+    .program-grid .program-card:nth-child(2)::before,
+    .path-grid .path-card:nth-child(2)::before {
+      background:
+        radial-gradient(circle at 18% 50%, rgba(167, 129, 85, .34) 0 20px, transparent 21px),
+        radial-gradient(circle at 50% 50%, rgba(111, 125, 97, .34) 0 24px, transparent 25px),
+        linear-gradient(120deg, rgba(255, 253, 247, .92), rgba(223, 227, 210, .78));
+    }
+
+    .program-grid .program-card:nth-child(3)::before,
+    .path-grid .path-card:nth-child(3)::before {
+      background:
+        linear-gradient(135deg, transparent 0 46%, rgba(49, 57, 47, .28) 47% 49%, transparent 50%),
+        linear-gradient(120deg, rgba(255, 253, 247, .92), rgba(167, 129, 85, .22));
+    }
+
+    .program-grid .program-card:nth-child(4)::before,
+    .path-grid .path-card:nth-child(4)::before {
+      background:
+        linear-gradient(90deg, rgba(49, 57, 47, .18) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(167, 129, 85, .18) 1px, transparent 1px),
+        rgba(255, 253, 247, .86);
+      background-size: 32px 32px;
+    }
+
+    .program-card h3,
+    .path-card h3 {
+      margin: 0;
+      font-size: clamp(26px, 3.4vw, 42px);
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .program-card ul,
+    .path-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .program-link {
+      align-self: flex-start;
+      min-height: 36px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .72);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .program-link:hover {
+      border-color: var(--wood);
+      background: var(--white);
+    }
+
+    .project-feature {
+      display: grid;
+      grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr);
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .project-feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .project-feature-list .project-feature {
+      margin-top: 0;
+      grid-template-columns: minmax(220px, .82fr) minmax(0, 1fr);
+    }
+
+    .project-feature:hover {
+      border-color: var(--wood);
+      background: var(--white);
+    }
+
+    .project-feature img {
+      width: 100%;
+      height: 100%;
+      min-height: 290px;
+      object-fit: contain;
+      padding: 12px;
+      background: #ded5c4;
+      filter: saturate(.96) contrast(1.02);
+    }
+
+    .project-feature-copy {
+      min-height: 290px;
+      padding: clamp(20px, 3vw, 34px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      border-left: 1px solid var(--line);
+    }
+
+    .project-feature h3 {
+      margin: 8px 0 14px;
+      color: var(--moss);
+      font-size: clamp(32px, 5vw, 62px);
+      line-height: .98;
+      font-weight: 400;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border: 1px solid var(--line);
+      margin-top: 18px;
+      background: rgba(255, 253, 247, .62);
+    }
+
+    .month {
+      min-height: 138px;
+      padding: 16px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .month:nth-child(4n) {
+      border-right: 0;
+    }
+
+    .month:nth-last-child(-n + 4) {
+      border-bottom: 0;
+    }
+
+    .month strong {
+      display: block;
+      margin: 8px 0;
+      color: var(--moss);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.05;
+    }
+
+    .language-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .flow-step {
+      min-height: 170px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 24px;
+      font-weight: 400;
+    }
+
+    .resource-card {
+      min-height: 110px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(235, 229, 216, .62);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .program-section {
+      margin-top: 42px;
+    }
+
+    .footer {
+      margin-top: 42px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    @media (max-width: 860px) {
+      .topbar-inner,
+      .intro-grid,
+      .section-title {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .intro-grid,
+      .member-grid,
+      .theme-grid,
+      .system-grid,
+      .landing-links,
+      .program-hero,
+      .program-atmosphere,
+      .program-grid,
+      .project-feature-list,
+      .project-feature,
+      .path-grid,
+      .resource-grid,
+      .timeline,
+      .language-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .month,
+      .month:nth-child(4n),
+      .month:nth-last-child(-n + 4) {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .month:last-child {
+        border-bottom: 0;
+      }
+
+      .facts {
+        grid-template-columns: 1fr;
+      }
+
+      .fact {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .fact:last-child {
+        border-bottom: 0;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-image,
+      .editorial-wall {
+        min-height: 58vh;
+      }
+
+      .editorial-wall {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, minmax(120px, 1fr));
+      }
+
+      .wall-panel.large {
+        grid-row: span 1;
+      }
+
+      .project-feature-copy {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .shell {
+        width: min(100% - 22px, 1180px);
+      }
+
+      .topbar-inner {
+        min-height: 84px;
+      }
+
+      .nav button {
+        padding: 0 10px;
+      }
+
+      .member-top {
+        flex-direction: column;
+      }
+
+      .hero-title {
+        padding: 22px;
+      }
+
+      .portal-card,
+      .member-card,
+      .theme-card,
+      .file-card {
+        border-radius: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#home" data-view-link="home">
+        <strong>KART</strong>
+        <span>Human Condition Archive</span>
+      </a>
+      <nav class="nav" aria-label="Museum sections">
+        <button class="active" type="button" data-view-link="home">首页</button>
+        <button type="button" data-view-link="programs">项目</button>
+        <button type="button" data-view-link="members">人物馆藏</button>
+        <button type="button" data-view-link="themes">月度命题</button>
+        <button type="button" data-view-link="system">策展结构</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="view active" id="home" data-view="home">
+      <div class="hero">
+        <div class="hero-image">
+          <div class="editorial-wall" aria-label="KART visual language study">
+            <div class="wall-panel large warm">
+              <span class="panel-number">01</span>
+              <div class="still-life"></div>
+              <span class="panel-label">Art as a way of paying attention</span>
+            </div>
+            <div class="wall-panel olive">
+              <span class="panel-number">02</span>
+              <div class="palette-dots"><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="wall-panel dark">
+              <span class="panel-number">03</span>
+              <span class="panel-label">Human Condition</span>
+            </div>
+            <div class="wall-panel">
+              <span class="panel-number">04</span>
+              <div class="line-study"></div>
+            </div>
+          </div>
+          <div class="hero-title">
+            <h1>KART Museum</h1>
+          </div>
+        </div>
+
+        <div class="intro-grid">
+          <div class="statement">
+            KART 以艺术、历史、空间与文化，收藏一个人如何重新观看、判断、栖居，并表达自己的生命价值。
+          </div>
+          <div class="facts" aria-label="Museum facts">
+            <div class="fact"><b>7</b><span>人物档案 / Living Archives</span></div>
+            <div class="fact"><b>12</b><span>月度命题 / Propositions</span></div>
+            <div class="fact"><b>4</b><span>策展线索 / Curatorial Lines</span></div>
+          </div>
+        </div>
+
+        <div class="landing-links">
+          <a class="portal-card" href="#members" data-view-link="members">
+            <span class="kicker">01 / Living Archives</span>
+            <h2>人物馆藏</h2>
+            <p>看见一个人的生活方式、作品证据与成长轨迹。</p>
+          </a>
+          <a class="portal-card" href="#themes" data-view-link="themes">
+            <span class="kicker">02 / Monthly Propositions</span>
+            <h2>月度命题</h2>
+            <p>每个月从一种现代处境出发，进入观看、创作与整理。</p>
+          </a>
+          <a class="portal-card" href="#system" data-view-link="system">
+            <span class="kicker">03 / Curatorial Structure</span>
+            <h2>策展结构</h2>
+            <p>以生命档案、作品集与成长卷宗保存人的变化。</p>
+          </a>
+          <a class="portal-card" href="#programs" data-view-link="programs">
+            <span class="kicker">04 / Global Art History</span>
+            <h2>全球艺术史</h2>
+            <p>全球艺术史与视觉思维计划：从图像阅读进入文化判断。</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="members" data-view="members">
+      <div class="section-title">
+        <div class="section-title-main">
+          <span class="section-eyebrow">Living Archives</span>
+          <h2>人物馆藏</h2>
+        </div>
+        <p>这里同时收录 KART 艺术家档案与导师课会员成长卷宗。KART 保存的，是作品、项目与生活经验背后那条正在形成的成长线索。</p>
+      </div>
+
+      <div class="member-grid">
+        <article class="member-card">
+          <div class="member-top">
+            <div>
+              <span class="kicker">S2026-001</span>
+              <h3>Casino Zhou</h3>
+            </div>
+            <div class="member-mark-stack">
+              <span class="member-logo logo-artist" aria-hidden="true"></span>
+              <span class="badge">KART Artist</span>
+            </div>
+          </div>
+          <div class="quote">用绘画保存注意力，也用身体经验和跨文化生活训练观看。</div>
+          <div class="file-row">
+            <a href="01_Members/S2026_001_Casino_Zhou/index.html#profile">档案首页</a>
+            <a href="01_Members/S2026_001_Casino_Zhou/index.html#life">生命档案</a>
+            <a href="01_Members/S2026_001_Casino_Zhou/index.html#portfolio">作品集</a>
+            <a href="01_Members/S2026_001_Casino_Zhou/index.html#growth">成长卷宗</a>
+            <a href="01_Members/S2026_001_Casino_Zhou/index.html#aoem">AOEM</a>
+            <a href="01_Members/S2026_001_Casino_Zhou/index.html#reading">阅读</a>
+            <a href="01_Members/S2026_001_Casino_Zhou/index.html#notes">记录</a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-top">
+            <div>
+              <span class="kicker">G2026-001</span>
+              <h3>小熊</h3>
+            </div>
+            <div class="member-mark-stack">
+              <span class="member-logo logo-member" aria-hidden="true"></span>
+              <span class="badge">导师课会员</span>
+            </div>
+          </div>
+          <div class="quote">把理性结构带进绘画：从写生、构图与色彩关系出发，慢慢把练习转化为个人创作计划。</div>
+          <div class="file-row">
+            <a href="01_Members/G2026_001_Xiaoxiong/index.html#profile">档案首页</a>
+            <a href="01_Members/G2026_001_Xiaoxiong/index.html#growth">成长线索</a>
+            <a href="01_Members/G2026_001_Xiaoxiong/index.html#portfolio">作品方向</a>
+            <a href="01_Members/G2026_001_Xiaoxiong/index.html#note">策展短评</a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-top">
+            <div>
+              <span class="kicker">G2026-002</span>
+              <h3>Yan Ning</h3>
+            </div>
+            <div class="member-mark-stack">
+              <span class="member-logo logo-member" aria-hidden="true"></span>
+              <span class="badge">导师课会员</span>
+            </div>
+          </div>
+          <div class="quote">从写生训练中提取结构、色键与空间层次，让水彩成为组织观看的方法。</div>
+          <div class="file-row">
+            <a href="01_Members/G2026_002_Yan_Ning/index.html#profile">档案首页</a>
+            <a href="01_Members/G2026_002_Yan_Ning/index.html#growth">成长线索</a>
+            <a href="01_Members/G2026_002_Yan_Ning/index.html#index">写生索引</a>
+            <a href="01_Members/G2026_002_Yan_Ning/index.html#note">策展短评</a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-top">
+            <div>
+              <span class="kicker">G2026-003</span>
+              <h3>白坤</h3>
+            </div>
+            <div class="member-mark-stack">
+              <span class="member-logo logo-member" aria-hidden="true"></span>
+              <span class="badge">导师课会员</span>
+            </div>
+          </div>
+          <div class="quote">把 AIGC 从生成工具推进到审美判断、平台机制与真实商业实践的交叉处。</div>
+          <div class="file-row">
+            <a href="01_Members/G2026_003_Bai_Kun/index.html#profile">档案首页</a>
+            <a href="01_Members/G2026_003_Bai_Kun/index.html#growth">成长线索</a>
+            <a href="01_Members/G2026_003_Bai_Kun/index.html#aigc">AIGC实践</a>
+            <a href="01_Members/G2026_003_Bai_Kun/index.html#reports">报告材料</a>
+            <a href="01_Members/G2026_003_Bai_Kun/index.html#business">商业视角</a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-top">
+            <div>
+              <span class="kicker">G2026-004</span>
+              <h3>盼盼</h3>
+            </div>
+            <div class="member-mark-stack">
+              <span class="member-logo logo-member" aria-hidden="true"></span>
+              <span class="badge">导师课会员</span>
+            </div>
+          </div>
+          <div class="quote">从色点、颗粒、线面体与肖像色块进入绘画训练，开始用明度、冷暖和块面关系组织画面。</div>
+          <div class="file-row">
+            <a href="01_Members/G2026_004_Panpan/index.html#profile">档案首页</a>
+            <a href="01_Members/G2026_004_Panpan/index.html#growth">成长线索</a>
+            <a href="01_Members/G2026_004_Panpan/index.html#evidence">阶段图像</a>
+            <a href="01_Members/G2026_004_Panpan/index.html#note">策展短评</a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-top">
+            <div>
+              <span class="kicker">G2026-005</span>
+              <h3>潇潇</h3>
+            </div>
+            <div class="member-mark-stack">
+              <span class="member-logo logo-member" aria-hidden="true"></span>
+              <span class="badge">导师课会员</span>
+            </div>
+          </div>
+          <div class="quote">从萨金特人物速写的分析与拆解进入结构、光感与形式语言训练，也保留她作为云叠室庐主理人的一份山野设计酒店项目记忆。</div>
+          <div class="file-row">
+            <a href="01_Members/G2026_005_Xiaoxiao/index.html#profile">档案首页</a>
+            <a href="01_Members/G2026_005_Xiaoxiao/index.html#growth">成长线索</a>
+            <a href="01_Members/G2026_005_Xiaoxiao/index.html#evidence">阶段图像</a>
+            <a href="01_Members/G2026_005_Xiaoxiao/index.html#memory">成长记忆</a>
+            <a href="01_Members/G2026_005_Xiaoxiao/index.html#note">策展短评</a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-top">
+            <div>
+              <span class="kicker">G2026-006</span>
+              <h3>Joyce</h3>
+            </div>
+            <div class="member-mark-stack">
+              <span class="member-logo logo-member" aria-hidden="true"></span>
+              <span class="badge">导师课会员</span>
+            </div>
+          </div>
+          <div class="quote">从素描入门进入水彩与观察训练，在植物、街巷、果蔬和自然形态中练习线条、明度与色彩关系。</div>
+          <div class="file-row">
+            <a href="01_Members/G2026_006_Joyce/index.html#profile">档案首页</a>
+            <a href="01_Members/G2026_006_Joyce/index.html#growth">成长线索</a>
+            <a href="01_Members/G2026_006_Joyce/index.html#evidence">作品证据</a>
+            <a href="01_Members/G2026_006_Joyce/index.html#note">策展短评</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="view" id="themes" data-view="themes">
+      <div class="section-title">
+        <div class="section-title-main">
+          <span class="section-eyebrow">KART Art Living Room / Monthly Propositions</span>
+          <h2>2027 KART 艺术客厅月度命题</h2>
+        </div>
+        <p>KART 艺术客厅每个月只保留一个轻命题：让绘画入口、生活处境与长期成长保持同一方向。</p>
+      </div>
+
+      <figure class="themes-visual">
+        <img src="assets/living-room/KART_editorial_1.PNG" alt="KART 艺术客厅桌面上的花、茶杯与画具">
+        <figcaption>KART 艺术客厅 · 2027</figcaption>
+      </figure>
+
+      <div class="theme-grid">
+        <article class="theme-card"><span class="theme-month">1月</span><h3>重新开始</h3><div class="theme-meta"><p>生命处境：建立生活节奏</p><p>绘画入口：冬日静物</p></div></article>
+        <article class="theme-card"><span class="theme-month">2月</span><h3>看见颜色</h3><div class="theme-meta"><p>生命处境：注意力恢复</p><p>绘画入口：色彩练习</p></div></article>
+        <article class="theme-card"><span class="theme-month">3月</span><h3>慢下来</h3><div class="theme-meta"><p>生命处境：对抗焦虑</p><p>绘画入口：花卉</p></div></article>
+        <article class="theme-card"><span class="theme-month">4月</span><h3>与自然相处</h3><div class="theme-meta"><p>生命处境：恢复感知</p><p>绘画入口：写生</p></div></article>
+        <article class="theme-card"><span class="theme-month">5月</span><h3>空间</h3><div class="theme-meta"><p>生命处境：家与生活</p><p>绘画入口：室内</p></div></article>
+        <article class="theme-card"><span class="theme-month">6月</span><h3>光</h3><div class="theme-meta"><p>生命处境：观看训练</p><p>绘画入口：光影</p></div></article>
+        <article class="theme-card"><span class="theme-month">7月</span><h3>人</h3><div class="theme-meta"><p>生命处境：自我观察</p><p>绘画入口：人物</p></div></article>
+        <article class="theme-card"><span class="theme-month">8月</span><h3>时间</h3><div class="theme-meta"><p>生命处境：长期主义</p><p>绘画入口：连续创作</p></div></article>
+        <article class="theme-card"><span class="theme-month">9月</span><h3>收藏</h3><div class="theme-meta"><p>生命处境：留下什么</p><p>绘画入口：小品</p></div></article>
+        <article class="theme-card"><span class="theme-month">10月</span><h3>留白</h3><div class="theme-meta"><p>生命处境：接受不完美</p><p>绘画入口：水彩</p></div></article>
+        <article class="theme-card"><span class="theme-month">11月</span><h3>关系</h3><div class="theme-meta"><p>生命处境：共同体</p><p>绘画入口：双人创作</p></div></article>
+        <article class="theme-card"><span class="theme-month">12月</span><h3>回望</h3><div class="theme-meta"><p>生命处境：年度总结</p><p>绘画入口：年度作品</p></div></article>
+      </div>
+    </section>
+
+    <section class="view" id="system" data-view="system">
+      <div class="section-title">
+        <div class="section-title-main">
+          <span class="section-eyebrow">Curatorial Structure</span>
+          <h2>策展结构</h2>
+        </div>
+        <p>KART Museum 以三层馆藏保存人的成长：如何生活，留下什么，以及如何在长期观看中改变。</p>
+      </div>
+
+      <div class="system-grid">
+        <article class="file-card">
+          <div><span class="kicker">01</span><strong>生命档案 / Life Archive</strong><p>记录一个人如何生活：时间、空间、关系、身体经验与日常节奏如何形成她的观看方式。</p></div>
+        </article>
+        <article class="file-card">
+          <div><span class="kicker">02</span><strong>作品集 / Portfolio</strong><p>保存一个人留下了什么：作品、项目、视觉实验，以及那些能证明成长曾经发生的痕迹。</p></div>
+        </article>
+        <article class="file-card">
+          <div><span class="kicker">03</span><strong>成长卷宗 / Growth Dossier</strong><p>观察一个人如何成长：观看能力、判断能力、表达能力与文化理解如何被慢慢建立。</p></div>
+        </article>
+        <article class="file-card">
+          <div><span class="kicker">04</span><strong>月度命题 / Monthly Proposition</strong><p>每个月回应一种生命处境：重新开始、慢下来、看见颜色、建立关系、年度回望。</p></div>
+        </article>
+        <article class="file-card">
+          <div><span class="kicker">05</span><strong>意义生成 / Meaning Making</strong><p>艺术不是终点，而是一种重新解释生活、建立价值感，并让生命经验被看见的方法。</p></div>
+        </article>
+        <article class="file-card">
+          <div><span class="kicker">06</span><strong>年度回望 / Annual Reflection</strong><p>在一年结束时回看作品与生活变化，让成长被看见、被命名，也被克制而温柔地保存。</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" id="programs" data-view="programs">
+      <div class="program-section project-records">
+        <div class="section-title">
+          <div class="section-title-main">
+            <span class="section-eyebrow">Project Records</span>
+            <h2>项目记录</h2>
+          </div>
+          <p>先保存已经发生的现场：写生行走、空间活动与文化记忆，构成 KART Museum 中可以继续延展的项目档案。</p>
+        </div>
+        <div class="project-feature-list">
+          <a class="project-feature" href="02_Projects/Field_Study_No03_Yunnan/index.html">
+            <img src="02_Projects/Field_Study_No03_Yunnan/images/teahouse-value-continuity.png" alt="KART Field Study No.03 Yunnan project card">
+            <div class="project-feature-copy">
+              <div>
+                <span class="kicker">Field Study No.03 / Yunnan</span>
+                <h3>云南 · 自然采集与观看之旅</h3>
+                <p>曲靖、楚雄与后续云南现场记录。以写生、自然采集和移动观看，保存一条从地点到判断的学习路线。</p>
+              </div>
+              <span class="program-link">进入项目记录</span>
+            </div>
+          </a>
+          <a class="project-feature" href="01_Members/G2026_005_Xiaoxiao/yundie-shilu/index.html">
+            <img src="01_Members/G2026_005_Xiaoxiao/yundie-shilu/images/terrace-mountain-view.jpg" alt="Yundie Shilu mountain design hotel view">
+            <div class="project-feature-copy">
+              <div>
+                <span class="kicker">Cultural Site / Yundie Shilu</span>
+                <h3>云叠室庐 · 山野设计酒店</h3>
+                <p>围绕明代文人空间、山水栖居、水墨精神与当代生活方式，保存一处空间与文化活动的项目记忆。</p>
+              </div>
+              <span class="program-link">进入项目记录</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="program-section">
+        <div class="section-title">
+          <div class="section-title-main">
+            <span class="section-eyebrow">Project Index</span>
+            <h2>项目目录</h2>
+          </div>
+          <p>KART 项目以“行走、现场、教育、档案”四类展开。后续写生旅行、展览项目与主题研究，都可以在这里继续添加。</p>
+        </div>
+        <div class="program-grid project-index">
+          <article class="program-card">
+            <div>
+              <span class="kicker">A · Field Study</span>
+              <h3>写生与行走项目</h3>
+            </div>
+            <p>以写生旅行、博物馆现场、城市与山水观察为入口，把旅行变成可记录的视觉经验。</p>
+            <a class="program-link" href="02_Projects/Field_Study_No03_Yunnan/index.html">查看云南写生</a>
+          </article>
+          <article class="program-card">
+            <div>
+              <span class="kicker">B · Cultural Site</span>
+              <h3>展览与文化现场</h3>
+            </div>
+            <p>保存展览策划、空间项目、文化活动与现场记忆，让每一次发生都进入 KART Museum 档案。</p>
+            <a class="program-link" href="01_Members/G2026_005_Xiaoxiao/yundie-shilu/index.html">查看云叠室庐</a>
+          </article>
+          <article class="program-card">
+            <div>
+              <span class="kicker">C · Education Curation</span>
+              <h3>教育策展项目</h3>
+            </div>
+            <p>以全球艺术史、视觉思维、导师课成长卷宗为核心，帮助学习者建立长期观看能力。</p>
+          </article>
+          <article class="program-card">
+            <div>
+              <span class="kicker">D · Archive Research</span>
+              <h3>档案与研究项目</h3>
+            </div>
+            <p>沉淀成长卷宗、PDF index、主题研究与年度回顾，让项目材料形成可持续更新的馆藏结构。</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="program-hero">
+        <div class="program-statement">
+          <div>
+            <span class="kicker">KART Programs / Education Curation</span>
+            <h2>Global Art History</h2>
+            <span class="program-title-cn">全球艺术史与视觉思维</span>
+          </div>
+          <p>全球艺术史与视觉思维计划。不是艺术史补习，也不是 AP Art History 培训，而是 KART Museum 面向长期观看、文化理解与审美判断的教育策展项目。</p>
+        </div>
+        <div class="program-principles" aria-label="Program principles">
+          <figure class="program-service-image">
+            <img src="assets/art-history/humanistic-tradition-michelangelo.jpeg" alt="Michelangelo sculpture as a Renaissance humanistic tradition reference">
+            <figcaption>Humanistic Tradition / Renaissance Research</figcaption>
+          </figure>
+          <div class="principle">
+            <strong>Art History is the methodology.<span>艺术史是方法。</span></strong>
+            <p>艺术史是理解图像、文明、权力、信仰与价值的路径。</p>
+          </div>
+          <div class="principle">
+            <strong>Visual Thinking is the skill.<span>视觉思维是能力。</span></strong>
+            <p>视觉分析让学生从“我喜欢”进入“我如何判断”。</p>
+          </div>
+          <div class="principle">
+            <strong>Cultural Judgment is the outcome.<span>文化判断是结果。</span></strong>
+            <p>最终目标不是记住更多作品，而是在图像泛滥的 AI 时代建立人的判断力。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="program-atmosphere" aria-label="KART project visual atmosphere">
+        <div class="editorial-wall">
+          <div class="wall-panel large warm">
+            <span class="panel-number">EDU</span>
+            <div class="still-life"></div>
+            <span class="panel-label">Education Curation</span>
+          </div>
+          <div class="wall-panel olive">
+            <span class="panel-number">FIELD</span>
+            <div class="palette-dots"><i></i><i></i><i></i><i></i></div>
+            <span class="panel-label">写生行走</span>
+          </div>
+          <div class="wall-panel dark">
+            <span class="panel-number">EXHIBIT</span>
+            <span class="panel-label">展览现场</span>
+          </div>
+          <div class="wall-panel">
+            <span class="panel-number">ARCHIVE</span>
+            <div class="line-study"></div>
+            <span class="panel-label">档案研究</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="program-section">
+        <div class="section-title">
+          <div class="section-title-main">
+            <span class="section-eyebrow">Three Levels</span>
+            <h2>三阶段路径</h2>
+          </div>
+          <p>同一套底层框架，可以根据年龄、经验与学习目标，拆分为不同深度的观看路径。</p>
+        </div>
+        <div class="program-grid">
+          <article class="program-card">
+            <div>
+              <span class="kicker">阶段 1 · 12-14</span>
+              <h3>视觉素养基础</h3>
+            </div>
+            <p>视觉阅读基础。学会观看：什么是图像，人为什么创造艺术，图像如何制造权力、信仰和身份。</p>
+            <ul>
+              <li>图像与符号</li>
+              <li>权力与信仰</li>
+              <li>身份与再现</li>
+            </ul>
+          </article>
+          <article class="program-card">
+            <div>
+              <span class="kicker">阶段 2 · 14-17</span>
+              <h3>全球艺术史研讨</h3>
+            </div>
+            <p>全球艺术史研讨。结合 AP Art History 的能力框架，但采用主题式结构，而不是机械章节训练。</p>
+            <ul>
+              <li>人与图像</li>
+              <li>宗教与再现</li>
+              <li>帝国与文化交换</li>
+              <li>现代性与个体</li>
+              <li>全球当代</li>
+            </ul>
+          </article>
+          <article class="program-card">
+            <div>
+              <span class="kicker">阶段 3 · 16-18</span>
+              <h3>AP 艺术史准备</h3>
+            </div>
+            <p>AP 是出口，不是产品本身。考试支持建立在长期视觉判断与文化理解之后。</p>
+            <ul>
+              <li>250 件作品掌握</li>
+              <li>视觉分析</li>
+              <li>比较写作</li>
+              <li>语境分析</li>
+              <li>归因与 FRQ 写作</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <div class="program-section">
+        <div class="section-title">
+          <div class="section-title-main">
+            <span class="section-eyebrow">12-Month Arc</span>
+            <h2>12 个月主题</h2>
+          </div>
+          <p>一年只做一件事：让学生逐渐从图像阅读，进入全球文化理解，再进入自己的判断立场。</p>
+        </div>
+        <div class="timeline" aria-label="12 month program outline">
+          <div class="month"><span class="kicker">01</span><strong>什么是图像？</strong><p>图像为什么比文字更早进入人类经验。</p></div>
+          <div class="month"><span class="kicker">02</span><strong>仪式、权力与信仰</strong><p>图像如何服务信仰、秩序与权力。</p></div>
+          <div class="month"><span class="kicker">03</span><strong>身体与身份</strong><p>肖像、身体与身份如何被塑造。</p></div>
+          <div class="month"><span class="kicker">04</span><strong>宗教与空间</strong><p>建筑如何组织敬畏与共同体。</p></div>
+          <div class="month"><span class="kicker">05</span><strong>帝国与贸易</strong><p>艺术如何随着帝国、贸易、迁徙流动。</p></div>
+          <div class="month"><span class="kicker">06</span><strong>博物馆与分类</strong><p>博物馆如何决定我们看见什么。</p></div>
+          <div class="month"><span class="kicker">07</span><strong>文艺复兴与人文主义</strong><p>人如何重新成为图像中心。</p></div>
+          <div class="month"><span class="kicker">08</span><strong>现代性与个体</strong><p>现代艺术为什么打破“像不像”。</p></div>
+          <div class="month"><span class="kicker">09</span><strong>摄影与媒介</strong><p>技术如何改变真实感。</p></div>
+          <div class="month"><span class="kicker">10</span><strong>全球当代</strong><p>当代艺术如何回应全球化处境。</p></div>
+          <div class="month"><span class="kicker">11</span><strong>艺术市场与价值</strong><p>价格、机构、稀缺性与价值判断。</p></div>
+          <div class="month"><span class="kicker">12</span><strong>文化判断结课档案</strong><p>形成年度视觉思维档案。</p></div>
+        </div>
+      </div>
+
+      <div class="program-section">
+        <div class="section-title">
+          <div class="section-title-main">
+            <span class="section-eyebrow">Bilingual Method</span>
+            <h2>双语方法</h2>
+          </div>
+          <p>中文负责深度理解，英文负责国际材料入口。语言不是装饰，而是进入世界材料的方法。</p>
+        </div>
+        <div class="language-flow">
+          <div class="flow-step">
+            <span class="kicker">01 · 输入</span>
+            <strong>英文材料输入</strong>
+            <p>阅读博物馆文本、AP 资料、艺术术语与作品说明。</p>
+          </div>
+          <div class="flow-step">
+            <span class="kicker">02 · 讨论</span>
+            <strong>中文深度讨论</strong>
+            <p>处理历史逻辑、文化背景、哲学问题与价值判断。</p>
+          </div>
+          <div class="flow-step">
+            <span class="kicker">03 · 输出</span>
+            <strong>英文观点输出</strong>
+            <p>完成短评、比较、作品阐释与面试表达。</p>
+          </div>
+        </div>
+        <div class="resource-grid" aria-label="International references">
+          <div class="resource-card">The Met<br>Heilbrunn Timeline & Collection</div>
+          <div class="resource-card">MoMA<br>Learning & Art Terms</div>
+          <div class="resource-card">Tate<br>Art Terms and essays</div>
+          <div class="resource-card">Smarthistory<br>Global Art History</div>
+          <div class="resource-card">College Board<br>AP Art History materials</div>
+        </div>
+      </div>
+
+      <div class="program-section">
+        <div class="section-title">
+          <div class="section-title-main">
+            <span class="section-eyebrow">Participation Structure</span>
+            <h2>参与结构</h2>
+          </div>
+          <p>KART 项目既可以从学生学习进入，也可以从成人讨论、家庭共同观看与长期档案整理进入。</p>
+        </div>
+        <div class="path-grid">
+          <article class="path-card">
+            <span class="kicker">青少年</span>
+            <h3>全球艺术史计划</h3>
+            <p>建立全球艺术史框架、图像阅读能力与跨文化理解。</p>
+          </article>
+          <article class="path-card">
+            <span class="kicker">进阶</span>
+            <h3>视觉思维 + AP</h3>
+            <p>进入学术表达、比较写作、作品阐释与国际课程语境。</p>
+          </article>
+          <article class="path-card">
+            <span class="kicker">成年人</span>
+            <h3>KART 艺术客厅</h3>
+            <p>成年人通过持续讨论、展览路径与主题分享建立共同语言。</p>
+          </article>
+          <article class="path-card">
+            <span class="kicker">家庭</span>
+            <h3>家庭文化档案</h3>
+            <p>把阅读、旅行、展览和作品材料整理为可持续更新的家庭文化记忆。</p>
+          </article>
+        </div>
+      </div>
+
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum</span>
+      <span>生命处境 × 艺术 × 生命档案</span>
+    </footer>
+  </main>
+
+  <script>
+    const links = document.querySelectorAll("[data-view-link]");
+    const views = document.querySelectorAll("[data-view]");
+
+    function showView(name) {
+      views.forEach((view) => view.classList.toggle("active", view.dataset.view === name));
+      links.forEach((link) => link.classList.toggle("active", link.dataset.viewLink === name));
+      if (location.hash.slice(1) !== name) {
+        history.replaceState(null, "", "#" + name);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    links.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const name = link.dataset.viewLink;
+        if (!name) return;
+        event.preventDefault();
+        showView(name);
+      });
+    });
+
+    const initialView = location.hash.slice(1);
+    if (initialView && document.querySelector(`[data-view="${initialView}"]`)) {
+      showView(initialView);
+    }
+  </script>
+</body>
+</html>

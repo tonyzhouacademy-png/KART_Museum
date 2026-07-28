@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Casino Zhou | KART Museum OS</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --white: #fffdf7;
+      --ink: #252521;
+      --muted: #746d61;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --olive: #5f6d4f;
+      --moss: #31392f;
+      --brick: #8a463d;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand strong {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span,
+    .nav a,
+    .kicker,
+    .meta,
+    .label,
+    .tag {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .brand span,
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      min-height: 34px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      font-size: 13px;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+      gap: 18px;
+      align-items: stretch;
+      padding: 24px 0 28px;
+    }
+
+    .hero-main {
+      min-height: 620px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    .portrait-study {
+      position: relative;
+      min-height: 360px;
+      background:
+        linear-gradient(90deg, transparent 0 34%, rgba(201, 190, 169, .9) 34% 34.2%, transparent 34.3%),
+        linear-gradient(180deg, transparent 0 42%, rgba(201, 190, 169, .8) 42% 42.2%, transparent 42.3%),
+        #ded5c4;
+    }
+
+    .portrait-study::before {
+      content: "";
+      position: absolute;
+      left: 11%;
+      top: 13%;
+      width: 34%;
+      height: 58%;
+      border: 1px solid rgba(37, 37, 33, .45);
+      background:
+        radial-gradient(circle at 48% 30%, rgba(255, 253, 247, .86) 0 54px, transparent 55px),
+        linear-gradient(135deg, transparent 0 46%, rgba(37, 37, 33, .45) 47% 48%, transparent 49%),
+        rgba(255, 253, 247, .45);
+    }
+
+    .portrait-study::after {
+      content: "Drawing is my way of paying attention.";
+      position: absolute;
+      right: 7%;
+      bottom: 11%;
+      width: min(360px, 58%);
+      color: var(--moss);
+      font-size: clamp(28px, 5vw, 56px);
+      line-height: 1.02;
+    }
+
+    .hero-copy {
+      padding: clamp(22px, 4vw, 42px);
+      border-top: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(52px, 9vw, 112px);
+      line-height: .88;
+      font-weight: 400;
+    }
+
+    .hero-copy p {
+      max-width: 680px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .side-panel {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .side-block {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-block:last-child { border-bottom: 0; }
+
+    .kicker {
+      color: var(--wood);
+      font-size: 12px;
+    }
+
+    .section-eyebrow {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .side-block h2,
+    .section h2,
+    .card h3 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .side-block h2 {
+      margin-top: 8px;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: var(--paper);
+      font-size: 12px;
+    }
+
+    .section {
+      scroll-margin-top: 88px;
+      padding: 30px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(280px, 1.2fr);
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      font-size: clamp(34px, 6vw, 76px);
+      line-height: .95;
+    }
+
+    .lead {
+      color: var(--moss);
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      min-height: 170px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      font-size: 26px;
+      line-height: 1.08;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .card p { margin: 0; }
+    ul { margin: 0; padding-left: 18px; }
+
+    .quote {
+      padding: clamp(22px, 4vw, 42px);
+      border: 1px solid var(--line);
+      background: var(--moss);
+      color: var(--white);
+      font-size: clamp(26px, 4vw, 48px);
+      line-height: 1.2;
+    }
+
+    .work {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .work:last-child { border-bottom: 0; }
+
+    .work-number {
+      color: var(--brick);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .work h3 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.05;
+      font-weight: 400;
+    }
+
+    .work p {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .evidence-wall {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+      gap: 14px;
+    }
+
+    .evidence-feature,
+    .evidence-card {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 253, 247, .72);
+      overflow: hidden;
+    }
+
+    .evidence-feature img,
+    .evidence-card img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      background: var(--paper);
+    }
+
+    .evidence-feature img {
+      height: min(62vh, 680px);
+    }
+
+    .evidence-card img {
+      height: 230px;
+    }
+
+    .evidence-card img.full-artwork {
+      object-fit: contain;
+      object-position: center top;
+      padding: 12px;
+    }
+
+    .evidence-caption {
+      padding: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .evidence-caption h3 {
+      margin: 6px 0 8px;
+      font-size: 26px;
+      line-height: 1.05;
+      font-weight: 400;
+    }
+
+    .evidence-caption p {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .portfolio-wall {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-wall .evidence-feature img,
+    .portfolio-wall .evidence-card img {
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      object-position: center;
+      padding: 0;
+    }
+
+    .footer {
+      padding: 24px 0 44px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    @media (max-width: 860px) {
+      .topbar-inner,
+      .hero,
+      .section-head,
+      .grid,
+      .grid.three,
+      .evidence-wall,
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        padding: 12px 0;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero-main {
+        min-height: auto;
+      }
+
+      .work {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-study::after {
+        width: 72%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="../../index.html#members">
+        <strong>KART</strong>
+        <span>Museum OS / 会员档案</span>
+      </a>
+      <nav class="nav" aria-label="Casino dossier sections">
+        <a href="#profile">档案首页</a>
+        <a href="#life">生命档案</a>
+        <a href="#portfolio">作品集</a>
+        <a href="#growth">成长卷宗</a>
+        <a href="#aoem">AOEM</a>
+        <a href="#reading">阅读</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="profile">
+      <div class="hero-main">
+        <div class="portrait-study" aria-label="Abstract portrait study"></div>
+        <div class="hero-copy">
+          <span class="kicker">S2026-001 / KART Artist</span>
+          <h1>Casino Zhou</h1>
+          <p>Casino 把绘画作为一种专注方式，用身体经验、跨文化生活与公共项目持续训练自己的观看。</p>
+        </div>
+      </div>
+
+      <aside class="side-panel">
+        <div class="side-block">
+          <span class="kicker">身份</span>
+          <h2>周开心</h2>
+          <p class="meta">青年艺术实践者 / 视觉观察者 / 跨文化实践者</p>
+        </div>
+        <div class="side-block">
+          <span class="kicker">当前关注</span>
+          <div class="tags">
+            <span class="tag">场所感</span>
+            <span class="tag">视觉叙事</span>
+            <span class="tag">社区记忆</span>
+            <span class="tag">人物训练</span>
+            <span class="tag">生活方式绘画</span>
+            <span class="tag">公共文化</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <span class="kicker">来源</span>
+          <p class="meta">Casino_个人档案.md / Updated 2026-06-23</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="life">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Life Archive</span>
+          <h2>生命档案</h2>
+        </div>
+        <p class="lead">在移动的生活中建立观看：从深圳到澳大利亚，从身体训练到视觉叙事。</p>
+      </div>
+      <div class="grid three">
+        <article class="card"><h3>观看</h3><p>她开始把身体经验视为观看训练：攀岩中的路线判断、自由潜中的呼吸感、旅行中的空间差异，都可以进入绘画与视觉创作。</p></article>
+        <article class="card"><h3>节奏</h3><p>学习、寄宿学校、跨文化旅行与运动训练共同构成她的生活节奏。</p></article>
+        <article class="card"><h3>共同体</h3><p>她的项目进入幼儿园纪念册、攀岩馆视觉系统、KART 空间展览、香港与国际艺术交流。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="portfolio">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Portfolio</span>
+          <h2>作品集</h2>
+        </div>
+        <p class="lead">作品不是单张图像，而是她如何把生活经验转化为公共记忆的证据。</p>
+      </div>
+      <div class="work"><span class="work-number">W0001</span><div><h3>Portofino Kindergarten</h3><p>把幼儿园记忆转化为可被保存的视觉档案，让一个社区的共同时间有了可回看的形状。</p></div></div>
+      <div class="work"><span class="work-number">W0002</span><div><h3>Bargue Figures</h3><p>Bargue 训练在这里不是技巧炫示，而是对观看秩序的练习。</p></div></div>
+      <div class="work"><span class="work-number">W0003</span><div><h3>Lifestyle Series</h3><p>旅行、运动与日常经验进入画面，使作品记录一个年轻实践者如何在移动中保持注意力。</p></div></div>
+      <div class="work"><span class="work-number">W0004</span><div><h3>KART Exhibition Participation</h3><p>作品进入 KART 空间与衍生品开发，开始与真实观众、真实场景、真实使用关系发生连接。</p></div></div>
+      <div class="work"><span class="work-number">W0005</span><div><h3>UPPER Climbing</h3><p>把攀岩经验转化为视觉文化，保留运动场景中的方向感、节奏与身体判断。</p></div></div>
+
+      <div class="evidence-wall portfolio-wall" aria-label="Casino Zhou portfolio page screenshots">
+        <article class="evidence-feature">
+          <img class="portfolio-shot" src="../../assets/casino/portfolio/portfolio-cover.png" alt="Casino Zhou Art Portfolio cover page screenshot">
+          <div class="evidence-caption">
+            <span class="kicker">Portfolio Page</span>
+            <h3>Drawing a Life in Motion</h3>
+            <p>用完整 portfolio 页面替换原有单张项目照片，让 Casino 的作品线索以同一套视觉系统呈现。</p>
+          </div>
+        </article>
+
+        <div class="evidence-grid">
+          <article class="evidence-card">
+            <img class="portfolio-shot" src="../../assets/casino/portfolio/portfolio-how-i-see.png" alt="How I See the World portfolio page screenshot">
+            <div class="evidence-caption">
+              <span class="kicker">Method</span>
+              <h3>How I See the World</h3>
+              <p>把观看、运动、跨文化经验与艺术实践放在同一张方法地图里。</p>
+            </div>
+          </article>
+          <article class="evidence-card">
+            <img class="portfolio-shot" src="../../assets/casino/portfolio/portfolio-bargue-figures.png" alt="Bargue Figures portfolio page screenshot">
+            <div class="evidence-caption">
+              <span class="kicker">人物</span>
+              <h3>Bargue Figures</h3>
+              <p>用 portfolio 页面呈现人物训练中的比例、形体与姿态判断。</p>
+            </div>
+          </article>
+          <article class="evidence-card">
+            <img class="portfolio-shot" src="../../assets/casino/portfolio/portfolio-lifestyle-series.png" alt="Lifestyle Series portfolio page screenshot">
+            <div class="evidence-caption">
+              <span class="kicker">日常生活</span>
+              <h3>Lifestyle Series</h3>
+              <p>日常观察、速写与视觉日记被整理为连续的作品页面。</p>
+            </div>
+          </article>
+          <article class="evidence-card">
+            <img class="portfolio-shot" src="../../assets/casino/portfolio/portfolio-kart-exhibitions.png" alt="KART Exhibitions portfolio page screenshot">
+            <div class="evidence-caption">
+              <span class="kicker">KART</span>
+              <h3>KART Exhibitions</h3>
+              <p>以作品进入展览空间的页面，替代原来的单张展览照片。</p>
+            </div>
+          </article>
+          <article class="evidence-card">
+            <img class="portfolio-shot" src="../../assets/casino/portfolio/portfolio-upper-climbing.png" alt="UPPER Climbing portfolio page screenshot">
+            <div class="evidence-caption">
+              <span class="kicker">公共文化</span>
+              <h3>UPPER Climbing</h3>
+              <p>把攀岩馆视觉系统作为完整 portfolio 项目页面展示。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="growth">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Growth Dossier</span>
+          <h2>成长卷宗</h2>
+        </div>
+        <p class="lead">从青少年绘画训练进入跨文化艺术实践，建立稳定的个人观看语言。</p>
+      </div>
+      <div class="quote">从“做出一张作品”转向“建立一条长期线索”。</div>
+      <div class="grid">
+        <article class="card"><h3>当前阶段</h3><p>整理已有项目，形成清晰的作品线索与档案结构。</p></article>
+        <article class="card"><h3>下一步</h3><p>梳理场所感、运动中的生活、艺术与公共文化三条主线，并为每条主线保留代表作品、项目说明与个人观察。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="aoem">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Observation / Analysis / Expression / Meaning</span>
+          <h2>AOEM</h2>
+        </div>
+        <p class="lead">AOEM 记录的不是分数，而是她如何观看、理解、表达，并从经验中建立意义。</p>
+      </div>
+      <div class="grid">
+        <article class="card"><h3>观看</h3><p>她不是只观察画面，而是在观察人如何处在空间里。</p></article>
+        <article class="card"><h3>分析</h3><p>分类能力已经出现，下一步是让每个方向形成更强的作品证据。</p></article>
+        <article class="card"><h3>表达</h3><p>表达正在从个人练习走向公共使用，这是非常重要的成长。</p></article>
+        <article class="card"><h3>意义</h3><p>Casino 的作品应当被看作一种年轻生命正在建立世界关系的证据。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="reading">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Reading Path</span>
+          <h2>阅读路径</h2>
+        </div>
+        <p class="lead">阅读不只是艺术史知识，而是帮助她理解生活经验如何成为作品来源。</p>
+      </div>
+      <div class="grid three">
+        <article class="card"><h3>场所感</h3><p>支持她继续发展场所观察与社区记忆。</p></article>
+        <article class="card"><h3>艺术与公共文化</h3><p>理解艺术如何进入展览、品牌空间、运动场馆与公共生活。</p></article>
+        <article class="card"><h3>视觉叙事</h3><p>把项目经验转化为更完整的叙事结构。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="notes">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Tony Notes</span>
+          <h2>Tony 记录</h2>
+        </div>
+        <p class="lead">不要急于把所有经历都放进同一个叙事里。先建立三条主线。</p>
+      </div>
+      <div class="card">
+        <h3>2026-06-23</h3>
+        <p>Casino 的个人档案呈现出清晰的长期线索：她以绘画保存注意力，也将跨文化生活、身体训练、旅行与公共项目持续转化为创作材料。</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum OS</span>
+      <span><a href="../../index.html#members">返回人物馆藏</a></span>
+    </footer>
+  </main>
+</body>
+</html>

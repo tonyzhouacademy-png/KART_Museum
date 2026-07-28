@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>白坤 | KART Museum</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --white: #fffdf7;
+      --ink: #252521;
+      --muted: #746d61;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --moss: #31392f;
+      --blue: #315f75;
+      --green: #637457;
+      --brick: #8a463d;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand strong {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span,
+    .nav a,
+    .kicker,
+    .meta,
+    .tag,
+    .lead,
+    .card p,
+    .work p,
+    .wall-note p,
+    .footer {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .brand span,
+    .meta,
+    .lead,
+    .card p,
+    .work p,
+    .wall-note p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .brand span,
+    .meta,
+    .kicker {
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      min-height: 34px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      font-size: 13px;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.16fr) minmax(280px, .84fr);
+      gap: 18px;
+      padding: 24px 0 28px;
+    }
+
+    .hero-main,
+    .side-panel,
+    .card,
+    .work,
+    .wall-note {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .hero-main {
+      min-height: 620px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    .signal-map {
+      position: relative;
+      min-height: 360px;
+      background:
+        linear-gradient(90deg, transparent 0 18%, rgba(49, 95, 117, .34) 18% 18.2%, transparent 18.3%),
+        linear-gradient(90deg, transparent 0 49%, rgba(99, 116, 87, .4) 49% 49.2%, transparent 49.3%),
+        linear-gradient(90deg, transparent 0 76%, rgba(138, 70, 61, .32) 76% 76.2%, transparent 76.3%),
+        linear-gradient(180deg, transparent 0 33%, rgba(201, 190, 169, .92) 33% 33.2%, transparent 33.3%),
+        linear-gradient(180deg, transparent 0 68%, rgba(201, 190, 169, .66) 68% 68.2%, transparent 68.3%),
+        #ded5c4;
+    }
+
+    .signal-map::before,
+    .signal-map::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(37, 37, 33, .42);
+      background: rgba(255, 253, 247, .38);
+    }
+
+    .signal-map::before {
+      left: 10%;
+      top: 16%;
+      width: 36%;
+      height: 42%;
+      box-shadow: 120px 88px 0 rgba(49, 95, 117, .18);
+    }
+
+    .signal-map::after {
+      right: 8%;
+      bottom: 14%;
+      width: 34%;
+      height: 34%;
+      box-shadow: -160px -70px 0 rgba(99, 116, 87, .16);
+    }
+
+    .hero-copy {
+      padding: clamp(22px, 4vw, 42px);
+      border-top: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(56px, 9vw, 112px);
+      line-height: .88;
+      font-weight: 400;
+    }
+
+    .hero-copy p {
+      max-width: 720px;
+      margin: 20px 0 0;
+    }
+
+    .side-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .side-block {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-block:last-child { border-bottom: 0; }
+
+    .side-block h2,
+    .section h2,
+    .card h3,
+    .work h3 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .side-block h2 {
+      margin-top: 8px;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .kicker {
+      color: var(--wood);
+    }
+
+    .section-eyebrow {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .74);
+      font-size: 12px;
+    }
+
+    .section {
+      scroll-margin-top: 88px;
+      padding: 30px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(280px, 1.15fr);
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      font-size: clamp(34px, 6vw, 76px);
+      line-height: .95;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      min-height: 180px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .work {
+      min-height: 108px;
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 16px;
+      align-items: stretch;
+      margin-bottom: 12px;
+    }
+
+    .work-number {
+      display: grid;
+      place-items: center;
+      border-right: 1px solid var(--line);
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .work div {
+      padding: 18px 18px 18px 0;
+    }
+
+    .work h3 {
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .work p {
+      margin: 8px 0 0;
+    }
+
+    .reference-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reference-card {
+      margin: 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .reference-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #ded5c4;
+      filter: saturate(.98) contrast(1.01);
+    }
+
+    .reference-card--art img {
+      padding: 16px;
+      object-fit: contain;
+      background: #e8e2d7;
+    }
+
+    .reference-card figcaption {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .reference-card figcaption strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .reference-card figcaption a {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .report-figure {
+      margin: 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .report-figure img {
+      width: 100%;
+      aspect-ratio: 10 / 7;
+      object-fit: cover;
+      background: #ded5c4;
+      filter: saturate(.98) contrast(1.01);
+    }
+
+    .report-figure figcaption {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .wall-note {
+      padding: clamp(22px, 4vw, 42px);
+    }
+
+    .wall-note blockquote {
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(26px, 4vw, 46px);
+      line-height: 1.2;
+    }
+
+    .wall-note p {
+      margin: 18px 0 0;
+      max-width: 780px;
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding: 18px 0 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .section-head,
+      .grid,
+      .reference-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main {
+        min-height: auto;
+      }
+
+      .signal-map {
+        min-height: 320px;
+      }
+
+      .work {
+        grid-template-columns: 64px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="../../index.html#members">
+        <strong>KART</strong>
+        <span>Human Condition Archive</span>
+      </a>
+      <nav class="nav" aria-label="Bai Kun archive sections">
+        <a href="#profile">档案首页</a>
+        <a href="#growth">成长线索</a>
+        <a href="#aigc">AIGC实践</a>
+        <a href="#references">视觉参照</a>
+        <a href="#reports">报告材料</a>
+        <a href="#business">商业视角</a>
+        <a href="#note">策展短评</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="profile">
+      <div class="hero-main">
+        <div class="signal-map" aria-label="AIGC judgment map"></div>
+        <div class="hero-copy">
+          <span class="kicker">G2026-003 / 导师课会员</span>
+          <h1>白坤</h1>
+          <p>她把 AIGC 从生成工具推进到审美判断、平台机制与真实商业实践的交叉处：不是追逐更快的图像，而是训练更清醒的判断。</p>
+        </div>
+      </div>
+
+      <aside class="side-panel" aria-label="Archive summary">
+        <div class="side-block">
+          <span class="kicker">Public Archive</span>
+          <h2>AIGC 与商业判断</h2>
+          <div class="tags">
+            <span class="tag">AIGC</span>
+            <span class="tag">AI图像</span>
+            <span class="tag">AI视频</span>
+            <span class="tag">MCN</span>
+            <span class="tag">商业实践</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <span class="kicker">Archive Line</span>
+          <h2>从生成能力到判断系统</h2>
+          <p class="meta">这份公开档案保存可被展示的成长线索：她如何从 Prompt 实验进入平台审美、短视频生态与商业策略思考。</p>
+        </div>
+        <div class="side-block">
+          <span class="kicker">KART Museum</span>
+          <h2>成长卷宗</h2>
+          <p class="meta">算法可以生成结果，但判断仍属于人。白坤的档案保存的正是这种判断力的形成过程。</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="growth">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Growth Lines</span>
+          <h2>成长线索</h2>
+        </div>
+        <p class="lead">白坤的成长线不是技法型的，而是判断型的：她不断把艺术史、平台机制、商业案例和个人实践放在同一张桌面上比较。</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>判断</h3>
+          <p>从“AI 能不能做出图像”转向“人如何判断图像是否成立”，把生成结果重新带回人的观看。</p>
+        </article>
+        <article class="card">
+          <h3>平台</h3>
+          <p>她开始识别平台审美、流量机制和模板化风险，而不是把爆款样式当成天然答案。</p>
+        </article>
+        <article class="card">
+          <h3>实践</h3>
+          <p>AIGC 被她推进到人生商业实践层面：它不只是内容工具，也是观察市场与选择路径的方法。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="aigc">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">AIGC Practice</span>
+          <h2>AIGC 实践</h2>
+        </div>
+        <p class="lead">这一阶段的重点，是把 AI 图片、AI 短视频和内容生态放入同一个判断框架。</p>
+      </div>
+      <div class="work">
+        <span class="work-number">A01</span>
+        <div>
+          <h3>从 Prompt 到思考路径</h3>
+          <p>她逐渐意识到，Prompt 不是一句技术指令，而是把思考路径交给 AI 之前必须先被人类整理的判断结构。</p>
+        </div>
+      </div>
+      <div class="work">
+        <span class="work-number">A02</span>
+        <div>
+          <h3>从图像到短视频生态</h3>
+          <p>讨论开始进入 AI 图片、AI 短视频和 MCN 机制，关注的不只是“能不能生成”，而是内容如何进入真实传播链条。</p>
+        </div>
+      </div>
+      <div class="work">
+        <span class="work-number">A03</span>
+        <div>
+          <h3>从工具到商业实践</h3>
+          <p>AIGC 在这里被看作商业判断的训练场：每一次生成、筛选和复盘，都在逼近更真实的市场问题。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="references">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Visual References</span>
+          <h2>视觉参照</h2>
+        </div>
+        <p class="lead">一张原创 AI 气氛图与一件艺术史作品并置：前者测试生成图像的氛围组织，后者提供色彩、空间与瞬间事件如何成立的判断参照。</p>
+      </div>
+      <div class="reference-grid">
+        <figure class="reference-card">
+          <img src="images/bai-kun-ai-hydrangea-atmosphere.png" alt="AI-generated hydrangea garden atmosphere with layered translucent planes">
+          <figcaption>
+            <strong>AI 气氛实验｜绣球花园</strong>
+            原创 AI 生成图像。花园路径、花簇与透明图层被组织成一个多版本并置的现场，用来观察气氛如何从生成结果转化为可讨论的视觉判断。
+          </figcaption>
+        </figure>
+        <figure class="reference-card reference-card--art">
+          <img src="images/david-hockney-a-bigger-splash-reference.jpg" alt="David Hockney, A Bigger Splash, 1967">
+          <figcaption>
+            <strong>David Hockney｜A Bigger Splash, 1967</strong>
+            建筑、色块与短暂水花被压缩进清晰秩序，为判断 AI 图像中的空间、色彩和事件是否成立提供艺术史参照。图像与作品信息来源：<a href="https://shop.tate.org.uk/david-hockney-a-bigger-splash-poster/19587.html" target="_blank" rel="noreferrer">Tate</a>。
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="reports">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Report Materials</span>
+          <h2>报告材料</h2>
+        </div>
+        <p class="lead">这张报告材料图保存三份绣球花园报告的气氛：跨平台审美分析、三版本对比、反模板创作与策略复盘。</p>
+      </div>
+      <figure class="report-figure">
+        <img src="images/bai-kun-report-wall-reference.jpg" alt="Bai Kun AIGC report material wall">
+        <figcaption>作为公开卷宗中的图像材料，它展示白坤如何把 AIGC 讨论从图像生成推进到平台机制、审美判断和商业策略层面。</figcaption>
+      </figure>
+    </section>
+
+    <section class="section" id="business">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Business Lens</span>
+          <h2>商业视角</h2>
+        </div>
+        <p class="lead">2026-07-06 的创作推进，标志着讨论进入更深层：具体商业案例、策略选择、平台生态与个人路径开始连接起来。</p>
+      </div>
+      <div class="wall-note">
+        <blockquote>对白坤来说，AIGC 的价值不在于替代判断，而在于把判断暴露出来。</blockquote>
+        <p>她的成长提醒我们：AI 时代真正稀缺的不是更多图像，而是能够在图像、平台和商业现实之间做出选择的人。KART 保存这条线索，是因为它已经不只是艺术学习，而是一个人如何在新工具和新市场里训练自己的判断系统。</p>
+      </div>
+    </section>
+
+    <section class="section" id="note">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Curatorial Note</span>
+          <h2>策展短评</h2>
+        </div>
+        <p class="lead">KART 以美术馆的方式保存一个人的变化：不仅保存作品，也保存判断力如何被训练出来。</p>
+      </div>
+      <div class="wall-note">
+        <blockquote>当 AI 变得足够快，人反而更需要知道自己为什么选择。</blockquote>
+        <p>白坤的档案是一条非常当代的成长线：从图像生成进入平台文化，从平台文化进入商业策略，再从商业策略回到个人实践。她的价值不在于追上某个工具，而在于逐渐建立一种可以迁移的审美与商业判断。</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum OS</span>
+      <span><a href="../../index.html#members">返回人物馆藏</a></span>
+    </footer>
+  </main>
+</body>
+</html>

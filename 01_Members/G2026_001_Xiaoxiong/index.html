@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>小熊 | KART Museum</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --white: #fffdf7;
+      --ink: #252521;
+      --muted: #746d61;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --olive: #5f6d4f;
+      --moss: #31392f;
+      --brick: #8a463d;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand strong {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span,
+    .nav a,
+    .kicker,
+    .meta,
+    .tag,
+    .card p,
+    .lead,
+    .wall-note p,
+    .footer {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .brand span,
+    .meta,
+    .card p,
+    .lead,
+    .wall-note p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .brand span,
+    .meta,
+    .kicker {
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      min-height: 34px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      font-size: 13px;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 18px;
+      padding: 24px 0 28px;
+    }
+
+    .hero-main,
+    .side-panel,
+    .card,
+    .work,
+    .wall-note {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .hero-main {
+      min-height: 620px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    .structure-study {
+      position: relative;
+      min-height: 360px;
+      background:
+        linear-gradient(90deg, transparent 0 27%, rgba(201, 190, 169, .95) 27% 27.2%, transparent 27.3%),
+        linear-gradient(90deg, transparent 0 61%, rgba(201, 190, 169, .72) 61% 61.2%, transparent 61.3%),
+        linear-gradient(180deg, transparent 0 39%, rgba(201, 190, 169, .84) 39% 39.2%, transparent 39.3%),
+        linear-gradient(180deg, transparent 0 68%, rgba(201, 190, 169, .62) 68% 68.2%, transparent 68.3%),
+        #ded5c4;
+    }
+
+    .structure-study::before {
+      content: "";
+      position: absolute;
+      left: 12%;
+      top: 18%;
+      width: 42%;
+      height: 48%;
+      border: 1px solid rgba(37, 37, 33, .45);
+      background:
+        linear-gradient(135deg, transparent 0 47%, rgba(37, 37, 33, .45) 48% 50%, transparent 51%),
+        radial-gradient(circle at 72% 34%, transparent 0 34px, rgba(37, 37, 33, .42) 35px 36px, transparent 37px),
+        rgba(255, 253, 247, .42);
+    }
+
+    .structure-study::after {
+      content: "结构成为一种观看方式。";
+      position: absolute;
+      right: 7%;
+      bottom: 12%;
+      width: min(380px, 58%);
+      color: var(--moss);
+      font-size: clamp(30px, 5vw, 58px);
+      line-height: 1.02;
+    }
+
+    .hero-copy {
+      padding: clamp(22px, 4vw, 42px);
+      border-top: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(56px, 9vw, 112px);
+      line-height: .88;
+      font-weight: 400;
+    }
+
+    .hero-copy p {
+      max-width: 700px;
+      margin: 20px 0 0;
+    }
+
+    .side-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .side-block {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-block:last-child { border-bottom: 0; }
+
+    .side-block h2,
+    .section h2,
+    .card h3,
+    .work h3 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .side-block h2 {
+      margin-top: 8px;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .kicker {
+      color: var(--wood);
+    }
+
+    .section-eyebrow {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .74);
+      font-size: 12px;
+    }
+
+    .section {
+      scroll-margin-top: 88px;
+      padding: 30px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(280px, 1.15fr);
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      font-size: clamp(34px, 6vw, 76px);
+      line-height: .95;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      min-height: 180px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .work {
+      min-height: 108px;
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 16px;
+      align-items: stretch;
+      margin-bottom: 12px;
+    }
+
+    .work-number {
+      display: grid;
+      place-items: center;
+      border-right: 1px solid var(--line);
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .work div {
+      padding: 18px 18px 18px 0;
+    }
+
+    .work h3 {
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .work p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .evidence-card {
+      margin: 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .evidence-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #ded5c4;
+      filter: saturate(.98) contrast(1.02);
+    }
+
+    .evidence-card-wide {
+      grid-column: 1 / -1;
+    }
+
+    .evidence-card-wide img {
+      aspect-ratio: 16 / 7;
+      object-position: 50% 52%;
+    }
+
+    .evidence-card figcaption {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .wall-note {
+      padding: clamp(22px, 4vw, 42px);
+    }
+
+    .wall-note blockquote {
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(26px, 4vw, 46px);
+      line-height: 1.2;
+    }
+
+    .wall-note p {
+      margin: 18px 0 0;
+      max-width: 760px;
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding: 18px 0 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .section-head,
+      .grid,
+      .grid.three,
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main {
+        min-height: auto;
+      }
+
+      .structure-study {
+        min-height: 320px;
+      }
+
+      .work {
+        grid-template-columns: 64px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="../../index.html#members">
+        <strong>KART</strong>
+        <span>Human Condition Archive</span>
+      </a>
+      <nav class="nav" aria-label="Xiaoxiong archive sections">
+        <a href="#profile">档案首页</a>
+        <a href="#growth">成长线索</a>
+        <a href="#portfolio">作品方向</a>
+        <a href="#breakthrough">突破节点</a>
+        <a href="#note">策展短评</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="profile">
+      <div class="hero-main">
+        <div class="structure-study" aria-label="Abstract structure study"></div>
+        <div class="hero-copy">
+          <span class="kicker">G2026-001 / 导师课会员</span>
+          <h1>小熊</h1>
+          <p>她把理性结构带进绘画：从写生、构图与色彩关系出发，慢慢把练习转化为一个可以持续推进的个人创作计划。</p>
+        </div>
+      </div>
+
+      <aside class="side-panel" aria-label="Archive summary">
+        <div class="side-block">
+          <span class="kicker">Public Archive</span>
+          <h2>观看关系与色彩结构</h2>
+          <div class="tags">
+            <span class="tag">导师课会员</span>
+            <span class="tag">观看关系</span>
+            <span class="tag">色彩结构</span>
+            <span class="tag">作品集意识</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <span class="kicker">Archive Line</span>
+          <h2>从练习到作品计划</h2>
+          <p class="meta">这份公开档案保存可被看见的成长线索：她如何理解画面、组织结构，并让理性判断进入创作。</p>
+        </div>
+        <div class="side-block">
+          <span class="kicker">KART Museum</span>
+          <h2>成长卷宗</h2>
+          <p class="meta">成长不是被评定，而是被保存。它发生在一次次观看、判断和重新组织画面的过程里。</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="growth">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Growth Lines</span>
+          <h2>成长线索</h2>
+        </div>
+        <p class="lead">小熊的成长线索带有一种清晰的理性气质：她不是急着完成一张画，而是在学习怎样让一个画面成立。</p>
+      </div>
+      <div class="grid three">
+        <article class="card">
+          <h3>观看</h3>
+          <p>她开始从“看见对象”转向“看见关系”：视线、构图、明暗、深浅与色彩之间如何互相支撑。</p>
+        </article>
+        <article class="card">
+          <h3>结构</h3>
+          <p>结构不只是画面的骨架，也是一种思考方式。她逐渐把理性分析转化为绘画中的组织能力。</p>
+        </article>
+        <article class="card">
+          <h3>转译</h3>
+          <p>大师语言、色彩练习与写生经验，正在被她慢慢转译为自己的作品计划和长期线索。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="portfolio">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Portfolio Direction</span>
+          <h2>作品方向</h2>
+        </div>
+        <p class="lead">这里展示的不是作品完成清单，而是几条正在形成的作品方向。</p>
+      </div>
+      <div class="work">
+        <span class="work-number">W01</span>
+        <div>
+          <h3>写生与构图研究</h3>
+          <p>从视线框、构图和黑白灰关系进入画面组织，建立看见结构的基本能力。</p>
+        </div>
+      </div>
+      <div class="work">
+        <span class="work-number">W02</span>
+        <div>
+          <h3>色彩结构研究</h3>
+          <p>把色彩从装饰性的“好看”转化为画面的秩序、节奏和空间判断。</p>
+        </div>
+      </div>
+      <div class="work">
+        <span class="work-number">W03</span>
+        <div>
+          <h3>创作手稿与作品集</h3>
+          <p>从练习进入作品线索，让每一次训练开始服务于一个更长期的个人创作计划。</p>
+        </div>
+      </div>
+      <div class="work">
+        <span class="work-number">W04</span>
+        <div>
+          <h3>突破与自我肯定</h3>
+          <p>从较安全的结构分析走向更主动的画面承担：天空、水面、人物脸部与手部都开始被她正面处理。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="breakthrough">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Breakthrough Node</span>
+          <h2>突破节点</h2>
+        </div>
+        <p class="lead">这组新材料记录了一个清晰节点：小熊不只是在理解画面，而是开始相信自己的判断，并愿意让画面承担更大的空间、色彩和人物难度。</p>
+      </div>
+      <div class="evidence-grid">
+        <figure class="evidence-card">
+          <img src="images/xiaoxiong-breakthrough-landscape-display.jpeg" alt="Xiaoxiong landscape painting breakthrough study">
+          <figcaption>水乡空间被拉开，天空、水面、建筑黑白灰和树影形成更果断的画面秩序，显示出她对整体关系的主动控制。</figcaption>
+        </figure>
+        <figure class="evidence-card">
+          <img src="images/xiaoxiong-breakthrough-figure-display.jpeg" alt="Xiaoxiong figure painting breakthrough study">
+          <figcaption>人物练习没有回避脸部、手部和衣褶的难点，笔触开始带着更明确的承担感，也更接近一种自我肯定。</figcaption>
+        </figure>
+        <figure class="evidence-card evidence-card-wide">
+          <img src="images/xiaoxiong-watertown-507.jpeg" alt="Xiaoxiong watertown landscape painting study">
+          <figcaption>深色建筑、桥梁与水面被组织成清晰的横向节奏，暖黄树影贯穿其间，让水乡空间同时拥有厚度与光感。</figcaption>
+        </figure>
+      </div>
+      <div class="wall-note">
+        <blockquote>这不是单纯“画得更完整”，而是她开始在画面里确认：我可以做出判断。</blockquote>
+        <p>评语：小熊这一次的突破，首先发生在创作姿态上。她不再只是谨慎地分析结构，而是敢于把空间推远、把明暗压重、把人物表情和手部动作放到画面中心。画面里仍有需要继续打磨的地方，但更重要的是，她开始相信自己的组织能力。这样的自我肯定，会成为后续作品集里非常关键的推进力量。</p>
+      </div>
+    </section>
+
+    <section class="section" id="note">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Curatorial Note</span>
+          <h2>策展短评</h2>
+        </div>
+        <p class="lead">KART 以美术馆的方式保存一个人的变化：不急着归类，也不把成长简化为进度。</p>
+      </div>
+      <div class="wall-note">
+        <blockquote>理性不是绘画的反面。对小熊来说，结构、色彩和构图正在成为一种更安静的观看方式。</blockquote>
+        <p>她的档案提醒我们：绘画并不只属于“感性的人”。当一个人愿意认真拆解画面如何成立，艺术也会成为理解世界的方法。</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum OS</span>
+      <span><a href="../../index.html#members">返回人物馆藏</a></span>
+    </footer>
+  </main>
+</body>
+</html>

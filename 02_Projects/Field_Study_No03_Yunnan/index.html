@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>云南 · 自然采集与观看之旅 | KART Museum</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --white: #fffdf7;
+      --ink: #252521;
+      --muted: #746d61;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --moss: #31392f;
+      --sage: #6f7d61;
+      --clay: #9b6448;
+      --sky: #8ca8ad;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand strong {
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span,
+    .nav a,
+    .kicker,
+    .meta,
+    .tag,
+    .lead,
+    .card p,
+    .path-card p,
+    .figure figcaption,
+    .method-note,
+    .footer {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .brand span,
+    .meta,
+    .lead,
+    .card p,
+    .path-card p,
+    .figure figcaption,
+    .method-note {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav a {
+      min-height: 34px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      font-size: 13px;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .kicker,
+    .section-eyebrow {
+      color: var(--wood);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      min-height: calc(100vh - 66px);
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(360px, 1.08fr);
+      gap: 18px;
+      padding: 24px 0 28px;
+    }
+
+    .hero-copy,
+    .hero-image,
+    .card,
+    .path-card,
+    .figure,
+    .method-panel,
+    .statement {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .hero-copy {
+      min-height: 620px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(24px, 4vw, 48px);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+      color: var(--moss);
+      font-size: clamp(62px, 9vw, 126px);
+      line-height: .9;
+      font-weight: 400;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      color: var(--moss);
+      font-size: clamp(38px, 6vw, 78px);
+      line-height: .95;
+      font-weight: 400;
+    }
+
+    h3 {
+      margin-bottom: 12px;
+      color: var(--moss);
+      font-size: clamp(26px, 3.4vw, 40px);
+      line-height: 1.02;
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      max-width: 620px;
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(25px, 3.4vw, 42px);
+      line-height: 1.35;
+      font-weight: 400;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      margin-top: 34px;
+    }
+
+    .hero-meta div {
+      min-height: 92px;
+      padding: 16px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--moss);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .hero-image {
+      min-height: 620px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+      object-fit: contain;
+      object-position: center;
+      padding: 18px;
+      background: #ded5c4;
+      filter: saturate(.96) contrast(1.02);
+    }
+
+    .hero-caption {
+      padding: 16px 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .74);
+      font-size: 12px;
+    }
+
+    .section {
+      scroll-margin-top: 88px;
+      padding: 34px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(280px, 1.1fr);
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .lead { margin-bottom: 0; }
+
+    .statement {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, .85fr);
+      gap: 0;
+    }
+
+    .statement-main,
+    .statement-side {
+      padding: clamp(22px, 4vw, 44px);
+    }
+
+    .statement-main {
+      border-right: 1px solid var(--line);
+    }
+
+    .statement blockquote {
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(30px, 4.8vw, 58px);
+      line-height: 1.12;
+      font-weight: 400;
+    }
+
+    .statement p {
+      margin: 18px 0 0;
+    }
+
+    .role-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .role-list div {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .role-list div:last-child { border-bottom: 0; }
+
+    .role-list b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--moss);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .scene-grid,
+    .outcome-grid,
+    .process-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .scene-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .outcome-grid,
+    .process-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .path-card,
+    .card {
+      min-height: 240px;
+      padding: 20px;
+    }
+
+    .day {
+      display: block;
+      margin-bottom: 16px;
+      color: rgba(167, 129, 85, .36);
+      font-size: 76px;
+      line-height: .8;
+      font-style: italic;
+    }
+
+    .path-card ul {
+      margin: 18px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .method-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .62fr);
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .method-panel img {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      filter: saturate(.96) contrast(1.02);
+    }
+
+    .method-panel img.finished-method {
+      object-fit: contain;
+      padding: 14px;
+      background: #ded5c4;
+    }
+
+    .method-copy {
+      padding: clamp(22px, 4vw, 40px);
+      border-left: 1px solid var(--line);
+    }
+
+    .method-copy ul {
+      display: grid;
+      gap: 12px;
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .method-copy li {
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .method-copy strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--moss);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .figure {
+      margin: 0;
+      padding: 14px;
+    }
+
+    .figure img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #ded5c4;
+      filter: saturate(.98) contrast(1.01);
+    }
+
+    .figure.tall img { aspect-ratio: 3 / 4; }
+    .figure.wide img { aspect-ratio: 16 / 10; }
+    .figure.note-card img {
+      aspect-ratio: 4 / 5;
+      object-fit: contain;
+      padding: 8px;
+    }
+
+    .figure.process-figure {
+      min-height: 0;
+      background: rgba(255, 253, 247, .78);
+    }
+
+    .figure.process-figure img {
+      aspect-ratio: 4 / 3;
+      object-fit: contain;
+      padding: 8px;
+      background: #f6f1e7;
+    }
+
+    .figure figcaption {
+      margin-top: 12px;
+    }
+
+    .method-note {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .58);
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding: 18px 0 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .section-head,
+      .statement,
+      .method-panel,
+      .grid,
+      .grid.two,
+      .scene-grid,
+      .outcome-grid,
+      .process-grid,
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy,
+      .hero-image,
+      .hero-image img {
+        min-height: auto;
+      }
+
+      .statement-main,
+      .method-copy {
+        border-right: 0;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .statement-main {
+        border-top: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="../../index.html#programs">
+        <strong>KART</strong>
+        <span>Human Condition Archive</span>
+      </a>
+      <nav class="nav" aria-label="Project sections">
+        <a href="#record">项目记忆</a>
+        <a href="#finished">观看档案</a>
+        <a href="#route">路线与参与</a>
+        <a href="#scenes">现场实景</a>
+        <a href="#method">方法收获</a>
+        <a href="#materials">档案材料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="record">
+      <div class="hero-copy">
+        <div>
+          <span class="kicker">KART Field Study No.03 / 2026.7 Yunnan Archive</span>
+          <h1>云南 · 自然采集与观看之旅</h1>
+          <p class="hero-subtitle">在高原、古镇与森林之间，重新学习如何观看。</p>
+          <div class="tags">
+            <span class="tag">自然观察</span>
+            <span class="tag">移动行走</span>
+            <span class="tag">自然采集</span>
+            <span class="tag">写生记录</span>
+          </div>
+        </div>
+        <div class="hero-meta" aria-label="Project facts">
+          <div>
+            <b>路线</b>
+            <span class="meta">曲靖、楚雄与后续云南现场</span>
+          </div>
+          <div>
+            <b>发起与现场引导</b>
+            <span class="meta">Tony Zhou / Alice</span>
+          </div>
+          <div>
+            <b>学员参与</b>
+            <span class="meta">盼盼：楚雄段、曲靖段</span>
+          </div>
+          <div>
+            <b>后续记录</b>
+            <span class="meta">Tony Zhou / Alice / Casino</span>
+          </div>
+        </div>
+      </div>
+      <figure class="hero-image">
+        <img src="images/teahouse-value-continuity.png" alt="KART Field Notes Manshan teahouse value continuity card">
+        <figcaption class="hero-caption meta">Field Notes 成品图：地方空间、停留经验与审美判断之间形成连续关系。</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="statement">
+        <div class="statement-main">
+          <blockquote>这不是一次风景消费，而是一次把身体放回现场、把观看重新变慢的训练。</blockquote>
+          <p class="lead">KART Museum 将这次云南行程保存为 Field Study No.03：盼盼主要参与楚雄段与曲靖段的现场学习，后续山野、采集与生活材料由 Tony Zhou、Alice 与 Casino 继续完成记录。页面呈现的是一次共同完成的项目记忆。</p>
+        </div>
+        <aside class="statement-side">
+          <span class="section-eyebrow">Museum Note</span>
+          <div class="role-list">
+            <div>
+              <b>发起与引导</b>
+              <span class="meta">Tony Zhou 与 Alice 发起并现场引导，延续 KART Field Notes 中“观察、选择、制作”的方法。</span>
+            </div>
+            <div>
+              <b>参与线索</b>
+              <span class="meta">盼盼作为学员参与楚雄、曲靖相关段落；后续记录继续延展这条行走项目的观察范围。</span>
+            </div>
+            <div>
+              <b>现场材料</b>
+              <span class="meta">现场写生、自然采集和 Field Notes 卡片共同记录一次观看能力的形成。</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="finished">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Field Notes Collection</span>
+          <h2>观看档案</h2>
+        </div>
+        <p class="lead">这些 Field Notes 保存了从街巷、茶馆、碑刻、桥梁到山地空间的观看路径：地点不只是抵达的背景，而是判断、停留和记忆逐渐成形的现场。</p>
+      </div>
+      <div class="gallery">
+        <figure class="figure note-card">
+          <img src="images/old-street-cover.png" alt="KART Field Notes old street cover">
+          <figcaption>曲靖老街 01：以日常街巷作为观看对象，建立行走观察的基本语气。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/old-street-value-structure.png" alt="KART Field Notes old street value structure">
+          <figcaption>曲靖老街 02：把地方现场从“好看”推进到“为什么值得被记录”。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/old-street-material-relations.png" alt="KART Field Notes material relations card">
+          <figcaption>曲靖老街 03：街巷、人物、建筑边缘和生活物件被整理为可分析的关系。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/old-street-daily-life-archive.png" alt="KART Field Notes old street daily life archive">
+          <figcaption>曲靖老街 04：日常生活、艺术史和地方档案之间的连接。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/teahouse-cover.png" alt="KART Field Notes Manshan teahouse cover">
+          <figcaption>漫山茶馆 01：停留、饮茶和观看共同构成地方经验。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/teahouse-value-continuity.png" alt="KART Field Notes value in continuity">
+          <figcaption>漫山茶馆 02：审美价值来自空间、时间和生活方式的连续性。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/teahouse-research-selection.png" alt="KART Field Notes research selection">
+          <figcaption>漫山茶馆 03：从现场材料中选择可被延展的研究线索。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/teahouse-daily-life.png" alt="KART Field Notes teahouse daily life">
+          <figcaption>漫山茶馆 04：把艺术史和日常生活并置，建立可持续的观看习惯。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/cuan-cover.png" alt="KART Field Notes Cuan Baozi stele cover">
+          <figcaption>爨宝子碑 01：把地方文字、历史现场和观看训练连接起来。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/cuan-form-transition.png" alt="KART Field Notes Cuan Baozi form transition">
+          <figcaption>爨宝子碑 02：从碑刻结构进入线条、比例、节奏和形式判断。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/cuan-stone-detail.png" alt="KART Field Notes stone surface detail card">
+          <figcaption>爨宝子碑 03：石面细节把文字、光线和时间痕迹带入形式判断。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/cuan-shared-memory.png" alt="KART Field Notes shared memory card">
+          <figcaption>爨宝子碑 04：地方材料最终进入个人经验与文化档案。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/bridge-cover.png" alt="KART Field Notes Huajiang and Yuanshan cover">
+          <figcaption>花江与远山 01：桥梁、远山和茶咖空间构成尺度转换。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/bridge-local-road.png" alt="KART Field Notes local road card">
+          <figcaption>花江与远山 02：地方道路让行走经验进入观看结构。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/bridge-infrastructure-scale.png" alt="KART Field Notes infrastructure and scale">
+          <figcaption>花江与远山 03：基础设施把人的尺度放进地理尺度之中。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/bridge-connection.png" alt="KART Field Notes bridge and mountains card">
+          <figcaption>花江与远山 04：把基础设施、山势和停留经验组织成观看关系。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/yaoyan-cover.png" alt="KART Field Notes Yaoyan coffee cover">
+          <figcaption>腰岩咖啡 01：岩壁、远山和咖啡空间形成一处观看停靠点。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/yaoyan-place-to-pause.png" alt="KART Field Notes Yaoyan coffee place to pause card">
+          <figcaption>腰岩咖啡 02：停留、视线和地点气氛共同构成现场经验。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/yaoyan-cliff-toilet.png" alt="KART Field Notes Yaoyan cliff toilet card">
+          <figcaption>腰岩咖啡 03：边缘空间让日常设施也进入山地景观的叙事。</figcaption>
+        </figure>
+        <figure class="figure note-card">
+          <img src="images/yaoyan-structure-sketch.png" alt="KART Field Notes Yaoyan structure in the sketch card">
+          <figcaption>腰岩咖啡 04：从完整景色退回到几组关系，保留结构判断。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="route">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Route & Roles</span>
+          <h2>路线与参与线索</h2>
+        </div>
+        <p class="lead">这份记录按照行程线索展开：曲靖和楚雄是盼盼进入现场学习的主要段落；后续山野、采集和生活材料由 Tony Zhou、Alice、Casino 继续延展。</p>
+      </div>
+      <div class="grid">
+        <article class="path-card">
+          <span class="day">1</span>
+          <span class="kicker">曲靖段 / 盼盼参与</span>
+          <h3>老街与碑刻结构</h3>
+          <p>从曲靖老街的日常秩序、建筑边缘和爨宝子碑的文字结构进入观察，理解地方记忆如何转化为线条、比例和节奏。</p>
+          <ul>
+            <li>曲靖老街 Qujing Old Street</li>
+            <li>爨宝子碑 Cuan Baozi Stele</li>
+            <li>日常空间与历史形式</li>
+          </ul>
+        </article>
+        <article class="path-card">
+          <span class="day">2</span>
+          <span class="kicker">楚雄段 / 盼盼参与</span>
+          <h3>街巷、市场与人的移动</h3>
+          <p>楚雄段把古镇、市场和街巷作为训练现场：屋檐、电线、伞面、摊位和人的移动共同形成画面速度。</p>
+          <ul>
+            <li>彝人古镇 Yi People Ancient Town</li>
+            <li>楚雄市场 Chuxiong Market</li>
+            <li>街巷写生 Street Sketching</li>
+          </ul>
+        </article>
+        <article class="path-card">
+          <span class="day">3</span>
+          <span class="kicker">后续延展 / Tony Zhou · Alice · Casino</span>
+          <h3>从物种到色键</h3>
+          <p>森林和市场中的蘑菇、叶片、枝条与食材成为颜色、纹理与形体关系的来源，帮助项目从地点走向材料研究。</p>
+          <ul>
+            <li>紫溪山 Zixi Mountain</li>
+            <li>蘑菇采集 Mushroom Field Observation</li>
+            <li>自然材料与色键提取</li>
+          </ul>
+        </article>
+        <article class="path-card">
+          <span class="day">4</span>
+          <span class="kicker">后续延展 / Tony Zhou · Alice · Casino</span>
+          <h3>把现场带回生活</h3>
+          <p>后续记录把山野、餐桌和地方行走连接起来，让观察不止停在风景，而进入生活方式、材料判断和长期档案。</p>
+          <ul>
+            <li>山野道路 Mountain Roads</li>
+            <li>地方餐桌 Local Table</li>
+            <li>项目记忆 Project Archive</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="scenes">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Field Scenes</span>
+          <h2>现场实景</h2>
+        </div>
+        <p class="lead">这一组实景照片让活动的丰富度被看见：从曲靖老街、碑刻现场，到楚雄市场、菌类采集和地方餐桌，地点之间形成一条持续移动的观看路线。</p>
+      </div>
+      <div class="scene-grid">
+        <figure class="figure wide">
+          <img src="images/qujing-old-street.jpg" alt="Qujing old street field scene">
+          <figcaption>曲靖老街：人的移动、屋檐和城市新旧层次共同构成街巷观察。</figcaption>
+        </figure>
+        <figure class="figure wide">
+          <img src="images/cuan-baozi-stele.jpg" alt="Cuan Baozi stele field scene">
+          <figcaption>爨宝子碑：文字、碑面和展陈空间把形式判断带入历史现场。</figcaption>
+        </figure>
+        <figure class="figure wide">
+          <img src="images/chuxiong-market.jpg" alt="Chuxiong market field scene">
+          <figcaption>楚雄市场：日常摊位、伞面和道路尺度提供了现场写生的结构线索。</figcaption>
+        </figure>
+        <figure class="figure wide">
+          <img src="images/panpan-field-posture-display.jpg" alt="Panpan sketching in a field study setting">
+          <figcaption>现场学习姿态：在古镇空间中，观察、讨论与速写同步发生。</figcaption>
+        </figure>
+        <figure class="figure wide">
+          <img src="images/mushroom-market.jpg" alt="Mushroom market observation scene">
+          <figcaption>菌类材料：从物种差异进入形体、色相和边缘判断。</figcaption>
+        </figure>
+        <figure class="figure wide">
+          <img src="images/green-squash.jpg" alt="Green squash color and form field material">
+          <figcaption>自然形态：高饱和绿色、叶面和果形成为色键提取的现场样本。</figcaption>
+        </figure>
+        <figure class="figure wide">
+          <img src="images/local-table.jpg" alt="Local table in Yunnan field study">
+          <figcaption>地方餐桌：采集、烹饪和共享把观察重新带回生活经验。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Insight / Judgment / Growth</span>
+          <h2>方法、判断与收获</h2>
+        </div>
+        <p class="lead">Field Study 的核心不在“到了哪里”，而在“如何看”：如何把移动经验变成图像判断，把自然材料转化为颜色、结构和节奏，并在复盘中形成可持续的观看能力。</p>
+      </div>
+      <div class="method-panel">
+        <img class="finished-method" src="images/alice-natural-collection-watercolor.jpeg" alt="Alice watercolor of natural collection materials">
+        <div class="method-copy">
+          <span class="section-eyebrow">Observation / Movement / Collection / Recording</span>
+          <h3>从现场到画面</h3>
+          <ul>
+            <li><strong>自然观察</strong>观察光线、地貌、植物和物品如何共同形成一个场域，而不是只抓取漂亮对象。</li>
+            <li><strong>移动行走</strong>在湖岸、古镇、山林与梯田之间转换视距，训练从局部细节到整体关系的切换。</li>
+            <li><strong>自然采集</strong>把蘑菇、叶片、枝条、食材等具体材料转译为颜色、形体、质感和节奏。</li>
+            <li><strong>写生记录</strong>用草图、水彩、照片和文字记录不同速度的观看，让现场经验可以被复盘。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="outcome-grid">
+        <article class="card">
+          <span class="kicker">感悟</span>
+          <h3>观看变慢</h3>
+          <p>现场让“看见”从拍照式捕捉变成持续辨认：天气、摊位、材料和人的移动都能成为画面的关系。</p>
+        </article>
+        <article class="card">
+          <span class="kicker">判断</span>
+          <h3>从对象到关系</h3>
+          <p>训练重点从“画什么”推进到“如何取舍”：明度、边缘、环境色、节奏和空间层次共同决定画面是否成立。</p>
+        </article>
+        <article class="card">
+          <span class="kicker">收获</span>
+          <h3>把课程带进生活</h3>
+          <p>学员能够把导师课中的色彩、结构与概括能力放回真实场景，同时建立旅行、写生和档案之间的连接。</p>
+        </article>
+      </div>
+      <p class="method-note">图像说明：本页图像来自 Tony Zhou 的 Field Notes、Alice 的自然采集写生，以及盼盼在楚雄、曲靖段的现场学习记录。它们共同构成这次行走项目的观看档案。</p>
+    </section>
+
+    <section class="section" id="materials">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Archive Materials</span>
+          <h2>档案材料</h2>
+        </div>
+        <p class="lead">Field Notes、现场照片和现场写生共同构成这份项目档案：它们记录的不只是地点，而是观看如何在移动中被训练出来。</p>
+      </div>
+      <div class="process-grid">
+        <figure class="figure process-figure">
+          <img src="images/panpan-mushroom-process-detail.jpg" alt="Panpan mushroom sketch process detail">
+          <figcaption>盼盼过程局部：蘑菇写生训练中，物种形态被转化为明度、边缘和环境色判断。</figcaption>
+        </figure>
+        <figure class="figure process-figure">
+          <img src="images/panpan-urban-process-detail.jpg" alt="Panpan street sketch process detail">
+          <figcaption>盼盼过程局部：街巷写生中，人的移动、电线、建筑边缘和远处空间共同形成画面的速度。</figcaption>
+        </figure>
+        <figure class="figure process-figure">
+          <img src="images/qujing-roofline.jpg" alt="Qujing old street roofline meeting the contemporary city skyline">
+          <figcaption>曲靖屋檐观察：老街屋顶、电线与远处新城建筑形成多重时间层次，为现场写生提供清晰的空间结构。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum OS / Field Study No.03</span>
+      <span><a href="../../index.html#programs">返回项目目录</a></span>
+    </footer>
+  </main>
+</body>
+</html>

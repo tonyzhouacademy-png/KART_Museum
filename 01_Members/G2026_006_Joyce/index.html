@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joyce | KART Museum</title>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --white: #fffdf7;
+      --ink: #252521;
+      --muted: #746d61;
+      --line: #c9bea9;
+      --wood: #a78155;
+      --moss: #31392f;
+      --blue: #315f75;
+      --sage: #6f7d61;
+      --plum: #744a63;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 37, 33, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37, 37, 33, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 72px 72px;
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 239, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand strong {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .brand span,
+    .nav a,
+    .kicker,
+    .meta,
+    .tag,
+    .card p,
+    .lead,
+    .figure figcaption,
+    .wall-note p,
+    .footer {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .brand span,
+    .meta,
+    .card p,
+    .lead,
+    .figure figcaption,
+    .wall-note p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .brand span,
+    .meta,
+    .kicker {
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      min-height: 34px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--moss);
+      font-size: 13px;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      background: var(--white);
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
+      gap: 18px;
+      padding: 24px 0 28px;
+    }
+
+    .hero-main,
+    .side-panel,
+    .card,
+    .figure,
+    .wall-note {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 247, .72);
+    }
+
+    .hero-main {
+      min-height: 620px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    .hero-art {
+      min-height: 380px;
+      padding: clamp(14px, 2vw, 24px);
+      background: #e4ded3;
+    }
+
+    .hero-art img {
+      width: 100%;
+      height: 100%;
+      min-height: 350px;
+      object-fit: contain;
+      border: 1px solid rgba(37, 37, 33, .18);
+      box-shadow: 0 10px 28px rgba(37, 37, 33, .1);
+      background: #f3efe7;
+      filter: saturate(.98) contrast(1.01);
+    }
+
+    .hero-copy {
+      padding: clamp(22px, 4vw, 42px);
+      border-top: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(56px, 9vw, 112px);
+      line-height: .88;
+      font-weight: 400;
+    }
+
+    .hero-copy p {
+      max-width: 720px;
+      margin: 20px 0 0;
+    }
+
+    .side-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .side-block {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-block:last-child { border-bottom: 0; }
+
+    .side-block h2,
+    .section h2,
+    .card h3 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .side-block h2 {
+      margin-top: 8px;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .kicker,
+    .section-eyebrow {
+      color: var(--wood);
+    }
+
+    .section-eyebrow {
+      display: block;
+      margin-bottom: 8px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--moss);
+      background: rgba(246, 244, 239, .74);
+      font-size: 12px;
+    }
+
+    .section {
+      scroll-margin-top: 88px;
+      padding: 30px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(280px, 1.15fr);
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      font-size: clamp(34px, 6vw, 76px);
+      line-height: .95;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      min-height: 180px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .figure {
+      margin: 0;
+      padding: 14px;
+      background: #ebe5da;
+    }
+
+    .figure img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: contain;
+      padding: 8px;
+      border: 1px solid rgba(37, 37, 33, .16);
+      background: #f5f1e8;
+      filter: saturate(.98) contrast(1.01);
+    }
+
+    .figure.featured {
+      grid-column: 1 / -1;
+    }
+
+    .figure.featured img {
+      aspect-ratio: 16 / 8;
+      object-fit: cover;
+      object-position: center 50%;
+      padding: 0;
+    }
+
+    .figure figcaption {
+      margin-top: 12px;
+    }
+
+    .wall-note {
+      padding: clamp(22px, 4vw, 42px);
+    }
+
+    .wall-note blockquote {
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(26px, 4vw, 46px);
+      line-height: 1.2;
+    }
+
+    .wall-note p {
+      margin: 18px 0 0;
+      max-width: 780px;
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding: 18px 0 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .section-head,
+      .grid,
+      .grid.three {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main {
+        min-height: auto;
+      }
+
+      .hero-art,
+      .hero-art img {
+        min-height: 320px;
+      }
+
+      .figure.featured {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="../../index.html#members">
+        <strong>KART</strong>
+        <span>Human Condition Archive</span>
+      </a>
+      <nav class="nav" aria-label="Joyce archive sections">
+        <a href="#profile">档案首页</a>
+        <a href="#growth">成长线索</a>
+        <a href="#evidence">作品证据</a>
+        <a href="#note">策展短评</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="profile">
+      <div class="hero-main">
+        <div class="hero-art">
+          <img src="images/joyce-color-observation.jpg" alt="Joyce watercolor color and form observation study">
+        </div>
+        <div class="hero-copy">
+          <span class="kicker">G2026-006 / 导师课会员</span>
+          <h1>Joyce</h1>
+          <p>她从素描入门进入水彩与观察训练，在植物、街巷、果蔬和自然形态中练习线条、明度与色彩关系。</p>
+        </div>
+      </div>
+
+      <aside class="side-panel" aria-label="Archive summary">
+        <div class="side-block">
+          <span class="kicker">Public Archive</span>
+          <h2>观察训练中的线条、明度与色彩</h2>
+          <div class="tags">
+            <span class="tag">导师课会员</span>
+            <span class="tag">素描入门</span>
+            <span class="tag">水彩观察</span>
+            <span class="tag">线描</span>
+            <span class="tag">明度训练</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <span class="kicker">Archive Line</span>
+          <h2>从轮廓辨认到整体关系</h2>
+          <p class="meta">现有图像显示她正通过连续练习建立基础观察方法：先辨认形，再处理体积、空间和颜色。</p>
+        </div>
+        <div class="side-block">
+          <span class="kicker">Archive Status</span>
+          <h2>基础建档</h2>
+          <p class="meta">本页依据现有作品图像建立，访谈、AOEM 与年度评语仍待补充。</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="growth">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Growth Lines</span>
+          <h2>成长线索</h2>
+        </div>
+        <p class="lead">Joyce 当前可见的成长集中在基础观察：从单个对象的轮廓进入线条密度、明暗层次与色彩差异。</p>
+      </div>
+      <div class="grid three">
+        <article class="card">
+          <h3>观察</h3>
+          <p>蘑菇、种子、叶片与果蔬被反复拆解，说明她正在建立从对象特征进入画面的基本路径。</p>
+        </article>
+        <article class="card">
+          <h3>线条</h3>
+          <p>平行线、弧线与轮廓线开始承担体积和表面方向，线不再只是边界，也参与形体组织。</p>
+        </article>
+        <article class="card">
+          <h3>明度与色彩</h3>
+          <p>街巷素描中的深浅关系与水彩练习中的冷暖差异，构成她从素描走向色彩观察的连接。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="evidence">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Portfolio Evidence</span>
+          <h2>作品证据</h2>
+        </div>
+        <p class="lead">三张个人作品呈现 Joyce 当前对空间、植物形态与色彩关系的观察。</p>
+      </div>
+      <div class="grid">
+        <figure class="figure featured">
+          <img src="images/joyce-urban-threshold.jpg" alt="Joyce graphite study of a shaded urban passage">
+          <figcaption>街巷空间素描：入口、树冠与深色墙面形成明确的明暗中心，空间从近处地面向内部拱门持续推进。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="images/joyce-plant-study.jpg" alt="Joyce graphite plant observation drawing">
+          <figcaption>植物素描：叶片方向、盆器体积与投影关系被放在同一张纸上处理，显示出整体观察意识。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="note">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Curatorial Note</span>
+          <h2>策展短评</h2>
+        </div>
+        <p class="lead">KART 保存基础训练，不是为了把练习包装成成熟作品，而是让观看方法的形成过程可见。</p>
+      </div>
+      <div class="wall-note">
+        <blockquote>基础训练真正留下的，不是画过多少对象，而是开始知道如何看见形、明暗、空间与颜色。</blockquote>
+        <p>Joyce 的现阶段档案仍然克制：它不急着宣告一个完整方向，而是保存几条已经出现的线索。街巷空间中的深色入口、植物素描里的叶片方向、水彩色块之间的冷暖差异，都说明观察正在从“看见对象”走向“辨认关系”。</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>KART Museum OS</span>
+      <span><a href="../../index.html#members">返回人物馆藏</a></span>
+    </footer>
+  </main>
+</body>
+</html>
