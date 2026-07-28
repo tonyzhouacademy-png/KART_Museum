@@ -4,20 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KART Museum</title>
+  <link rel="image_src" href="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-wechat.jpg?v=20260728-1">
+  <meta itemprop="image" content="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-wechat.jpg?v=20260728-1">
   <meta name="description" content="KART Museum：全球艺术史、成员档案、写生与综合项目的长期成长馆藏。">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="KART Museum">
   <meta property="og:title" content="KART Museum | 全球艺术史与生命档案">
   <meta property="og:description" content="全球艺术史、成员档案、写生与综合项目。">
   <meta property="og:url" content="https://tonyzhouacademy-png.github.io/KART_Museum/">
-  <meta property="og:image" content="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-share-card.png">
+  <meta property="og:image" content="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-share-card.jpg?v=20260728-1">
+  <meta property="og:image:secure_url" content="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-share-card.jpg?v=20260728-1">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="KART Museum：全球艺术史、成员档案、写生与综合项目">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KART Museum | 全球艺术史与生命档案">
   <meta name="twitter:description" content="全球艺术史、成员档案、写生与综合项目。">
-  <meta name="twitter:image" content="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-share-card.png">
+  <meta name="twitter:image" content="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-share-card.jpg?v=20260728-1">
   <style>
     :root {
       --paper: #f6f4ef;
@@ -1037,6 +1041,112 @@
       font-size: 12px;
     }
 
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+      gap: 32px;
+      padding: 30px 0 10px;
+    }
+
+    .about-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .about-lede {
+      max-width: 720px;
+      margin: 0;
+      color: var(--moss);
+      font-size: clamp(24px, 3.4vw, 42px);
+      line-height: 1.25;
+    }
+
+    .about-body {
+      max-width: 720px;
+      margin: 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .brand-relations {
+      margin: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .brand-relations div {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 18px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-relations dt {
+      color: var(--moss);
+      font-size: 18px;
+    }
+
+    .brand-relations dd {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .wechat-panel {
+      align-self: start;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--paper-deep);
+    }
+
+    .wechat-panel img {
+      width: min(100%, 260px);
+      aspect-ratio: 1;
+      display: block;
+      margin: 0 auto 20px;
+      object-fit: contain;
+      background: var(--white);
+    }
+
+    .wechat-panel h3 {
+      margin: 0;
+      color: var(--moss);
+      font-size: 26px;
+      font-weight: 400;
+    }
+
+    .wechat-panel p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .wechat-id {
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer button {
+      padding: 0;
+      border: 0;
+      color: var(--moss);
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .footer button:hover {
+      color: var(--brick);
+    }
+
     @media (max-width: 860px) {
       .topbar-inner,
       .intro-grid,
@@ -1058,7 +1168,8 @@
       .path-grid,
       .resource-grid,
       .timeline,
-      .language-flow {
+      .language-flow,
+      .about-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1112,6 +1223,10 @@
       .nav {
         justify-content: flex-start;
       }
+
+      .wechat-panel {
+        width: 100%;
+      }
     }
 
     @media (max-width: 520px) {
@@ -1125,6 +1240,16 @@
 
       .nav button {
         padding: 0 10px;
+      }
+
+      .brand-relations div {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .member-top {
@@ -1157,6 +1282,7 @@
         <button type="button" data-view-link="members">人物馆藏</button>
         <button type="button" data-view-link="themes">月度命题</button>
         <button type="button" data-view-link="system">策展结构</button>
+        <button type="button" data-view-link="about">关于</button>
       </nav>
     </div>
   </header>
@@ -1718,9 +1844,49 @@
 
     </section>
 
+    <section class="view" id="about" data-view="about">
+      <div class="section-title">
+        <div class="section-title-main">
+          <span class="section-eyebrow">About &amp; WeChat</span>
+          <h2>关于 KART Museum</h2>
+        </div>
+        <p>一座持续生长的数字馆藏，也是一条从观看、记录到文化理解的长期路径。</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-copy">
+          <p class="about-lede">KART Museum 围绕全球艺术史、人物成长档案与综合项目，保存观看如何发生，也保存人如何在长期实践中改变。</p>
+          <p class="about-body">网站呈现人物馆藏、作品与成长卷宗、写生行走、空间项目及艺术史研究。微信公众号「开美术馆」是 KART 的持续内容入口，发布艺术史、观看方法、项目记录与活动更新。</p>
+
+          <dl class="brand-relations">
+            <div>
+              <dt>KART Museum</dt>
+              <dd>数字馆藏、人物档案与综合项目网站。</dd>
+            </div>
+            <div>
+              <dt>开美术馆</dt>
+              <dd>KART 的微信公众号与内容发布入口。</dd>
+            </div>
+            <div>
+              <dt>kaigallery</dt>
+              <dd>「开美术馆」的公众号号码。</dd>
+            </div>
+          </dl>
+        </div>
+
+        <aside class="wechat-panel" aria-labelledby="wechat-title">
+          <img src="assets/contact/kaigallery-qr.png" alt="微信公众号开美术馆二维码">
+          <h3 id="wechat-title">关注「开美术馆」</h3>
+          <p>艺术史 · 项目档案 · 活动更新</p>
+          <p class="wechat-id">公众号号码：kaigallery<br>使用微信扫码，手机端可长按识别。</p>
+        </aside>
+      </div>
+    </section>
+
     <footer class="footer">
       <span>KART Museum</span>
       <span>生命处境 × 艺术 × 生命档案</span>
+      <button type="button" data-view-link="about">关于 KART Museum · 关注开美术馆</button>
     </footer>
   </main>
 
