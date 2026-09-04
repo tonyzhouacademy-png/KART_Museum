@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Chinese Art History C1.0 project cover</title>
+  <desc id="desc">A restrained museum-style cover with jade, bronze, ink and timeline motifs.</desc>
+  <rect width="1200" height="760" fill="#f6f4ef"/>
+  <g stroke="#c9bea9" stroke-width="1" opacity=".7">
+    <path d="M0 120H1200M0 240H1200M0 360H1200M0 480H1200M0 600H1200"/>
+    <path d="M120 0V760M240 0V760M360 0V760M480 0V760M600 0V760M720 0V760M840 0V760M960 0V760M1080 0V760"/>
+  </g>
+  <rect x="72" y="72" width="1056" height="616" fill="none" stroke="#252521" stroke-width="2"/>
+  <g transform="translate(120 128)">
+    <text x="0" y="0" fill="#a78155" font-family="Arial, sans-serif" font-size="22" letter-spacing="7">KART CHINESE ART HISTORY C1.0</text>
+    <text x="0" y="108" fill="#31392f" font-family="'Times New Roman', serif" font-size="76">纸上中洲</text>
+    <text x="0" y="164" fill="#746d61" font-family="'Songti SC', serif" font-size="32">王美丽与宝玉的结课成长卷宗</text>
+  </g>
+  <g transform="translate(110 400)">
+    <circle cx="80" cy="80" r="70" fill="#dfe3d2" stroke="#6f7d61" stroke-width="4"/>
+    <circle cx="80" cy="80" r="24" fill="#f6f4ef" stroke="#6f7d61" stroke-width="3"/>
+    <text x="58" y="92" fill="#31392f" font-family="'Songti SC', serif" font-size="36">玉</text>
+  </g>
+  <g transform="translate(350 414)" fill="none" stroke="#a78155" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 80H178L160 152H34Z"/>
+    <path d="M44 80V42H150V80"/>
+    <path d="M64 152V198M132 152V198"/>
+    <path d="M58 54C80 24 116 24 138 54"/>
+  </g>
+  <g transform="translate(620 390)" fill="none" stroke="#9b6448" stroke-width="5">
+    <path d="M0 130C60 30 150 220 220 90S360 40 450 146"/>
+    <path d="M0 178C70 104 168 260 256 154S380 118 450 196" opacity=".55"/>
+  </g>
+  <g transform="translate(118 650)" font-family="Arial, sans-serif" font-size="18" fill="#31392f">
+    <text>01</text><text x="90">02</text><text x="180">03</text><text x="270">04</text><text x="360">05</text><text x="450">06</text><text x="540">07</text><text x="630">08</text><text x="720">09</text><text x="810">10</text><text x="900">11</text>
+    <path d="M42 -7H960" stroke="#a78155" stroke-width="2"/>
+  </g>
+</svg>
+
