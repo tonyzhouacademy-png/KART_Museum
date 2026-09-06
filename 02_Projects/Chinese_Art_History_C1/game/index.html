@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Order of Jade and Stone｜纸上中洲终局档案</title>
+  <title>Order of Jade and Stone｜纸上中洲阶段测验</title>
   <style>
     :root {
       --bg: #050505;
@@ -360,7 +360,7 @@
       bottom: 18px;
       z-index: 20;
       display: grid;
-      grid-template-columns: repeat(11, minmax(18px, 1fr));
+      grid-template-columns: repeat(10, minmax(18px, 1fr));
       gap: 7px;
       width: min(560px, calc(100vw - 32px));
       transform: translateX(-50%);
@@ -495,6 +495,30 @@
       text-align: left;
     }
 
+    .modal-options {
+      display: grid;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .modal-option {
+      border: 1px solid #242424;
+      background: rgba(0,0,0,.42);
+      color: var(--text);
+      padding: 12px 14px;
+      text-align: left;
+      line-height: 1.6;
+      cursor: pointer;
+      transition: border-color .3s, color .3s, background .3s;
+    }
+
+    .modal-option:hover,
+    .modal-option.selected {
+      color: var(--jade);
+      border-color: rgba(122,158,126,.7);
+      background: rgba(122,158,126,.07);
+    }
+
     .modal-actions {
       display: flex;
       justify-content: flex-end;
@@ -548,7 +572,7 @@
     }
 
     .score-item {
-      min-width: 80px;
+      min-width: 92px;
       text-align: center;
     }
 
@@ -622,14 +646,14 @@
 
   <div id="start-screen">
     <h1>ORDER OF JADE &amp; STONE</h1>
-    <div class="sub">纸上中洲终局档案</div>
+    <div class="sub">纸上中洲阶段测验</div>
     <p>CLICK TO ENTER THE ARCHIVE / 点击进入卷宗</p>
   </div>
 
   <div id="name-screen">
     <div class="name-box">
       <div class="name-deco"></div>
-      <div class="name-prompt">十一课之后，档案室还亮着一盏灯。</div>
+      <div class="name-prompt">十课之后，档案室还亮着一盏灯。</div>
       <div class="name-sub">留下名字，或匿名进入。美丽与宝玉会在途中回应你。</div>
       <input id="name-input" maxlength="20" autocomplete="off" spellcheck="false" placeholder="你的名字">
       <button class="tiny-btn" id="name-submit">进入档案</button>
@@ -676,6 +700,7 @@
     <div class="modal-box">
       <div class="modal-label" id="modal-label"></div>
       <div class="modal-prompt" id="modal-prompt"></div>
+      <div id="modal-options" class="modal-options"></div>
       <textarea id="modal-input" maxlength="220" spellcheck="false"></textarea>
       <div class="modal-actions">
         <button class="modal-btn" id="modal-skip">暂不留下</button>
@@ -686,8 +711,8 @@
 
   <section id="ending-screen">
     <div class="ending-card">
-      <h1 id="ending-title">结课卷宗</h1>
-      <div class="sub" id="ending-sub">ARCHIVE SEALED</div>
+      <h1 id="ending-title">阶段卷宗</h1>
+      <div class="sub" id="ending-sub">ARCHIVE OPENED</div>
       <p class="ending-desc" id="ending-desc"></p>
       <div class="score-row" id="score-row"></div>
       <div class="record-card" id="record-card"></div>
@@ -700,7 +725,7 @@
   </section>
 
   <script>
-    const HISTORY_KEY = "kart-c1-final-archive-history";
+    const HISTORY_KEY = "kart-c1-stage-archive-history";
     const SHAPES = {
       center: "M50 8 L78 24 L78 58 Q66 84 50 92 Q34 84 22 58 L22 24 Z M50 8 V92 M22 24 Q50 38 78 24",
       jade: "M50 9 L76 28 L76 62 L50 82 L24 62 L24 28 Z M50 28 A21 21 0 1 0 50 70 A21 21 0 1 0 50 28",
@@ -722,18 +747,42 @@
         shape: "center",
         color: "#7a9e7e",
         fragment: "方法",
-        text: "你走进一间没有窗的档案室。墙上没有朝代表，只有十一只空格。<br><br>Tony 在桌边放下一张纸：<b>艺术史不是把作品排成队，而是训练一种判断。</b><br><br>第一只空格问你：这门课真正要你学会什么？",
+        text: "你走进一间没有窗的档案室。墙上没有朝代表，只有十只空格。<br><br>Tony 在桌边放下一张纸：<b>艺术史不是把作品排成队，而是训练一种判断。</b><br><br>第一只空格问你：你会先从哪一道门进入艺术史？",
         choices: [
-          { text: "从图像进入文明判断：看物、制度、信仰和人的处境怎样互相牵动。", ok: true, a: 2, r: 2, i: 2 },
-          { text: "背出朝代、作者、代表作，然后按风格标签归类。", ok: false, a: 0, r: 1 },
-          { text: "证明中国艺术始终有一种不变的民族风格。", ok: false, a: 1, i: 0 }
-        ],
-        answer: "从图像进入文明判断。",
-        npcs: {
-          tony: "很好。课程不是知识仓库，是一套走路的方法。",
-          wong: "如果一件作品不能改变你的价值感，它还没有真正进入你。",
-          bao: "如果一种感受不能落到物和制度上，它也还没有真正站稳。"
-        }
+          {
+            text: "先问人的处境：一件作品怎样改写恐惧、欲望、时间和价值？",
+            route: "价值感",
+            a: 3,
+            i: 1,
+            echo: {
+              tony: "这条路最接近美丽。它会让图像活起来，但后面要记得给感受找证据。",
+              wong: "我会先听作品里的时间。看它让人变慢、变急，还是突然有了方向。",
+              bao: "人的处境很重要。只是别忘了：处境常常被制度和材料夹住。"
+            }
+          },
+          {
+            text: "先问秩序：这件东西被谁制造、为谁保存、替谁证明权力？",
+            route: "秩序感",
+            r: 3,
+            e: 1,
+            echo: {
+              tony: "这是宝玉的入口。它能把作品从漂亮物件里救出来，放回制度现场。",
+              wong: "秩序不是冷冰冰的。它会进入人的身体，规定什么被看见，什么被压住。",
+              bao: "对。先找位置，再读形象。没有位置，判断容易飘。"
+            }
+          },
+          {
+            text: "先问证据：图像、题记、墓葬、器物和文献之间怎样互相作证？",
+            route: "证据钉子",
+            e: 3,
+            r: 1,
+            echo: {
+              tony: "这条路像备课。观点必须有钉子，钉子必须能让学生看见。",
+              wong: "证据不等于干燥。真正的证据会带着手温、灰尘和人的选择。",
+              bao: "一枚钉子钉住一层关系。越具体，越能进入历史。"
+            }
+          }
+        ]
       },
       {
         phase: "02 / 玉礼肇兴",
@@ -741,18 +790,40 @@
         shape: "jade",
         color: "#7a9e7e",
         fragment: "玉纹",
-        challenge: "meili",
-        text: "你向地下走。灯光落在一块玉璧边缘，冷得像一截被保存下来的时间。<br><br>它没有刃口，没有把手，也不适合盛放任何东西。可是有人愿意花很久很久，把石头磨成一个完美的孔。<br><br>第二只空格问你：玉为什么不能只讲成美丽饰品？",
+        challenge: "jadeSeal",
+        text: "你向地下走。灯光落在一块玉璧边缘，冷得像一截被保存下来的时间。<br><br>它没有刃口，没有把手，也不适合盛放任何东西。可是有人愿意花很久很久，把石头磨成一个完美的孔。<br><br>第二只空格问你：这一块玉最像什么？",
         choices: [
-          { text: "因为玉把非实用劳动变成权威材料，让人和天、地、祖先、共同体发生关系。", ok: true, a: 2, r: 3, i: 1 },
-          { text: "因为玉很稀有，所以天然等于财富与审美品位。", ok: false, a: 1, r: 0 },
-          { text: "因为玉加工困难，重点主要是技术进步。", ok: false, a: 0, r: 1 }
-        ],
-        answer: "玉把劳动、身份和通天想象做成物。",
-        npcs: {
-          wong: "我会把它叫作一只很慢的时钟。它不是告诉你几点，而是告诉你人愿意把生命交给什么。",
-          bao: "玉不是小物件。它像一条竖线，把三层世界压在手心里。"
-        }
+          {
+            text: "一只慢钟：它把长期劳动、耐心和不可替代的时间磨进材料。",
+            route: "价值感",
+            a: 3,
+            e: 1,
+            echo: {
+              wong: "这就是美学时钟。玉不报时，它让人知道生命被交给了什么。",
+              bao: "慢钟要落到礼制里。谁能拥有这块时间，本身就是秩序。"
+            }
+          },
+          {
+            text: "一条竖线：它把天、地、祖先和共同体压在人的手心里。",
+            route: "秩序感",
+            r: 3,
+            i: 1,
+            echo: {
+              wong: "竖线很冷，但冷里有敬畏。人把自己放小，才会制造这种物。",
+              bao: "玉不是饰品。它是把不可见关系做成可持握的制度材料。"
+            }
+          },
+          {
+            text: "一块异石：它不解决生存，却逼人承认世界里有超出生存的东西。",
+            route: "异质想象",
+            i: 3,
+            a: 1,
+            echo: {
+              tony: "这个选择保留了神秘感。艺术史最怕把怪异过早翻译成常识。",
+              wong: "不实用，反而说明人并不只被实用支配。"
+            }
+          }
+        ]
       },
       {
         phase: "03 / 青铜礼成",
@@ -760,19 +831,41 @@
         shape: "ding",
         color: "#b8860b",
         fragment: "鼎铭",
-        challenge: "bao",
-        text: "再往前，青铜器的腹内浮出铭文。字不是后来刻上去的，它们在浇铸之前就已经被安排好。<br><br>一件器物突然有了记忆，也有了命令。它不只是留下过去，还像在要求未来的人继续相信。<br><br>第三只空格问你：毛公鼎一类长篇铭文最能证明什么？",
+        challenge: "bronzeInscription",
+        text: "再往前，青铜器的腹内浮出铭文。字不是后来刻上去的，它们在浇铸之前就已经被安排好。<br><br>一件器物突然有了记忆，也有了命令。它不只是留下过去，还像在要求未来的人继续相信。<br><br>第三只空格问你：你会怎样读一只鼎？",
         choices: [
-          { text: "礼器也是政治文件：王命、功绩和价值转折被铸成可继承的治理记忆。", ok: true, r: 3, i: 2, a: 1 },
-          { text: "青铜器最重要的是纹饰复杂，所以能说明工艺成熟。", ok: false, a: 1, r: 0 },
-          { text: "铭文只是器物标签，说明是谁制作或拥有它。", ok: false, r: 1, i: 0 }
-        ],
-        answer: "铭文把王命、功绩和价值铸成治理记忆。",
-        npcs: {
-          tony: "重，不只是金属的重量。是很多人同意它有重量。",
-          wong: "这里的价值不是价格。价格会流动，价值要被共同体反复确认。",
-          bao: "全形拓适合读这种东西：形、字、纹、伤痕，全都在同一张纸上。"
-        }
+          {
+            text: "读它的重量：重器让共同体承认某些话比个人生命更久。",
+            route: "价值感",
+            a: 2,
+            r: 1,
+            i: 1,
+            echo: {
+              wong: "价格会流动，价值要被一次次确认。重，是共同相信的结果。",
+              bao: "价值之所以能久，是因为它被铸进可传承的形式。"
+            }
+          },
+          {
+            text: "读它的程序：王命、功绩、赏赐和子孙祭祀被铸成治理记忆。",
+            route: "秩序感",
+            r: 3,
+            e: 1,
+            echo: {
+              tony: "这是制度钩子。毛公鼎不是大号说明牌，而是政治记忆的容器。",
+              bao: "形、字、纹、伤痕放在一起，才像全形拓那样能读出关系。"
+            }
+          },
+          {
+            text: "读它的证词：铭文、器形、出土位置和传世路径互相校正。",
+            route: "证据钉子",
+            e: 3,
+            r: 1,
+            echo: {
+              tony: "这条路适合备课。一个判断后面最好跟一个可展示的史事钉子。",
+              wong: "证据越具体，那个远古的人越不抽象。"
+            }
+          }
+        ]
       },
       {
         phase: "04 / 漆绘楚魂",
@@ -780,17 +873,39 @@
         shape: "lacquer",
         color: "#9b3e35",
         fragment: "魂线",
-        text: "灯突然变红。漆器表面像水，又像夜里动物的眼。人物、龙、凤、神怪从黑色里掠过。<br><br>这里不是礼器的沉重，而是另一种急迫：人死之后，身体在哪里？魂去哪里？谁来召唤？<br><br>第四只空格问你：楚漆图像真正打开的问题是什么？",
+        text: "灯突然变红。漆器表面像水，又像夜里动物的眼。人物、龙、凤、神怪从黑色里掠过。<br><br>这里不是礼器的沉重，而是另一种急迫：人死之后，身体在哪里？魂去哪里？谁来召唤？<br><br>第四只空格问你：你会抓住楚漆的哪一种力量？",
         choices: [
-          { text: "在礼崩和死亡压力中，图像用巫风召唤身体、魂魄、欲望和另一个世界。", ok: true, a: 3, e: 2, i: 1 },
-          { text: "楚文化更浪漫，所以图像天然比中原更奇幻。", ok: false, a: 1, e: 0 },
-          { text: "漆器轻巧华丽，主要体现贵族生活趣味。", ok: false, a: 1, r: 1 }
-        ],
-        answer: "楚漆在死亡边缘召唤身体和魂魄。",
-        npcs: {
-          wong: "这些图像动得厉害，因为它们不是装饰，是人在不安中伸出的手。",
-          bao: "秩序松动的时候，图像会替制度说那些说不清的话。"
-        }
+          {
+            text: "抓住边界：生死、人兽、现实和神怪在黑红之间互相穿过。",
+            route: "异质想象",
+            i: 3,
+            a: 1,
+            echo: {
+              tony: "这条路保留楚漆的晃动感。不要急着把它驯化成风格名词。",
+              wong: "这些图像动得厉害，因为它们像人在夜里伸出的手。"
+            }
+          },
+          {
+            text: "抓住危机：礼的硬壳松动，图像替人处理死亡之后的恐惧。",
+            route: "价值感",
+            a: 3,
+            e: 1,
+            echo: {
+              wong: "这不是浪漫，而是人真的不安。美在这里带着求救的声音。",
+              bao: "当秩序说不完，图像会接着说。"
+            }
+          },
+          {
+            text: "抓住材料：漆的黑、亮、轻、流动，让另一个世界像刚浮出水面。",
+            route: "证据钉子",
+            e: 2,
+            i: 2,
+            echo: {
+              tony: "材料就是证据。黑亮和轻薄不是形容词，而是这套想象能成立的条件。",
+              bao: "材料改变观看方式，也改变仪式动作。"
+            }
+          }
+        ]
       },
       {
         phase: "05 / 秦汉浑成",
@@ -798,19 +913,40 @@
         shape: "bridge",
         color: "#a67c52",
         fragment: "仙桥",
-        challenge: "meili",
-        text: "石门开了。画像石上的车马、仙人、楼阙和神兽互相穿行。博山炉升起烟，像一座可以握在手里的山。<br><br>远方的物也来了：丝、镜、葡萄纹、马、道路和传闻。帝国开始把世界想成一个整体。<br><br>第五只空格问你：仙阙、画像石、博山炉和丝路器物共同在做什么？",
+        challenge: "bridgePair",
+        text: "石门开了。画像石上的车马、仙人、楼阙和神兽互相穿行。博山炉升起烟，像一座可以握在手里的山。<br><br>远方的物也来了：丝、镜、葡萄纹、马、道路和传闻。帝国开始把世界想成一个整体。<br><br>第五只空格问你：秦汉这座桥，最值得你从哪边走？",
         choices: [
-          { text: "它们把人间、地下、天界和远方世界连接起来，让帝国成为可想象的整体。", ok: true, r: 2, i: 2, e: 2 },
-          { text: "它们说明汉代人比先秦更喜欢神仙故事。", ok: false, e: 1, i: 0 },
-          { text: "它们主要说明工匠更会做复杂装饰。", ok: false, a: 1, r: 0 }
-        ],
-        answer: "秦汉艺术在搭桥：人间、地下、天界和远方相连。",
-        npcs: {
-          tony: "第5课的关键词就是桥。不是比喻，是一种世界组织方式。",
-          wong: "日常空间也可能有仙阙功能：一盏灯、一张桌、一个角落，把你接到另一个自己。",
-          bao: "桥一定有规则。谁能过桥，带什么过桥，过桥后身份是否改变，这些都是制度问题。"
-        }
+          {
+            text: "从墓室走：地下图像让死者继续拥有车马、楼阙和通往天界的路。",
+            route: "价值感",
+            a: 2,
+            i: 2,
+            echo: {
+              wong: "墓室不是结束。它把人对继续生活的愿望做成空间。",
+              bao: "地下空间也有秩序。图像替死者安排位置。"
+            }
+          },
+          {
+            text: "从帝国走：道路、边疆和异域器物让天下第一次被想象为整体。",
+            route: "秩序感",
+            r: 3,
+            e: 1,
+            echo: {
+              tony: "桥不是比喻，是组织世界的方式。秦汉艺术最强的是连接能力。",
+              bao: "谁能被纳入整体，谁被放在边缘，都是制度问题。"
+            }
+          },
+          {
+            text: "从烟气走：博山炉把山、海、仙、兽压缩成一件可以点燃的宇宙。",
+            route: "异质想象",
+            i: 3,
+            a: 1,
+            echo: {
+              wong: "我喜欢这条路。烟一起来，世界就不再只有眼前这一层。",
+              tony: "具体到博山炉，学生会立刻看见秦汉想象怎样变成物。"
+            }
+          }
+        ]
       },
       {
         phase: "06 / 梵音石刻",
@@ -818,18 +954,39 @@
         shape: "buddha",
         color: "#8ca8ad",
         fragment: "佛眼",
-        challenge: "bao",
-        text: "帝国碎了，山体却被凿开。佛的身体从远方来，先像陌生的客人，后来慢慢拥有中原的衣纹、脸和秩序。<br><br>另一边，人物画开始看人的神采、欲望、德性和距离。<br><br>第六只空格问你：魏晋南北朝为什么同时转向佛身和自我？",
+        text: "帝国碎了，山体却被凿开。佛的身体从远方来，先像陌生的客人，后来慢慢拥有中原的衣纹、脸和秩序。<br><br>另一边，人物画开始看人的神采、欲望、德性和距离。<br><br>第六只空格问你：魏晋南北朝的“换眼”更像哪一种动作？",
         choices: [
-          { text: "当旧秩序不能安放人，图像一边向外借佛身，一边向内发现人的神采。", ok: true, a: 2, r: 2, e: 2 },
-          { text: "佛教传入后，人物画自然被宗教图像取代。", ok: false, r: 1, a: 0 },
-          { text: "乱世没有稳定制度，所以艺术只能碎片化。", ok: false, i: 1, e: 0 }
-        ],
-        answer: "第6课是换眼：向外看佛，向内看人。",
-        npcs: {
-          wong: "乱世不是没有美，而是美必须安放恐惧、无常和身体。",
-          bao: "云冈、龙门、敦煌不是石头上的故事。它们在替破碎时代重建观看秩序。"
-        }
+          {
+            text: "向外借身体：旧秩序裂开后，佛身给痛苦的人一套新的安放方式。",
+            route: "价值感",
+            a: 3,
+            r: 1,
+            echo: {
+              wong: "乱世不是没有美，而是美必须安放无常、恐惧和身体。",
+              bao: "佛身进入中原，不只是信仰进入，也是空间和观看规则重建。"
+            }
+          },
+          {
+            text: "向内看神采：顾恺之式的人物观看，让人第一次被当成复杂的精神现场。",
+            route: "证据钉子",
+            e: 2,
+            a: 2,
+            echo: {
+              tony: "这一条适合用人物画钉住。不是只有佛像，人的神采也在被重新发现。",
+              wong: "神采不是脸好不好看，而是人里面那点不安、欲望和距离。"
+            }
+          },
+          {
+            text: "在石头里造秩序：云冈、龙门、敦煌把破碎时代凿成可观看的世界。",
+            route: "秩序感",
+            r: 3,
+            i: 1,
+            echo: {
+              bao: "石窟不是石头上的故事。它们在替时代重建观看秩序。",
+              tony: "这条路会把佛身中原化、贵族化、题记化讲清楚。"
+            }
+          }
+        ]
       },
       {
         phase: "07 / 唐风胡彩",
@@ -837,18 +994,39 @@
         shape: "horse",
         color: "#d0a33a",
         fragment: "唐铃",
-        text: "墓道里传来马球声，又像胡乐。骆驼载着乐俑，金银器反光，卢舍那大佛在山崖上看着一切。<br><br>这不是简单的开放。外来的身体、声音、器物和信仰，被唐代重新调成一种自己的光。<br><br>第七只空格问你：讲唐代“胡汉交融”时最不能停在哪个层面？",
+        text: "墓道里传来马球声，又像胡乐。骆驼载着乐俑，金银器反光，卢舍那大佛在山崖上看着一切。<br><br>这不是简单的开放。外来的身体、声音、器物和信仰，被唐代重新调成一种自己的光。<br><br>第七只空格问你：唐代最危险、也最有魅力的地方在哪里？",
         choices: [
-          { text: "不能只说开放；要说唐代如何把外来因素转化成自己的唐风，同时保留盛世裂痕。", ok: true, a: 2, r: 2, e: 2 },
-          { text: "唐代开放，所以外来元素越多就越好看。", ok: false, a: 1, r: 0 },
-          { text: "外来因素只是装饰，唐代核心仍是前代制度。", ok: false, r: 1, i: 0 }
-        ],
-        answer: "唐代的关键是转化能力，而不是开放标签。",
-        npcs: {
-          tony: "《明皇幸蜀图》最适合提醒学生：金碧可以包住逃亡，盛世也有裂缝。",
-          wong: "美丽不是安慰。它有时让危机更难忘。",
-          bao: "卢舍那不是外来佛的复制。它已经进入唐代帝国的自我形象。"
-        }
+          {
+            text: "在转化力：胡乐、佛身、金银器和服饰被调成一种强烈的唐风。",
+            route: "异质想象",
+            i: 2,
+            a: 2,
+            echo: {
+              wong: "唐的美像强光。它能把外来的东西照成自己的样子。",
+              bao: "转化不是随便吸收。背后有帝国自信和等级秩序。"
+            }
+          },
+          {
+            text: "在权力剧场：卢舍那、长安、贵族墓葬共同制造盛世的身体形象。",
+            route: "秩序感",
+            r: 3,
+            e: 1,
+            echo: {
+              bao: "卢舍那不是外来佛的复制。它已经进入唐代帝国的自我形象。",
+              tony: "这条路会自然接到武则天、脂粉钱和龙门工程的故事。"
+            }
+          },
+          {
+            text: "在裂缝：金碧、骆驼和马球之外，还要看安史、逃亡和盛世幻觉。",
+            route: "证据钉子",
+            e: 3,
+            a: 1,
+            echo: {
+              tony: "《明皇幸蜀图》适合放在这里：金碧可以包住逃亡，盛世也有裂缝。",
+              wong: "美丽不是安慰。它有时让危机更难忘。"
+            }
+          }
+        ]
       },
       {
         phase: "08 / 宋意墨韵",
@@ -856,18 +1034,40 @@
         shape: "mountain",
         color: "#9aa29e",
         fragment: "墨息",
-        challenge: "meili",
-        text: "金光暗下去，纸面亮起来。山水、城市、画院、题跋、禅画和文人笔墨，像慢慢聚拢的呼吸。<br><br>宋代并不只是淡。它把世界收进更精密的观看系统。<br><br>第八只空格问你：宋代艺术的“收”最准确指什么？",
+        challenge: "songDesk",
+        text: "金光暗下去，纸面亮起来。山水、城市、画院、题跋、禅画和文人笔墨，像慢慢聚拢的呼吸。<br><br>宋代并不只是淡。它把世界收进更精密的观看系统。<br><br>第八只空格问你：宋代的“收”，你会把它收在哪里？",
         choices: [
-          { text: "世界被收进纸面、笔墨、格物、题跋、画院和士大夫判断系统。", ok: true, a: 3, r: 2, i: 2 },
-          { text: "宋代审美清淡，所以不再关心国家、城市和制度。", ok: false, a: 1, r: 0 },
-          { text: "宋代主要是文人自由表达，和制度没有太多关系。", ok: false, e: 1, i: 0 }
-        ],
-        answer: "宋代不是淡，而是把世界收进纸面和判断系统。",
-        npcs: {
-          wong: "光低下来之后，气息、纸面和心性反而更清楚。",
-          bao: "画院、城市、题跋、收藏都在。宋心不是没有制度，是制度变细了。"
-        }
+          {
+            text: "收进纸面：一笔一墨开始承担气息、心性和长时间观看。",
+            route: "价值感",
+            a: 3,
+            i: 1,
+            echo: {
+              wong: "光低下来之后，气息、纸面和心性反而更清楚。",
+              bao: "纸面并不私人。题跋、收藏和身份会跟着进入。"
+            }
+          },
+          {
+            text: "收进城市：清明上河式的秩序，让市场、桥梁、船只和人群变成系统。",
+            route: "秩序感",
+            r: 2,
+            e: 2,
+            echo: {
+              tony: "这条路能防止宋代被讲成只有淡。宋也有密集、城市和技术。",
+              bao: "城市图像最适合看细部秩序。人流、物流、桥梁都在运转。"
+            }
+          },
+          {
+            text: "收进题跋：观看者把自己的判断写进作品，作品因此有了第二层生命。",
+            route: "证据钉子",
+            e: 3,
+            r: 1,
+            echo: {
+              tony: "题跋是宋代以后的关键装置。它让观看变成可追踪的历史事件。",
+              wong: "一件作品被谁看过，也会改变它后来怎样被爱。"
+            }
+          }
+        ]
       },
       {
         phase: "09 / 蒙元帝国",
@@ -875,68 +1075,158 @@
         shape: "porcelain",
         color: "#6f7d90",
         fragment: "青花",
-        text: "一只大瓶的蓝色向西走，穿过港口、商队和陌生餐桌。另一边，纸上的山越来越冷，越来越疏。<br><br>蒙古帝国扩大了世界，也改变了士人的位置。<br><br>第九只空格问你：元代课程最重要的双线是什么？",
+        text: "一只大瓶的蓝色向西走，穿过港口、商队和陌生餐桌。另一边，纸上的山越来越冷，越来越疏。<br><br>蒙古帝国扩大了世界，也改变了士人的位置。<br><br>第九只空格问你：元代这条岔路，你会跟哪一头？",
         choices: [
-          { text: "物向外走：元青花进入欧亚；心向内退：士人把失位经验收进笔墨。", ok: true, a: 2, r: 2, e: 2 },
-          { text: "元代主要是外来风格进入中国，所以中国传统中断。", ok: false, r: 1, a: 0 },
-          { text: "元代文人画只是宋代自然延续，和政治位置变化不大。", ok: false, a: 1, i: 0 }
-        ],
-        answer: "元代是物向外走，心向内退。",
-        npcs: {
-          tony: "把元青花和《富春山居图》并置，学生会突然明白：世界变大，心也可能变冷。",
-          wong: "老人给朋友画的山水，和少年献给皇帝的江山，不是一种时间。",
-          bao: "政治位置变了，笔墨服务的对象也变了。制度史会改变气息。"
-        }
+          {
+            text: "跟着青花向外：钴料、订单、港口和欧亚餐桌把瓷器变成世界物。",
+            route: "证据钉子",
+            e: 3,
+            i: 1,
+            echo: {
+              tony: "这一头必须具体。青花的蓝不是颜色趣味而已，它连着欧亚网络。",
+              bao: "物向外走，背后是帝国交通、贸易需求和工艺组织。"
+            }
+          },
+          {
+            text: "跟着山水向内：失位士人把不能说的政治经验藏进笔墨和空山。",
+            route: "价值感",
+            a: 3,
+            r: 1,
+            echo: {
+              wong: "老人给朋友画的山水，和少年献给皇帝的江山，不是一种时间。",
+              tony: "《富春山居图》会让学生看见：世界变大，心也可能变冷。"
+            }
+          },
+          {
+            text: "站在岔口：同一时代既让物远行，也让心退守，二者互相照亮。",
+            route: "秩序感",
+            r: 2,
+            e: 1,
+            i: 1,
+            echo: {
+              bao: "政治位置变了，笔墨服务的对象也变了。制度史会改变气息。",
+              tony: "这条路最适合做课堂框架：物向外走，心向内退。"
+            }
+          }
+        ]
       },
       {
-        phase: "10 / 明艺雅俗",
-        title: "园中：杯、轴线和画谱",
-        shape: "garden",
-        color: "#a78155",
-        fragment: "园钥",
-        challenge: "bao",
-        text: "一边是紫禁城的轴线，一边是江南园林的曲径。小小压手杯落在掌心，彩印画谱把“雅”复制到更多桌面。<br><br>明代不是简单回到宋代。国家重建，商业扩张，身份被重新组合。<br><br>第十只空格问你：明代的核心结构是什么？",
-        choices: [
-          { text: "皇权空间、御窑制度、江南文人网络、商业复制和世界地图被重新组合。", ok: true, a: 2, r: 3, i: 2 },
-          { text: "明代恢复汉文化，所以艺术重新回到纯正传统。", ok: false, r: 1, i: 0 },
-          { text: "明代主要是商业繁荣，艺术因此变得市民化。", ok: false, a: 1, r: 0 }
-        ],
-        answer: "明代是在硬秩序与软流通之间重组身份。",
-        npcs: {
-          wong: "明代的雅很具体：一只杯、一座园、一场雅集、一幅祝寿山水。",
-          bao: "紫禁城是国家机器，御窑是宫廷尺度，画谱是雅的复制化。"
-        }
-      },
-      {
-        phase: "11 / 清艺新晖",
-        title: "终室：正统的碎光",
+        phase: "10 / 明清合卷",
+        title: "合室：轴线、园林与海",
         shape: "qing",
-        color: "#8ca8ad",
-        fragment: "金石",
-        challenge: "final",
-        text: "最后一室同时亮起：康熙南巡、四王正统、八大山人的鱼眼、石涛的路、郎世宁的马、乾隆的收藏、金农的梅、外销瓷的海。<br><br>它们互相矛盾，却都属于清代。<br><br>第十一只空格问你：清代“新晖”的关键不只是中西合璧，而是什么？",
+        color: "#a78155",
+        fragment: "合卷",
+        challenge: "stageNote",
+        text: "最后一室没有分成两扇门。紫禁城轴线、江南园林、御窑压手杯、彩印画谱，接上康熙南巡、乾隆收藏、八大山人的鱼眼、石涛的路、郎世宁的马和外销瓷的海。<br><br>明清被压缩成一课，反而暴露了一个问题：硬秩序、软流通、个人心事和全球订单怎样挤在同一张图像世界里？<br><br>第十只空格问你：如果只讲一条主线，你会把明清合卷交给谁？",
         choices: [
-          { text: "满洲皇权、汉文化正统、西洋技术、遗民心事、金石趣味和全球贸易同时进入图像秩序。", ok: true, a: 2, r: 3, e: 2 },
-          { text: "清代主要是宫廷喜欢西洋画法，所以艺术开始现代化。", ok: false, r: 1, i: 0 },
-          { text: "清代最重要的是遗民画家的个人痛苦，与宫廷和贸易关系不大。", ok: false, e: 1, a: 1 }
-        ],
-        answer: "清代是在正统、遗民、西风、金石和全球订单之间重新装配图像秩序。",
-        npcs: {
-          tony: "结尾不能变成清单。清代的力度正在于它同时成立，又彼此冲突。",
-          wong: "八大、石涛、金农让人看到夹缝里的生命感。",
-          bao: "康熙南巡和乾隆收藏说明：观看、地图、收藏和正统都可以纳入治理。"
-        }
+          {
+            text: "交给国家机器：紫禁城、御窑、南巡图和乾隆收藏把观看纳入治理。",
+            route: "秩序感",
+            r: 3,
+            e: 1,
+            echo: {
+              bao: "这条线最稳。明清不是只有风格变化，观看本身也可以被组织和管理。",
+              tony: "从轴线讲到收藏，课堂会有一根很硬的骨架。"
+            }
+          },
+          {
+            text: "交给夹缝里的人：园林、雅集、遗民画、金石趣味保存不肯被磨平的心。",
+            route: "价值感",
+            a: 3,
+            i: 1,
+            echo: {
+              wong: "这条线更有人味。八大、石涛、金农让人看到夹缝里的生命感。",
+              bao: "但这些心事不是漂浮的，它们正因为被权力挤压才有形。"
+            }
+          },
+          {
+            text: "交给世界网络：传教士透视、外销瓷、地图和订单改变了图像的边界。",
+            route: "异质想象",
+            i: 2,
+            e: 2,
+            echo: {
+              tony: "这条线能避免把明清讲成内循环。世界正在进入瓷器、宫廷和地图。",
+              wong: "远方不是背景。远方会改变一只盘子、一匹马、一张脸。"
+            }
+          }
+        ]
       }
     ];
 
     const game = {
       index: 0,
-      score: 0,
+      completed: 0,
       meili: 0,
       baoyu: 0,
+      evidence: 0,
+      wonder: 0,
       fragments: [],
-      misses: [],
-      notes: { meili: [], bao: [], final: "" }
+      routes: [],
+      notes: { seals: [], inscription: "", pairings: [], final: "" }
+    };
+
+    const AXES = [
+      ["meili", "价值感", "美丽"],
+      ["baoyu", "秩序感", "宝玉"],
+      ["evidence", "证据钉子", "Tony"],
+      ["wonder", "异质想象", "暗室"]
+    ];
+
+    const CHALLENGES = {
+      jadeSeal: {
+        mode: "pick",
+        max: 1,
+        label: "JADE SEAL / 选一枚印",
+        text: "玉璧旁有四枚小印。不要解释，先凭直觉按下一枚：你觉得玉最先把人带向哪里？",
+        key: "seals",
+        options: [
+          { text: "通天", a: 1, i: 1 },
+          { text: "身份", r: 1, e: 1 },
+          { text: "时间", a: 1, e: 1 },
+          { text: "禁忌", r: 1, i: 1 }
+        ]
+      },
+      bronzeInscription: {
+        mode: "text",
+        label: "BRONZE INSCRIPTION / 铸一行字",
+        text: "鼎腹里还空着一行。请写一条不超过 24 字的铭文式判断：它要像一句能被后来人反复读的短句。",
+        key: "inscription",
+        placeholder: "例如：重器替共同体保存承诺。"
+      },
+      bridgePair: {
+        mode: "pick",
+        max: 2,
+        label: "BRIDGE LOCK / 拼一座桥",
+        text: "桥必须连接两端。请选择两块木牌，让秦汉世界的桥真正搭起来。",
+        key: "pairings",
+        options: [
+          { text: "人间", a: 1, e: 1 },
+          { text: "地下", a: 1, i: 1 },
+          { text: "天界", r: 1, i: 1 },
+          { text: "远方", e: 1, i: 1 }
+        ]
+      },
+      songDesk: {
+        mode: "pick",
+        max: 2,
+        label: "SONG DESK / 收两件案头物",
+        text: "宋代桌面上只能留下两件工具。它们会决定你怎样读宋。",
+        key: "pairings",
+        options: [
+          { text: "题跋", e: 1, r: 1 },
+          { text: "画院", r: 1, e: 1 },
+          { text: "格物", e: 1, a: 1 },
+          { text: "空山", a: 1, i: 1 },
+          { text: "市桥", r: 1, i: 1 }
+        ]
+      },
+      stageNote: {
+        mode: "text",
+        label: "STAGE NOTE / 阶段札记",
+        text: "离开第十室前，写一句阶段札记：如果以后继续学中国艺术史，你最想补哪一类证据或哪一种人的处境？",
+        key: "final",
+        placeholder: "例如：我想补清代宫廷观看如何改变遗民画家的处境。"
+      }
     };
 
     let pendingNav = null;
@@ -1060,31 +1350,33 @@
       const scene = lessons[game.index];
       const choice = scene.choices[idx];
       choices.querySelectorAll("button").forEach(button => button.disabled = true);
-      game.meili += choice.a || 0;
-      game.baoyu += choice.r || 0;
-      let observers = { ...scene.npcs };
-      if (choice.ok) {
-        game.score += 1;
-        collect(scene.fragment);
-      } else {
-        playLowKnock();
-        game.misses.push({ title: scene.title, answer: scene.answer });
-        observers = {
-          ...observers,
-          tony: (observers.tony ? observers.tony + "<br><br>" : "") + "这一格先不要硬闯。正确方向是：" + scene.answer
-        };
-      }
+      addAxes(choice);
+      game.completed += 1;
+      game.routes.push({
+        phase: scene.phase,
+        title: scene.title,
+        route: choice.route || "未命名路径",
+        text: choice.text
+      });
+      collect(scene.fragment, choice.route);
       const goNext = () => {
         if (scene.challenge) showChallenge(scene.challenge, advance);
         else advance();
       };
-      showObservers(observers, goNext);
+      showObservers(choice.echo || scene.npcs || {}, goNext);
     }
 
-    function collect(fragment) {
+    function addAxes(source) {
+      game.meili += source.a || 0;
+      game.baoyu += source.r || 0;
+      game.evidence += source.e || 0;
+      game.wonder += source.i || 0;
+    }
+
+    function collect(fragment, route) {
       if (!game.fragments.includes(fragment)) game.fragments.push(fragment);
       playChime(520 + game.index * 24);
-      hiddenItem.textContent = "◈ 档案碎片收入：" + fragment;
+      hiddenItem.textContent = "◈ 档案碎片收入：" + fragment + (route ? " / 路径：" + route : "");
       hiddenItem.classList.add("visible");
       renderInventory();
     }
@@ -1109,46 +1401,66 @@
     }
 
     function showChallenge(type, callback) {
-      const prompts = {
-        meili: {
-          label: "WANG MEILI / VALUE NOTE",
-          text: "美丽拦住你。<br><br><i>“用一句话留下：这件东西怎样改变人的时间感、生活感或价值感？不必正确，但要具体。”</i>",
-          key: "meili",
-          placeholder: "例如：玉让我感觉价值不是价格，而是人愿意长期投入的时间。"
-        },
-        bao: {
-          label: "BAO YU / INSCRIPTION",
-          text: "宝玉递来一小片拓纸。<br><br><i>“刻一个关键词。礼、桥、正统、失位、转化，都可以。它会留在你的结课卷宗里。”</i>",
-          key: "bao",
-          placeholder: "刻一个关键词"
-        },
-        final: {
-          label: "TONY ZHOU / FINAL QUESTION",
-          text: "最后，Tony 把十一只空格合上。<br><br><i>“用你自己的话说：艺术史是什么？这不是标准答案，是你离开档案室前留下的证词。”</i>",
-          key: "final",
-          placeholder: "艺术史是……"
-        }
-      };
-      const data = prompts[type];
+      const data = CHALLENGES[type];
+      if (!data) {
+        callback();
+        return;
+      }
+      const modalOptions = $("modal-options");
+      const input = $("modal-input");
+      const submit = $("modal-submit");
+      const selected = [];
       $("modal-label").textContent = data.label;
       $("modal-prompt").innerHTML = data.text;
-      $("modal-input").value = "";
-      $("modal-input").placeholder = data.placeholder;
+      input.value = "";
+      input.placeholder = data.placeholder || "";
+      modalOptions.innerHTML = "";
+      input.style.display = data.mode === "text" ? "block" : "none";
+      modalOptions.style.display = data.mode === "pick" ? "grid" : "none";
+      submit.textContent = data.mode === "pick" ? "收入选择" : "收入卷宗";
+      if (data.mode === "pick") {
+        data.options.forEach(option => {
+          const button = document.createElement("button");
+          button.className = "modal-option";
+          button.type = "button";
+          button.textContent = option.text;
+          button.addEventListener("click", () => {
+            const found = selected.indexOf(option);
+            if (found >= 0) {
+              selected.splice(found, 1);
+              button.classList.remove("selected");
+              return;
+            }
+            if (selected.length >= data.max) {
+              playLowKnock();
+              return;
+            }
+            selected.push(option);
+            button.classList.add("selected");
+            playChime(680 + selected.length * 80);
+          });
+          modalOptions.appendChild(button);
+        });
+      }
       $("note-modal").classList.add("show");
-      $("modal-submit").onclick = () => {
-        const value = $("modal-input").value.trim();
-        if (value) {
-          if (Array.isArray(game.notes[data.key])) game.notes[data.key].push(value);
-          else game.notes[data.key] = value;
+      submit.onclick = () => {
+        if (data.mode === "pick") {
+          const label = selected.map(item => item.text).join(" + ");
+          selected.forEach(addAxes);
+          if (label && Array.isArray(game.notes[data.key])) game.notes[data.key].push(label);
+        } else {
+          const value = input.value.trim();
+          if (value) game.notes[data.key] = value;
         }
         $("note-modal").classList.remove("show");
         setTimeout(callback, 260);
       };
       $("modal-skip").onclick = () => {
+        playLowKnock();
         $("note-modal").classList.remove("show");
         setTimeout(callback, 260);
       };
-      setTimeout(() => $("modal-input").focus(), 120);
+      if (data.mode === "text") setTimeout(() => input.focus(), 120);
     }
 
     function advance() {
@@ -1160,33 +1472,49 @@
       }
     }
 
+    function axisScores() {
+      return AXES.map(([key, label, keeper]) => ({
+        key,
+        label,
+        keeper,
+        value: game[key]
+      })).sort((a, b) => b.value - a.value);
+    }
+
     function endingType() {
-      if (game.score < 7) {
+      const ranked = axisScores();
+      const top = ranked[0];
+      const spread = top.value - ranked[ranked.length - 1].value;
+      if (spread <= 2) {
         return {
-          title: "遗迹重访者",
-          sub: "RETURN TO THE ROOMS",
-          desc: "你走完了十一室，但有几处关键判断还没有真正收进身体。回去重看那些断层：不是补分，而是把证据、感受和结构重新接起来。"
+          title: "阶段策展人",
+          sub: "STAGE ARCHIVE / BALANCED",
+          desc: "你的十课路径比较均衡：既听见作品里的生命处境，也会回头找制度、史料和那些不肯被驯化的异质光。下一阶段可以把每个判断都配上一件更精确的图文证据。"
         };
       }
-      if (game.meili > game.baoyu + 5) {
-        return {
+      const endings = {
+        meili: {
           title: "价值听见者",
           sub: "MEILI'S CLOCK",
-          desc: "你更接近美丽这一轴：能听见作品里的感受、时间和价值。下一步要让这些感受更多落到器物、铭文、制度和具体证据上。"
-        };
-      }
-      if (game.baoyu > game.meili + 5) {
-        return {
+          desc: "你更接近美丽这一轴：会先问作品怎样改变人的时间感、生活感和价值感。下一阶段要把这些感受更多落到器物、题记、制度和具体历史事例上。"
+        },
+        baoyu: {
           title: "秩序读档人",
           sub: "BAOYU'S INSCRIPTION",
-          desc: "你更接近宝玉这一轴：能读出物背后的秩序、位置和治理记忆。下一步要让结构判断保留人的处境、痛感和生命气息。"
-        };
-      }
-      return {
-        title: "双轴策展人",
-        sub: "THE ARCHIVE OPENS",
-        desc: "你同时带住了美丽的价值轴和宝玉的结构轴：既能说明作品为什么动人，也能说明它怎样被制度、信仰、材料和世界关系托住。"
+          desc: "你更接近宝玉这一轴：会先看材料、身份、礼制、皇权和观看位置。下一阶段要让结构判断继续保留人的处境、痛感和生命气息。"
+        },
+        evidence: {
+          title: "史事钉子手",
+          sub: "EVIDENCE KEEPER",
+          desc: "你会优先找图、文、器物、出土位置和具体事件来支撑判断。下一阶段可以让证据不只证明观点，也显出其中人的冒险、犹豫和戏剧性。"
+        },
+        wonder: {
+          title: "异境采集者",
+          sub: "STRANGE LIGHT COLLECTOR",
+          desc: "你会被玉、烟、魂、佛身、胡乐、青花和西洋光吸引。下一阶段要把这种光怪陆离的直觉，安放到更清楚的时代结构和史料钉子里。"
+        }
       };
+      return endings[top.key];
     }
 
     function showEnding() {
@@ -1213,10 +1541,11 @@
 
     function buildScores() {
       const stats = [
-        ["正确", game.score + "/11", game.score / 11],
-        ["美丽", game.meili, Math.min(1, game.meili / 24)],
-        ["宝玉", game.baoyu, Math.min(1, game.baoyu / 24)],
-        ["碎片", game.fragments.length + "/11", game.fragments.length / 11]
+        ["完成", game.completed + "/10", game.completed / 10],
+        ["价值感", game.meili, Math.min(1, game.meili / 16)],
+        ["秩序感", game.baoyu, Math.min(1, game.baoyu / 16)],
+        ["证据", game.evidence, Math.min(1, game.evidence / 14)],
+        ["异质", game.wonder, Math.min(1, game.wonder / 14)]
       ];
       $("score-row").innerHTML = stats.map(([label, value, ratio]) => `
         <div class="score-item">
@@ -1232,13 +1561,15 @@
         if (Array.isArray(value)) return value.length ? value.join(" / ") : "未留下";
         return value || "未留下";
       };
+      const routeText = game.routes.map(item => `${item.phase.slice(0, 2)}:${item.route}`).join(" / ");
       const noteRows = [
-        ["美丽追问", noteValue(game.notes.meili)],
-        ["宝玉铭文", noteValue(game.notes.bao)],
-        ["最后证词", noteValue(game.notes.final)]
+        ["十课路径", routeText || "未形成"],
+        ["玉印与小机关", noteValue(game.notes.seals.concat(game.notes.pairings))],
+        ["青铜铭文", noteValue(game.notes.inscription)],
+        ["阶段札记", noteValue(game.notes.final)]
       ];
       $("record-card").innerHTML = `
-        <div class="record-title">JADE RECORD / 结课卷宗</div>
+        <div class="record-title">JADE RECORD / 阶段卷宗</div>
         <div><b>${escapeHtml(name)}</b> 的档案类型：${title}</div>
         <div>收入碎片：${game.fragments.length ? game.fragments.join("、") : "无"}</div>
         ${noteRows.map(([k, v]) => `<div>${k}：${escapeHtml(v)}</div>`).join("")}
@@ -1246,13 +1577,17 @@
     }
 
     function buildMissList() {
-      if (!game.misses.length) {
-        $("miss-list").innerHTML = `<div class="record-title">NO FRACTURE</div>十一室全部通过。你可以把这条路径作为课程复盘的骨架。`;
-        return;
-      }
+      const ranked = axisScores();
+      const strongest = ranked[0];
+      const quiet = ranked.filter(item => strongest.value - item.value >= 4);
+      const routeRows = game.routes.map(item => `<div>${escapeHtml(item.phase)}｜${escapeHtml(item.title)}｜${escapeHtml(item.route)}</div>`).join("");
+      const next = quiet.length
+        ? `下一阶段可补：${quiet.map(item => item.label).join("、")}。`
+        : "四条线没有明显短板。下一阶段可以直接把每一课的选择配上更精确的图、文材料。";
       $("miss-list").innerHTML = `
-        <div class="record-title">FRACTURES / 需要重看的断层</div>
-        ${game.misses.map(item => `<div>${item.title}：${item.answer}</div>`).join("")}
+        <div class="record-title">ROUTE MAP / 十课路径</div>
+        ${routeRows}
+        <div style="margin-top:12px;color:#777">${escapeHtml(next)}</div>
       `;
     }
 
@@ -1260,7 +1595,8 @@
       const item = {
         name: playerName || "匿名旅人",
         title,
-        score: game.score,
+        path: axisScores()[0].label,
+        completed: game.completed,
         fragments: game.fragments.length,
         time: new Date().toLocaleString("zh-CN")
       };
@@ -1280,7 +1616,7 @@
       }
       $("past-card").innerHTML = `
         <div class="record-title">PAST TRAVELLERS / 旧卷宗</div>
-        ${past.map(item => `<div>${escapeHtml(item.time)}｜${escapeHtml(item.name)}｜${escapeHtml(item.title)}｜${item.score}/11｜碎片 ${item.fragments}/11</div>`).join("")}
+        ${past.map(item => `<div>${escapeHtml(item.time)}｜${escapeHtml(item.name)}｜${escapeHtml(item.title)}｜${escapeHtml(item.path || "旧路径")}｜${item.completed || item.score || 0}/10｜碎片 ${item.fragments}/10</div>`).join("")}
       `;
     }
 
@@ -1301,12 +1637,14 @@
 
     function restart() {
       game.index = 0;
-      game.score = 0;
+      game.completed = 0;
       game.meili = 0;
       game.baoyu = 0;
+      game.evidence = 0;
+      game.wonder = 0;
       game.fragments = [];
-      game.misses = [];
-      game.notes = { meili: [], bao: [], final: "" };
+      game.routes = [];
+      game.notes = { seals: [], inscription: "", pairings: [], final: "" };
       $("ending-screen").classList.remove("show");
       $("ending-screen").style.display = "none";
       $("wrap").style.display = "flex";

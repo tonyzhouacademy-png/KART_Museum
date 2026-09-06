@@ -28,8 +28,7 @@
     <path d="M0 178C70 104 168 260 256 154S380 118 450 196" opacity=".55"/>
   </g>
   <g transform="translate(118 650)" font-family="Arial, sans-serif" font-size="18" fill="#31392f">
-    <text>01</text><text x="90">02</text><text x="180">03</text><text x="270">04</text><text x="360">05</text><text x="450">06</text><text x="540">07</text><text x="630">08</text><text x="720">09</text><text x="810">10</text><text x="900">11</text>
+    <text>01</text><text x="90">02</text><text x="180">03</text><text x="270">04</text><text x="360">05</text><text x="450">06</text><text x="540">07</text><text x="630">08</text><text x="720">09</text><text x="810">10</text>
     <path d="M42 -7H960" stroke="#a78155" stroke-width="2"/>
   </g>
 </svg>
-
