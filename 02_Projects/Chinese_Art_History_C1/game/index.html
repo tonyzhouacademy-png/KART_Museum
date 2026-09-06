@@ -1558,8 +1558,8 @@
     function buildRecord(title) {
       const name = playerName || "匿名旅人";
       const noteValue = value => {
-        if (Array.isArray(value)) return value.length ? value.join(" / ") : "未留下";
-        return value || "未留下";
+        if (Array.isArray(value)) return value.length ? value.join(" / ") : "暂未记录";
+        return value || "暂未记录";
       };
       const routeText = game.routes.map(item => `${item.phase.slice(0, 2)}:${item.route}`).join(" / ");
       const noteRows = [
@@ -1615,8 +1615,8 @@
         return;
       }
       $("past-card").innerHTML = `
-        <div class="record-title">PAST TRAVELLERS / 旧卷宗</div>
-        ${past.map(item => `<div>${escapeHtml(item.time)}｜${escapeHtml(item.name)}｜${escapeHtml(item.title)}｜${escapeHtml(item.path || "旧路径")}｜${item.completed || item.score || 0}/10｜碎片 ${item.fragments}/10</div>`).join("")}
+        <div class="record-title">PAST TRAVELLERS / 过往卷宗</div>
+        ${past.map(item => `<div>${escapeHtml(item.time)}｜${escapeHtml(item.name)}｜${escapeHtml(item.title)}｜${escapeHtml(item.path || "过往路径")}｜${item.completed || item.score || 0}/10｜碎片 ${item.fragments}/10</div>`).join("")}
       `;
     }
 
