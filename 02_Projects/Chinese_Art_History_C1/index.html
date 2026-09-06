@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>中国艺术史 C1.0 课程项目卷宗 | KART Museum</title>
-  <meta name="description" content="KART Museum 中国艺术史 C1.0：王美丽与宝玉的课程参与卷宗、游戏界面切片与阶段测验。">
+  <title>纸上中洲 | 中国艺术史 C1.0 课程项目卷宗</title>
+  <meta name="description" content="KART Museum 中国艺术史 C1.0：王美丽与宝玉的课程参与卷宗、课程图版与阶段测验。">
   <style>
     :root {
       --paper: #f6f4ef;
       --white: #fffdf7;
-      --ink: #252521;
+      --ink: #252b23;
       --muted: #746d61;
       --line: #c9bea9;
       --wood: #a78155;
       --moss: #31392f;
-      --sage: #6f7d61;
+      --jade: #6f7d61;
       --clay: #9b6448;
-      --sky: #8ca8ad;
+      --blue: #365b64;
+      --gold: #b8913e;
     }
 
     * { box-sizing: border-box; }
@@ -26,26 +27,27 @@
       margin: 0;
       color: var(--ink);
       background:
-        linear-gradient(90deg, rgba(37,37,33,.035) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(37,37,33,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,43,35,.045) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(37,43,35,.032) 1px, transparent 1px),
         var(--paper);
-      background-size: 72px 72px;
+      background-size: 78px 78px;
       font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
       font-size: 17px;
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    img { display: block; width: 100%; }
 
     .shell {
-      width: min(1160px, calc(100% - 32px));
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
     }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       border-bottom: 1px solid var(--line);
       background: rgba(246,244,239,.92);
       backdrop-filter: blur(16px);
@@ -54,9 +56,9 @@
     .topbar-inner {
       min-height: 66px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 18px;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .brand strong {
@@ -71,44 +73,50 @@
     .nav a,
     .kicker,
     .lead,
-    .meta,
-    .tag,
-    .card p,
-    .figure figcaption,
-    .footer {
+    .plate figcaption,
+    .button-link,
+    .footer,
+    .panel p,
+    .room p,
+    .dossier-card p {
       font-family: "Helvetica Neue", Arial, sans-serif;
     }
 
     .brand span,
     .lead,
-    .meta,
-    .card p,
-    .figure figcaption {
+    .plate figcaption,
+    .panel p,
+    .room p,
+    .dossier-card p {
       color: var(--muted);
       font-size: 15px;
-      line-height: 1.8;
+      line-height: 1.78;
     }
 
     .nav {
       display: flex;
+      flex-wrap: wrap;
       justify-content: flex-end;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
-    .nav a {
+    .nav a,
+    .button-link {
       min-height: 34px;
       padding: 10px 12px;
       border: 1px solid transparent;
-      border-radius: 6px;
+      border-radius: 4px;
       color: var(--moss);
       font-size: 13px;
     }
 
-    .nav a:hover {
+    .nav a:hover,
+    .button-link:hover {
       border-color: var(--line);
       background: var(--white);
     }
+
+    main { padding: 26px 0 58px; }
 
     .kicker,
     .section-eyebrow {
@@ -116,53 +124,8 @@
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
       line-height: 1.2;
-      text-transform: uppercase;
       letter-spacing: 1px;
-    }
-
-    main {
-      padding: 24px 0 56px;
-    }
-
-    .hero {
-      min-height: calc(100vh - 90px);
-      display: grid;
-      grid-template-columns: minmax(0, .92fr) minmax(380px, 1.08fr);
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .hero-copy,
-    .hero-image,
-    .card,
-    .figure,
-    .wall-note,
-    .dossier-link {
-      border: 1px solid var(--line);
-      background: rgba(255,253,247,.72);
-    }
-
-    .hero-copy {
-      min-height: 620px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: clamp(24px, 4vw, 48px);
-    }
-
-    .hero-image {
-      min-height: 620px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background: var(--white);
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #050505;
+      text-transform: uppercase;
     }
 
     h1,
@@ -173,222 +136,236 @@
     }
 
     h1 {
-      margin-bottom: 24px;
+      margin-bottom: 14px;
       color: var(--moss);
-      font-size: clamp(58px, 8vw, 112px);
+      font-size: clamp(52px, 8vw, 116px);
       line-height: .9;
       font-weight: 400;
+      overflow-wrap: anywhere;
     }
 
     h2 {
       margin-bottom: 0;
       color: var(--moss);
-      font-size: clamp(34px, 5vw, 70px);
-      line-height: .95;
+      font-size: clamp(36px, 5vw, 76px);
+      line-height: .98;
       font-weight: 400;
+      overflow-wrap: anywhere;
     }
 
     h3 {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--moss);
-      font-size: clamp(24px, 3vw, 36px);
+      font-size: clamp(26px, 3vw, 40px);
       line-height: 1.08;
       font-weight: 400;
     }
 
-    .hero-subtitle {
-      max-width: 620px;
-      margin: 0;
-      color: var(--ink);
-      font-size: clamp(24px, 3.1vw, 38px);
-      line-height: 1.36;
-      font-weight: 400;
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: stretch;
     }
 
-    .hero-meta {
+    .hero-visual,
+    .hero-note,
+    .panel,
+    .plate,
+    .room,
+    .dossier-card,
+    .game-poster {
+      border: 1px solid var(--line);
+      background: rgba(255,253,247,.76);
+    }
+
+    .hero-visual {
+      overflow: hidden;
+    }
+
+    .hero-visual img {
+      aspect-ratio: 1.62 / 1;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .hero-note {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, .65fr);
+      gap: 24px;
+      align-items: end;
+      padding: clamp(24px, 4vw, 42px);
+    }
+
+    .hero-copy {
+      color: var(--ink);
+      font-size: clamp(24px, 2.9vw, 35px);
+      line-height: 1.38;
+      overflow-wrap: anywhere;
+    }
+
+    .fact-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       border-top: 1px solid var(--line);
       border-left: 1px solid var(--line);
-      margin-top: 34px;
+      margin: 0;
     }
 
-    .hero-meta div {
-      min-height: 92px;
-      padding: 16px;
+    .fact-grid div {
+      min-height: 88px;
+      padding: 14px;
       border-right: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
 
-    .hero-meta strong {
+    .fact-grid strong {
       display: block;
       color: var(--moss);
-      font-size: 25px;
+      font-size: 26px;
       font-weight: 400;
       line-height: 1.1;
+      overflow-wrap: anywhere;
     }
 
-    .section {
-      padding: 58px 0 0;
-    }
+    .section { padding-top: 64px; }
 
     .section-head {
       display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(280px, .8fr);
+      grid-template-columns: minmax(0, .78fr) minmax(280px, .72fr);
       gap: 18px;
       align-items: end;
       margin-bottom: 18px;
     }
 
-    .lead {
+    .visual-wall {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .plate {
+      overflow: hidden;
+    }
+
+    .plate.wide { grid-column: span 2; }
+
+    .plate img {
+      aspect-ratio: 1.38 / 1;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .plate figcaption {
+      min-height: 74px;
+      margin: 0;
+      padding: 14px 16px;
+    }
+
+    .voices {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .voice-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel,
+    .room {
+      padding: 22px;
+    }
+
+    .panel p,
+    .room p,
+    .dossier-card p {
       margin-bottom: 0;
     }
 
-    .grid {
+    .game-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 16px;
+    }
+
+    .game-poster {
+      overflow: hidden;
+    }
+
+    .game-poster.hero-poster {
+      grid-row: span 2;
+    }
+
+    .game-poster img,
+    .dossier-card img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .voices .game-poster img,
+    .dossier-card img {
+      height: auto;
+      object-fit: contain;
+      background: var(--white);
+    }
+
+    .room-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .room {
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .room strong {
+      color: var(--moss);
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    .dossier-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
     }
 
-    .grid.three {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .course-gallery {
+    .dossier-card {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 16px;
-    }
-
-    .course-gallery .figure {
-      grid-column: span 2;
-    }
-
-    .course-gallery .figure.wide {
-      grid-column: span 3;
-    }
-
-    .course-gallery .figure img {
-      aspect-ratio: 16 / 10;
-    }
-
-    .course-gallery.game-slices .figure:first-child {
-      grid-column: span 6;
-    }
-
-    .course-gallery.game-slices .figure:nth-child(n+2) {
-      grid-column: span 3;
-    }
-
-    .course-gallery.game-slices .figure img {
-      aspect-ratio: 16 / 9;
-      object-fit: contain;
-      background: #050505;
-    }
-
-    .card,
-    .wall-note,
-    .dossier-link {
-      padding: 22px;
-    }
-
-    .card h3,
-    .dossier-link h3 {
-      font-size: 30px;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .tag {
-      border: 1px solid var(--line);
-      background: var(--white);
-      padding: 7px 10px;
-      color: var(--moss);
-      font-size: 12px;
-    }
-
-    .timeline {
-      display: grid;
-      gap: 10px;
-    }
-
-    .timeline-row {
-      display: grid;
-      grid-template-columns: 110px minmax(0, 1fr);
-      gap: 14px;
-      border-top: 1px solid var(--line);
-      padding-top: 12px;
-    }
-
-    .timeline-row strong {
-      color: var(--wood);
-      font-weight: 500;
-    }
-
-    .figure {
+      padding: 0;
       overflow: hidden;
     }
 
-    .figure img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
+    .dossier-card img {
+      aspect-ratio: 1.58 / 1;
       border-bottom: 1px solid var(--line);
-      background: var(--white);
     }
 
-    .figure figcaption {
-      margin: 0;
-      padding: 14px 16px;
+    .dossier-card div {
+      padding: 0 22px 22px;
     }
 
-    .dossier-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .dossier-link {
-      display: flex;
-      min-height: 230px;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform .2s ease, background .2s ease;
-    }
-
-    .dossier-link:hover {
-      transform: translateY(-2px);
-      background: var(--white);
-    }
-
-    .text-link {
+    .button-link {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      margin-top: 16px;
-      color: var(--wood);
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 14px;
-    }
-
-    .wall-note blockquote {
-      margin: 0 0 18px;
-      color: var(--moss);
-      font-size: clamp(28px, 4vw, 52px);
-      line-height: 1.12;
-      font-weight: 400;
+      margin-top: 14px;
+      border-color: var(--line);
+      background: rgba(255,253,247,.62);
     }
 
     .footer {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      margin-top: 58px;
+      margin-top: 64px;
       padding-top: 18px;
       border-top: 1px solid var(--line);
       color: var(--muted);
@@ -396,36 +373,38 @@
       flex-wrap: wrap;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 980px) {
       .hero,
       .section-head,
-      .grid,
-      .grid.three,
-      .course-gallery,
+      .voices,
+      .game-grid,
       .dossier-grid {
         grid-template-columns: 1fr;
       }
 
-      .course-gallery .figure,
-      .course-gallery .figure.wide {
-        grid-column: auto;
+      .hero-note { grid-template-columns: 1fr; }
+
+      .visual-wall {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .hero,
-      .hero-copy,
-      .hero-image {
-        min-height: auto;
+      .room-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+    }
 
-      .hero-image {
-        aspect-ratio: 16 / 10;
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 24px, 1180px); }
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: 12px 0; }
+      .nav { justify-content: flex-start; }
+      h1 { font-size: clamp(46px, 16vw, 70px); }
+      .hero-copy { font-size: 22px; }
+      .visual-wall,
+      .room-grid,
+      .fact-grid {
+        grid-template-columns: 1fr;
       }
-
-      .topbar-inner {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 14px 0;
-      }
+      .plate.wide { grid-column: auto; }
     }
   </style>
 </head>
@@ -434,111 +413,121 @@
     <div class="shell topbar-inner">
       <a class="brand" href="../../index.html#programs">
         <strong>KART Museum</strong>
-        <span>Project Record</span>
+        <span>Chinese Art History C1.0</span>
       </a>
       <nav class="nav" aria-label="Project navigation">
-        <a href="#summary">项目摘要</a>
-        <a href="#course-images">游戏切片</a>
-        <a href="#dossiers">参与卷宗</a>
+        <a href="#images">课程图版</a>
+        <a href="#voices">两位发问者</a>
         <a href="#game">阶段测验</a>
-        <a href="#evidence">材料说明</a>
+        <a href="#dossiers">参与卷宗</a>
       </nav>
     </div>
   </header>
 
   <main class="shell">
-    <section class="hero" id="summary">
-      <div class="hero-copy">
-        <div>
-          <span class="kicker">Chinese Art History C1.0 / Project Dossier</span>
-          <h1>纸上中洲</h1>
-          <p class="hero-subtitle">王美丽与宝玉作为中国艺术史 C1.0 的两位课程参与者，被整理为一组项目卷宗：她们的课堂洞见、游戏角色与阶段测验共同构成这份记录。</p>
-        </div>
-        <div class="hero-meta">
-          <div><span class="kicker">Dossiers</span><strong>2 人</strong></div>
-          <div><span class="kicker">Lessons</span><strong>10 课</strong></div>
-          <div><span class="kicker">Game</span><strong>V4.0</strong></div>
-          <div><span class="kicker">Updated</span><strong>2026.09.06</strong></div>
-        </div>
-      </div>
-      <figure class="hero-image">
-        <img src="images/game-slice-entry.png" alt="纸上中洲阶段测验入口界面">
+    <section class="hero">
+      <figure class="hero-visual">
+        <img src="images/visual-atlas-hero.png" alt="纸上中洲中国艺术史 C1.0 课程图像总图">
       </figure>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
+      <div class="hero-note">
         <div>
-          <span class="section-eyebrow">Project Positioning</span>
-          <h2>项目定位</h2>
+          <span class="kicker">Project Dossier</span>
+          <h1>纸上中洲</h1>
+          <p class="hero-copy">这不是一份普通课后记录，而是 KART 中国艺术史 C1.0 的课程展陈：十课图像、两位发问者、一场阶段测验。</p>
         </div>
-        <p class="lead">这不是个人作品集页面，而是中国艺术史课程的项目档案。个人材料只作为理解她们观看方式的背景，页面中心放在课堂判断与游戏参与。</p>
-      </div>
-      <div class="grid">
-        <article class="card">
-          <span class="kicker">Wang Meili / Miss Wong</span>
-          <h3>感受如何进入艺术史判断</h3>
-          <p>王美丽此前已有持续的视觉实践和生活美学记录。放到中国艺术史项目里，这些材料不作为作品集展示，而是解释她为什么特别敏感于时间感、生活感与价值判断。</p>
-          <div class="tags">
-            <span class="tag">创造践行</span>
-            <span class="tag">生活美学</span>
-            <span class="tag">长周期时间</span>
-            <span class="tag">价值判断</span>
-          </div>
-        </article>
-        <article class="card">
-          <span class="kicker">Bao Yu / Civilization Historian</span>
-          <h3>器物如何变成秩序</h3>
-          <p>宝玉卷宗以艺术史课程中的课堂角色与思考路径为中心。课程文件中，她的线索集中在“宝玉系列”“全形拓+联想”“没有危机感的治理术”“天人合一的长期审美结构”。</p>
-          <div class="tags">
-            <span class="tag">铭文</span>
-            <span class="tag">全形拓</span>
-            <span class="tag">治理记忆</span>
-            <span class="tag">空间审美</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="section-eyebrow">Course Evidence</span>
-          <h2>课程洞见索引</h2>
-        </div>
-        <p class="lead">本页以已经进入项目记录的课堂洞见为基础，把两位参与者的判断方式放回中国艺术史 C1.0 的课程进程中。</p>
-      </div>
-      <div class="wall-note">
-        <blockquote>美丽问价值如何被感受；宝玉问秩序如何被器物保存。</blockquote>
-        <div class="timeline">
-          <div class="timeline-row"><strong>C1.0-2</strong><p class="meta">美丽：“美学时钟 vs 古天文图”的时间尺度差异。宝玉：“宝玉系列”作为课程线索，被放入“秩序如何被器物保存”的主线。</p></div>
-          <div class="timeline-row"><strong>C1.0-3</strong><p class="meta">美丽提出“价格 vs 价值”的高更式思辨，并抓住毛公鼎“天德王民”的价值转折。宝玉用“全形拓+联想”进入铭文解读，并提出“没有危机感”的治理术。</p></div>
-          <div class="timeline-row"><strong>C1.0-4</strong><p class="meta">美丽把艺术理解为支撑文明连续体的价值结构。宝玉把铭文理解转化为生活空间审美，提出“天人合一”的长期审美结构。</p></div>
-          <div class="timeline-row"><strong>C1.0-5</strong><p class="meta">第5课作业设计延续两人的“日常观察”传统，把生活感受和器物秩序转入秦汉单元的观看入口。</p></div>
+        <div class="fact-grid" aria-label="Project facts">
+          <div><span class="kicker">Images</span><strong>8 组图版</strong></div>
+          <div><span class="kicker">Lessons</span><strong>10 课</strong></div>
+          <div><span class="kicker">Voices</span><strong>美丽 / 宝玉</strong></div>
+          <div><span class="kicker">Game</span><strong>阶段测验</strong></div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="course-images">
+    <section class="section" id="images">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Game Interface</span>
-          <h2>游戏界面切片</h2>
+          <span class="section-eyebrow">Course Plates</span>
+          <h2>课程图版墙</h2>
         </div>
-        <p class="lead">阶段测验不是附属链接，而是她们参与这门课后留下的重要项目成果。这里保留三张界面切片，呈现游戏的入口、题目与卷宗判断。</p>
+        <p class="lead">图像先行。星图、玉佩、青铜、楚地、手卷、山水和生活场景共同构成这门课的精神现场。</p>
       </div>
-      <div class="course-gallery game-slices">
-        <figure class="figure">
-          <img loading="lazy" src="images/game-slice-entry.png" alt="纸上中洲阶段测验入口界面">
-          <figcaption>入口界面：保留原游戏的黑底、低光和档案室气质。</figcaption>
+      <div class="visual-wall">
+        <figure class="plate wide">
+          <img loading="lazy" src="images/plate-star-map.png" alt="星图课程图版">
+          <figcaption>时间被画成秩序：从星图进入长周期观看。</figcaption>
         </figure>
-        <figure class="figure">
-          <img loading="lazy" src="images/game-slice-question.png" alt="纸上中洲阶段测验题目界面">
-          <figcaption>题目界面：十课被转化为选择路径，不是单一标准答案。</figcaption>
+        <figure class="plate">
+          <img loading="lazy" src="images/plate-jade-manual.png" alt="玉礼课程图版">
+          <figcaption>佩玉与身体秩序：宝玉的第一条入口。</figcaption>
         </figure>
-        <figure class="figure">
-          <img loading="lazy" src="images/game-slice-radar.png" alt="纸上中洲阶段测验雷达卷宗界面">
-          <figcaption>卷宗界面：以价值感、秩序感、证据链与异质想象生成阶段判断。</figcaption>
+        <figure class="plate">
+          <img loading="lazy" src="images/plate-bronze-vitrine.png" alt="青铜纹饰课程图版">
+          <figcaption>纹饰成为制度记忆：器物开始说话。</figcaption>
+        </figure>
+        <figure class="plate">
+          <img loading="lazy" src="images/plate-chu-map.png" alt="楚地地图课程图版">
+          <figcaption>礼乐落在河流与城邑之间。</figcaption>
+        </figure>
+        <figure class="plate">
+          <img loading="lazy" src="images/plate-handscroll.png" alt="手卷课程图版">
+          <figcaption>观看在展开中发生，时间被手卷拉长。</figcaption>
+        </figure>
+        <figure class="plate">
+          <img loading="lazy" src="images/plate-song-landscape.png" alt="山水课程图版">
+          <figcaption>世界退后，心性出现。</figcaption>
+        </figure>
+        <figure class="plate">
+          <img loading="lazy" src="images/plate-court-life.png" alt="人物与宫廷课程图版">
+          <figcaption>人物、空间与仪式共同安排人的位置。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="voices">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Two Voices</span>
+          <h2>两位发问者</h2>
+        </div>
+        <p class="lead">王美丽和宝玉不是被附会到课程里的名字，而是两种观看方法：一个问价值如何被感受，一个问秩序如何被器物保存。</p>
+      </div>
+      <div class="voices">
+        <figure class="game-poster">
+          <img src="images/two-voices-map.png" alt="王美丽与宝玉两种进入艺术史的方法">
+        </figure>
+        <div class="voice-stack">
+          <article class="panel">
+            <span class="kicker">Wang Meili</span>
+            <h3>从感受进入价值</h3>
+            <p>她把生活审美中的敏感度带进艺术史：作品如何改变人的时间感，价值如何被器物和制度保存。</p>
+          </article>
+          <article class="panel">
+            <span class="kicker">Bao Yu</span>
+            <h3>从器物进入秩序</h3>
+            <p>她追问玉、青铜、铭文、拓片和空间：秩序怎样被固定下来，记忆怎样被留下。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="game">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Archive Game</span>
+          <h2>游戏气氛设计</h2>
+        </div>
+        <p class="lead">暗室、路径、选择场和阶段雷达被整理成三张图版，让测验保留神秘感，也进入课程展陈的明亮秩序。</p>
+      </div>
+      <div class="game-grid">
+        <figure class="game-poster hero-poster">
+          <img src="images/game-atmosphere-archive.png" alt="纸上中洲阶段测验入口气氛设计">
+        </figure>
+        <figure class="game-poster">
+          <img src="images/game-atmosphere-choices.png" alt="纸上中洲阶段测验选择路径设计">
+        </figure>
+        <figure class="game-poster">
+          <img src="images/game-atmosphere-radar.png" alt="纸上中洲阶段测验雷达卷宗设计">
         </figure>
       </div>
     </section>
@@ -547,64 +536,57 @@
       <div class="section-head">
         <div>
           <span class="section-eyebrow">Participant Dossiers</span>
-          <h2>参与者卷宗入口</h2>
+          <h2>参与者卷宗</h2>
         </div>
-        <p class="lead">项目总览与两份参与者卷宗共同说明：她们如何进入课程讨论，又如何在游戏里变成持续发问的角色。</p>
+        <p class="lead">两份卷宗只保留与这门课相关的判断线索，把个人材料收束为课程中的观看位置。</p>
       </div>
       <div class="dossier-grid">
-        <a class="dossier-link" href="dossiers/index.html">
-          <div><span class="kicker">Overview</span><h3>项目卷宗总览</h3><p>说明课程项目的定位、两位参与者的角色，以及阶段测验如何成为课程成果。</p></div>
-          <span class="text-link">打开总览</span>
+        <a class="dossier-card" href="dossiers/wang-meili.html">
+          <img src="images/persona-meili.png" alt="王美丽课程角色图卡">
+          <div>
+            <span class="kicker">Dossier 01</span>
+            <h3>王美丽</h3>
+            <p>感受如何进入判断：从生活审美进入时间、价值和文明结构。</p>
+            <span class="button-link">打开卷宗</span>
+          </div>
         </a>
-        <a class="dossier-link" href="dossiers/wang-meili.html">
-          <div><span class="kicker">Dossier 01</span><h3>王美丽</h3><p>把个人视觉实践整合为观看底色，重点呈现她在艺术史课中的价值判断。</p></div>
-          <span class="text-link">打开卷宗</span>
-        </a>
-        <a class="dossier-link" href="dossiers/bao-yu.html">
-          <div><span class="kicker">Dossier 02</span><h3>宝玉</h3><p>以课堂洞见和游戏角色为主，呈现她在艺术史判断中的结构线索。</p></div>
-          <span class="text-link">打开卷宗</span>
+        <a class="dossier-card" href="dossiers/bao-yu.html">
+          <img src="images/persona-baoyu.png" alt="宝玉课程角色图卡">
+          <div>
+            <span class="kicker">Dossier 02</span>
+            <h3>宝玉</h3>
+            <p>器物如何变成秩序：从玉、鼎、拓片与空间进入文明史判断。</p>
+            <span class="button-link">打开卷宗</span>
+          </div>
         </a>
       </div>
     </section>
 
-    <section class="section" id="game">
+    <section class="section">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Stage Quiz Game</span>
-          <h2>阶段测验 V4.0</h2>
+          <span class="section-eyebrow">Ten Rooms</span>
+          <h2>十课路径</h2>
         </div>
-        <p class="lead">阶段测验把王美丽和宝玉贯穿到底，用 10 个房间回看这一阶段中国艺术史课程。</p>
+        <p class="lead">明清合为第 10 课。阶段测验不是终局判断，而是这一阶段观看能力的回声。</p>
       </div>
-      <div class="wall-note">
-        <blockquote>十件课程碎片：方法、玉礼、青铜、楚魂、秦汉之桥、佛身与自我、唐风、宋心、元路、明清合卷。</blockquote>
-        <p class="meta">玩法延续原游戏的黑底遗迹感、玉/青铜/陶土色系和观察者回应，但加入双角色路径、课程碎片收集与阶段卷宗结果。题目不做单一标准答案，而是让不同选择导向不同的观看偏好。</p>
-        <a class="text-link" href="game/index.html">进入 V4.0 阶段测验</a>
-      </div>
-    </section>
-
-    <section class="section" id="evidence">
-      <div class="section-head">
-        <div>
-          <span class="section-eyebrow">Material Notes</span>
-          <h2>材料说明</h2>
-        </div>
-        <p class="lead">本页采用公开项目记录口径：只呈现与中国艺术史 C1.0 项目直接相关的课堂洞见、游戏角色与阶段测验。</p>
-      </div>
-      <div class="grid">
-        <article class="card">
-          <h3>王美丽</h3>
-          <p>王美丽的导师课成长材料只作为本项目的观看背景，用来理解她为什么能从生活感受推进到艺术史判断；页面不把这些材料作为独立作品集展示。</p>
-        </article>
-        <article class="card">
-          <h3>宝玉</h3>
-          <p>宝玉卷宗以“中国艺术史 C1.0”课程中的课堂洞见与游戏角色线索为中心，呈现她如何把器物、铭文和空间读成秩序结构。</p>
-        </article>
+      <div class="room-grid">
+        <article class="room"><span class="kicker">01</span><strong>方法</strong><p>档案室的门</p></article>
+        <article class="room"><span class="kicker">02</span><strong>玉礼</strong><p>身体与天文</p></article>
+        <article class="room"><span class="kicker">03</span><strong>青铜</strong><p>铭文与承诺</p></article>
+        <article class="room"><span class="kicker">04</span><strong>楚魂</strong><p>异质想象</p></article>
+        <article class="room"><span class="kicker">05</span><strong>秦汉</strong><p>帝国尺度</p></article>
+        <article class="room"><span class="kicker">06</span><strong>佛身</strong><p>图像与信仰</p></article>
+        <article class="room"><span class="kicker">07</span><strong>唐风</strong><p>贵族与世界</p></article>
+        <article class="room"><span class="kicker">08</span><strong>宋心</strong><p>观看系统</p></article>
+        <article class="room"><span class="kicker">09</span><strong>元路</strong><p>迁徙与山水</p></article>
+        <article class="room"><span class="kicker">10</span><strong>明清</strong><p>器物与全球</p></article>
       </div>
     </section>
 
     <footer class="footer">
-      <span>KART Museum OS / Chinese Art History C1.0 / Updated 2026.09.06</span>
-      <span><a href="../../index.html#programs">返回 KART Museum 项目记录</a></span>
+      <span>KART Museum OS / Chinese Art History C1.0</span>
+      <span><a href="game/index.html">进入阶段测验</a></span>
     </footer>
   </main>
 </body>
