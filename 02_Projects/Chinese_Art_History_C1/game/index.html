@@ -23,7 +23,8 @@
     body {
       margin: 0;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       background: #000;
       color: var(--text);
       font-family: "Noto Serif SC", "Songti SC", "Times New Roman", serif;
@@ -230,9 +231,10 @@
     #wrap {
       position: relative;
       z-index: 10;
-      width: min(680px, 90vw);
+      width: min(980px, calc(100vw - 36px));
       margin: 0 auto;
-      min-height: 100vh;
+      min-height: 100svh;
+      padding: 54px 0 82px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -241,14 +243,25 @@
 
     #main-game {
       width: 100%;
-      padding: 48px 0;
+      display: grid;
+      grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+      grid-template-areas:
+        "stage text"
+        "stage choices"
+        "stage hidden"
+        "stage oracle";
+      column-gap: clamp(24px, 5vw, 52px);
+      row-gap: 14px;
+      align-items: center;
+      padding: 0;
       transition: opacity 1s;
     }
 
     #stage {
-      width: clamp(148px, 25vw, 190px);
-      height: clamp(148px, 25vw, 190px);
-      margin: 0 auto 28px;
+      grid-area: stage;
+      width: clamp(138px, 19vw, 190px);
+      height: clamp(138px, 19vw, 190px);
+      margin: 0 auto;
       filter: drop-shadow(0 0 15px rgba(122,158,126,.28));
       transition: filter 1s;
     }
@@ -282,11 +295,15 @@
     }
 
     #text-area {
-      min-height: 176px;
-      margin-bottom: 22px;
+      grid-area: text;
+      max-height: 34vh;
+      min-height: 0;
+      margin-bottom: 0;
+      overflow-y: auto;
+      padding-right: 8px;
       color: var(--text);
-      line-height: 1.95;
-      font-size: clamp(1rem, 1.9vw, 1.16rem);
+      line-height: 1.76;
+      font-size: clamp(.92rem, 1.45vw, 1.06rem);
       opacity: 0;
     }
 
@@ -302,20 +319,21 @@
     }
 
     .btn-container {
+      grid-area: choices;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
       opacity: 0;
     }
 
     .choice {
       position: relative;
       width: 100%;
-      min-height: 58px;
-      padding: 13px 16px;
+      min-height: 50px;
+      padding: 10px 14px;
       text-align: left;
-      font-size: .96rem;
-      line-height: 1.65;
+      font-size: .9rem;
+      line-height: 1.52;
       overflow: hidden;
     }
 
@@ -341,8 +359,8 @@
 
     .oracle,
     .hidden-item {
-      min-height: 22px;
-      margin: 16px 0;
+      min-height: 20px;
+      margin: 0;
       color: var(--jade);
       font-size: .78rem;
       letter-spacing: 2px;
@@ -351,6 +369,8 @@
     }
 
     .hidden-item { color: var(--clay); }
+    .hidden-item { grid-area: hidden; }
+    .oracle { grid-area: oracle; }
     .oracle.visible,
     .hidden-item.visible { opacity: .72; }
 
@@ -538,7 +558,7 @@
       display: none;
       overflow-y: auto;
       justify-content: flex-start;
-      padding-top: 8vh;
+      padding: 44px 16px;
     }
 
     #ending-screen.show {
@@ -547,24 +567,23 @@
     }
 
     .ending-card {
-      width: min(680px, 92vw);
+      width: min(1040px, 94vw);
       padding-bottom: 44px;
     }
 
     .ending-desc {
-      max-width: 560px;
-      margin: 22px auto;
+      max-width: 760px;
+      margin: 16px auto 20px;
       color: var(--text);
-      line-height: 1.9;
-      font-size: 1rem;
+      line-height: 1.75;
+      font-size: .96rem;
     }
 
     .score-row {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 24px 0;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
       color: #555;
       font-family: Arial, sans-serif;
       font-size: .72rem;
@@ -572,8 +591,41 @@
     }
 
     .score-item {
-      min-width: 92px;
+      min-width: 0;
       text-align: center;
+    }
+
+    .ending-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, .8fr) minmax(320px, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .radar-card {
+      border: 1px solid #171717;
+      background: rgba(122,158,126,.025);
+      padding: 18px;
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .radar-svg {
+      width: min(100%, 330px);
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .radar-legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+      color: #666;
+      font-family: Arial, sans-serif;
+      font-size: .72rem;
+      line-height: 1.5;
     }
 
     .score-bar {
@@ -599,6 +651,61 @@
       margin-top: 18px;
       text-align: left;
       line-height: 1.8;
+    }
+
+    .record-line {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 12px;
+      padding: 8px 0;
+      border-top: 1px solid #141414;
+    }
+
+    .record-line:first-of-type { border-top: 0; }
+
+    .record-label {
+      color: #555;
+      font-family: Arial, sans-serif;
+      font-size: .68rem;
+      letter-spacing: 2px;
+    }
+
+    .dossier-seal {
+      margin: 2px 0 14px;
+      color: var(--highlight);
+      font-size: 1.35rem;
+      letter-spacing: 3px;
+    }
+
+    .route-list {
+      display: grid;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .route-list li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 92px;
+      gap: 10px;
+      align-items: start;
+      padding: 8px 0;
+      border-top: 1px solid #141414;
+    }
+
+    .route-list span,
+    .route-list em {
+      color: #555;
+      font-family: Arial, sans-serif;
+      font-size: .68rem;
+      letter-spacing: 1px;
+      font-style: normal;
+    }
+
+    .route-list b {
+      color: #999;
+      font-weight: 400;
     }
 
     .record-title {
@@ -628,12 +735,31 @@
     @keyframes pulse { 0%,100% { opacity: .22; } 50% { opacity: .68; } }
 
     @media (max-width: 620px) {
-      body { overflow-y: auto; }
       #wrap { width: min(92vw, 680px); align-items: flex-start; padding-top: 76px; }
+      #main-game {
+        display: block;
+      }
       #main-game { padding-bottom: 88px; }
-      #text-area { min-height: auto; }
+      #stage { margin: 0 auto 22px; }
+      #text-area { min-height: auto; max-height: none; margin-bottom: 18px; }
+      .btn-container { gap: 10px; }
+      .choice { min-height: 54px; }
       .observer-header { display: block; }
       .inventory { grid-template-columns: repeat(6, minmax(18px, 1fr)); }
+      .ending-layout,
+      .score-row,
+      .radar-legend,
+      .route-list li {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-height: 720px) and (min-width: 621px) {
+      #wrap { align-items: flex-start; padding-top: 46px; padding-bottom: 74px; }
+      #stage { width: 132px; height: 132px; }
+      #text-area { max-height: 30vh; font-size: .88rem; line-height: 1.65; }
+      .choice { min-height: 44px; padding: 8px 12px; font-size: .84rem; line-height: 1.45; }
+      .btn-container { gap: 7px; }
     }
   </style>
 </head>
@@ -715,7 +841,10 @@
       <div class="sub" id="ending-sub">ARCHIVE OPENED</div>
       <p class="ending-desc" id="ending-desc"></p>
       <div class="score-row" id="score-row"></div>
-      <div class="record-card" id="record-card"></div>
+      <div class="ending-layout">
+        <div class="radar-card" id="radar-card"></div>
+        <div class="record-card" id="record-card"></div>
+      </div>
       <div class="miss-list" id="miss-list"></div>
       <div class="past-card" id="past-card"></div>
       <div class="btn-row">
@@ -755,7 +884,7 @@
             a: 3,
             i: 1,
             echo: {
-              tony: "这条路最接近美丽。它会让图像活起来，但后面要记得给感受找证据。",
+              tony: "这条路把价值感放在前面。它会让图像活起来，但后面要记得给感受找证据。",
               wong: "我会先听作品里的时间。看它让人变慢、变急，还是突然有了方向。",
               bao: "人的处境很重要。只是别忘了：处境常常被制度和材料夹住。"
             }
@@ -766,7 +895,7 @@
             r: 3,
             e: 1,
             echo: {
-              tony: "这是宝玉的入口。它能把作品从漂亮物件里救出来，放回制度现场。",
+              tony: "这条路把秩序感放在前面。它能把作品从漂亮物件里救出来，放回制度现场。",
               wong: "秩序不是冷冰冰的。它会进入人的身体，规定什么被看见，什么被压住。",
               bao: "对。先找位置，再读形象。没有位置，判断容易飘。"
             }
@@ -1172,6 +1301,13 @@
       ["wonder", "异质想象", "暗室"]
     ];
 
+    const AXIS_MAX = {
+      meili: 18,
+      baoyu: 18,
+      evidence: 16,
+      wonder: 16
+    };
+
     const CHALLENGES = {
       jadeSeal: {
         mode: "pick",
@@ -1489,29 +1625,29 @@
         return {
           title: "阶段策展人",
           sub: "STAGE ARCHIVE / BALANCED",
-          desc: "你的十课路径比较均衡：既听见作品里的生命处境，也会回头找制度、史料和那些不肯被驯化的异质光。下一阶段可以把每个判断都配上一件更精确的图文证据。"
+          desc: "主导判断：均衡策展。你在十课里同时调动生命处境、制度结构、证据链和异质想象。下一阶段可以把每个判断都配上一件更精确的图文证据。"
         };
       }
       const endings = {
         meili: {
           title: "价值听见者",
-          sub: "MEILI'S CLOCK",
-          desc: "你更接近美丽这一轴：会先问作品怎样改变人的时间感、生活感和价值感。下一阶段要把这些感受更多落到器物、题记、制度和具体历史事例上。"
+          sub: "VALUE CLOCK",
+          desc: "主导判断：价值感。你会先问作品怎样改变人的时间感、生活感和价值感。下一阶段要把这些感受更多落到器物、题记、制度和具体历史事例上。"
         },
         baoyu: {
           title: "秩序读档人",
-          sub: "BAOYU'S INSCRIPTION",
-          desc: "你更接近宝玉这一轴：会先看材料、身份、礼制、皇权和观看位置。下一阶段要让结构判断继续保留人的处境、痛感和生命气息。"
+          sub: "ORDER INSCRIPTION",
+          desc: "主导判断：秩序感。你会先看材料、身份、礼制、皇权和观看位置。下一阶段要让结构判断继续保留人的处境、痛感和生命气息。"
         },
         evidence: {
           title: "史事钉子手",
           sub: "EVIDENCE KEEPER",
-          desc: "你会优先找图、文、器物、出土位置和具体事件来支撑判断。下一阶段可以让证据不只证明观点，也显出其中人的冒险、犹豫和戏剧性。"
+          desc: "主导判断：证据链。你会优先找图、文、器物、出土位置和具体事件来支撑判断。下一阶段可以让证据不只证明观点，也显出其中人的冒险、犹豫和戏剧性。"
         },
         wonder: {
           title: "异境采集者",
           sub: "STRANGE LIGHT COLLECTOR",
-          desc: "你会被玉、烟、魂、佛身、胡乐、青花和西洋光吸引。下一阶段要把这种光怪陆离的直觉，安放到更清楚的时代结构和史料钉子里。"
+          desc: "主导判断：异质想象。你会被玉、烟、魂、佛身、胡乐、青花和西洋光吸引。下一阶段要把这种光怪陆离的直觉，安放到更清楚的时代结构和史料钉子里。"
         }
       };
       return endings[top.key];
@@ -1530,6 +1666,7 @@
         $("ending-sub").textContent = end.sub;
         $("ending-desc").textContent = end.desc;
         buildScores();
+        buildRadar();
         buildRecord(end.title);
         buildMissList();
         saveHistory(end.title);
@@ -1542,10 +1679,10 @@
     function buildScores() {
       const stats = [
         ["完成", game.completed + "/10", game.completed / 10],
-        ["价值感", game.meili, Math.min(1, game.meili / 16)],
-        ["秩序感", game.baoyu, Math.min(1, game.baoyu / 16)],
-        ["证据", game.evidence, Math.min(1, game.evidence / 14)],
-        ["异质", game.wonder, Math.min(1, game.wonder / 14)]
+        ["价值感", game.meili, Math.min(1, game.meili / AXIS_MAX.meili)],
+        ["秩序感", game.baoyu, Math.min(1, game.baoyu / AXIS_MAX.baoyu)],
+        ["证据", game.evidence, Math.min(1, game.evidence / AXIS_MAX.evidence)],
+        ["异质", game.wonder, Math.min(1, game.wonder / AXIS_MAX.wonder)]
       ];
       $("score-row").innerHTML = stats.map(([label, value, ratio]) => `
         <div class="score-item">
@@ -1555,24 +1692,77 @@
       `).join("");
     }
 
+    function buildRadar() {
+      const cx = 110;
+      const cy = 110;
+      const radius = 78;
+      const axes = AXES.map(([key, label], idx) => {
+        const angle = -Math.PI / 2 + idx * Math.PI * 2 / AXES.length;
+        const ratio = Math.min(1, game[key] / AXIS_MAX[key]);
+        return {
+          key,
+          label,
+          value: game[key],
+          ratio,
+          x: cx + Math.cos(angle) * radius,
+          y: cy + Math.sin(angle) * radius,
+          px: cx + Math.cos(angle) * radius * ratio,
+          py: cy + Math.sin(angle) * radius * ratio,
+          tx: cx + Math.cos(angle) * (radius + 21),
+          ty: cy + Math.sin(angle) * (radius + 21)
+        };
+      });
+      const ring = step => axes.map(axis => {
+        const angle = Math.atan2(axis.y - cy, axis.x - cx);
+        return `${cx + Math.cos(angle) * radius * step},${cy + Math.sin(angle) * radius * step}`;
+      }).join(" ");
+      const polygon = axes.map(axis => `${axis.px},${axis.py}`).join(" ");
+      const legend = axes.map(axis => `<div>${axis.label}: ${axis.value}</div>`).join("");
+      $("radar-card").innerHTML = `
+        <div class="record-title">VALUE RADAR / 价值雷达图</div>
+        <svg class="radar-svg" viewBox="0 0 220 220" role="img" aria-label="价值感、秩序感、证据钉子、异质想象四维雷达图">
+          <g fill="none" stroke="#1f1f1f" stroke-width="1">
+            <polygon points="${ring(.25)}"></polygon>
+            <polygon points="${ring(.5)}"></polygon>
+            <polygon points="${ring(.75)}"></polygon>
+            <polygon points="${ring(1)}"></polygon>
+            ${axes.map(axis => `<line x1="${cx}" y1="${cy}" x2="${axis.x}" y2="${axis.y}"></line>`).join("")}
+          </g>
+          <polygon points="${polygon}" fill="rgba(122,158,126,.22)" stroke="#7a9e7e" stroke-width="2"></polygon>
+          ${axes.map(axis => `<circle cx="${axis.px}" cy="${axis.py}" r="3.3" fill="#b8860b"></circle>`).join("")}
+          ${axes.map(axis => `<text x="${axis.tx}" y="${axis.ty}" fill="#777" font-size="10" text-anchor="middle" dominant-baseline="middle">${axis.label}</text>`).join("")}
+        </svg>
+        <div class="radar-legend">${legend}</div>
+      `;
+    }
+
     function buildRecord(title) {
       const name = playerName || "匿名旅人";
       const noteValue = value => {
         if (Array.isArray(value)) return value.length ? value.join(" / ") : "暂未记录";
         return value || "暂未记录";
       };
-      const routeText = game.routes.map(item => `${item.phase.slice(0, 2)}:${item.route}`).join(" / ");
+      const ranked = axisScores();
+      const support = ranked.slice(1, 3).map(item => item.label).join(" / ");
       const noteRows = [
-        ["十课路径", routeText || "未形成"],
-        ["玉印与小机关", noteValue(game.notes.seals.concat(game.notes.pairings))],
+        ["旅人", name],
+        ["档案类型", title],
+        ["主导维度", ranked[0].label],
+        ["辅助维度", support],
+        ["完成度", `${game.completed}/10 房间，${game.fragments.length}/10 碎片`],
+        ["玉印与机关", noteValue(game.notes.seals.concat(game.notes.pairings))],
         ["青铜铭文", noteValue(game.notes.inscription)],
         ["阶段札记", noteValue(game.notes.final)]
       ];
       $("record-card").innerHTML = `
-        <div class="record-title">JADE RECORD / 阶段卷宗</div>
-        <div><b>${escapeHtml(name)}</b> 的档案类型：${title}</div>
-        <div>收入碎片：${game.fragments.length ? game.fragments.join("、") : "无"}</div>
-        ${noteRows.map(([k, v]) => `<div>${k}：${escapeHtml(v)}</div>`).join("")}
+        <div class="record-title">ARCHIVE PROFILE / 阶段判断</div>
+        <div class="dossier-seal">${escapeHtml(title)}</div>
+        ${noteRows.map(([k, v]) => `
+          <div class="record-line">
+            <span class="record-label">${escapeHtml(k)}</span>
+            <b>${escapeHtml(v)}</b>
+          </div>
+        `).join("")}
       `;
     }
 
@@ -1580,13 +1770,25 @@
       const ranked = axisScores();
       const strongest = ranked[0];
       const quiet = ranked.filter(item => strongest.value - item.value >= 4);
-      const routeRows = game.routes.map(item => `<div>${escapeHtml(item.phase)}｜${escapeHtml(item.title)}｜${escapeHtml(item.route)}</div>`).join("");
+      const routeRows = game.routes.map((item, idx) => `
+        <li>
+          <span>${String(idx + 1).padStart(2, "0")}</span>
+          <b>${escapeHtml(item.title)}</b>
+          <em>${escapeHtml(item.route)}</em>
+        </li>
+      `).join("");
+      const adviceMap = {
+        meili: "让感受继续落到作品细节、题记、器物制度和具体人物处境上。",
+        baoyu: "让结构判断继续保留人的痛感、欲望、犹豫和生命气息。",
+        evidence: "让证据不只证明观点，也显出其中人的行动、冒险和戏剧性。",
+        wonder: "把光怪陆离的直觉安放到更清楚的时代结构和史料钉子里。"
+      };
       const next = quiet.length
-        ? `下一阶段可补：${quiet.map(item => item.label).join("、")}。`
-        : "四条线没有明显短板。下一阶段可以直接把每一课的选择配上更精确的图、文材料。";
+        ? `下一阶段训练：加强 ${quiet.map(item => item.label).join("、")}。${quiet.map(item => adviceMap[item.key]).join("")}`
+        : "下一阶段训练：四条线没有明显短板，可以直接把每一课的选择配上更精确的图、文材料。";
       $("miss-list").innerHTML = `
         <div class="record-title">ROUTE MAP / 十课路径</div>
-        ${routeRows}
+        <ul class="route-list">${routeRows}</ul>
         <div style="margin-top:12px;color:#777">${escapeHtml(next)}</div>
       `;
     }
