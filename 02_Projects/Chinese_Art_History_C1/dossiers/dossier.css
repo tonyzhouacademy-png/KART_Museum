@@ -218,6 +218,18 @@ h3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.grid.hero-slices {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
+.grid.hero-slices .figure img,
+.figure.game-slice img {
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #050505;
+}
+
 .panel {
   padding: 22px;
 }
@@ -297,9 +309,10 @@ th {
   }
 
   .section-head,
-  .grid,
-  .grid.three,
-  .meta-grid {
-    grid-template-columns: 1fr;
-  }
+      .grid,
+      .grid.three,
+      .grid.hero-slices,
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
 }

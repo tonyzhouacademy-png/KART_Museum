@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>中国艺术史 C1.0 阶段项目记录 | KART Museum</title>
-  <meta name="description" content="KART Museum 中国艺术史 C1.0：王美丽与宝玉的成长卷宗、课程材料说明与阶段测验。">
+  <title>中国艺术史 C1.0 课程项目卷宗 | KART Museum</title>
+  <meta name="description" content="KART Museum 中国艺术史 C1.0：王美丽与宝玉的课程参与卷宗、游戏界面切片与阶段测验。">
   <style>
     :root {
       --paper: #f6f4ef;
@@ -161,7 +161,8 @@
     .hero-image img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      background: #050505;
     }
 
     h1,
@@ -269,6 +270,20 @@
 
     .course-gallery .figure img {
       aspect-ratio: 16 / 10;
+    }
+
+    .course-gallery.game-slices .figure:first-child {
+      grid-column: span 6;
+    }
+
+    .course-gallery.game-slices .figure:nth-child(n+2) {
+      grid-column: span 3;
+    }
+
+    .course-gallery.game-slices .figure img {
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: #050505;
     }
 
     .card,
@@ -423,8 +438,8 @@
       </a>
       <nav class="nav" aria-label="Project navigation">
         <a href="#summary">项目摘要</a>
-        <a href="#course-images">课程图像</a>
-        <a href="#dossiers">成长卷宗</a>
+        <a href="#course-images">游戏切片</a>
+        <a href="#dossiers">参与卷宗</a>
         <a href="#game">阶段测验</a>
         <a href="#evidence">材料说明</a>
       </nav>
@@ -435,9 +450,9 @@
     <section class="hero" id="summary">
       <div class="hero-copy">
         <div>
-          <span class="kicker">Chinese Art History C1.0 / Stage Archive</span>
+          <span class="kicker">Chinese Art History C1.0 / Project Dossier</span>
           <h1>纸上中洲</h1>
-          <p class="hero-subtitle">中国艺术史课程结束后，王美丽与宝玉的成长线被整理成两份卷宗：一条从感受进入价值，一条从器物进入秩序。</p>
+          <p class="hero-subtitle">王美丽与宝玉作为中国艺术史 C1.0 的两位课程参与者，被整理为一组项目卷宗：她们的课堂洞见、游戏角色与阶段测验共同构成这份记录。</p>
         </div>
         <div class="hero-meta">
           <div><span class="kicker">Dossiers</span><strong>2 人</strong></div>
@@ -447,23 +462,23 @@
         </div>
       </div>
       <figure class="hero-image">
-        <img src="images/project-cover.svg" alt="中国艺术史 C1.0 阶段项目封面">
+        <img src="images/game-slice-entry.png" alt="纸上中洲阶段测验入口界面">
       </figure>
     </section>
 
     <section class="section">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Two Growth Lines</span>
-          <h2>两条成长线</h2>
+          <span class="section-eyebrow">Project Positioning</span>
+          <h2>项目定位</h2>
         </div>
-        <p class="lead">本页不把学生写成抽象人物，而是把文件里实际能确认的材料和课程中形成的判断分层摆清楚。</p>
+        <p class="lead">这不是个人作品集页面，而是中国艺术史课程的项目档案。个人材料只作为理解她们观看方式的背景，页面中心放在课堂判断与游戏参与。</p>
       </div>
       <div class="grid">
         <article class="card">
           <span class="kicker">Wang Meili / Miss Wong</span>
-          <h3>感受如何变成判断</h3>
-          <p>已整理的导师课成长材料包括艺术量表、综合评级、作品集 PDF 与视觉板。中国艺术史课中，她的线索集中在“美学时钟”“价格 vs 价值”“艺术支撑文明连续体”。</p>
+          <h3>感受如何进入艺术史判断</h3>
+          <p>王美丽此前已有持续的视觉实践和生活美学记录。放到中国艺术史项目里，这些材料不作为作品集展示，而是解释她为什么特别敏感于时间感、生活感与价值判断。</p>
           <div class="tags">
             <span class="tag">创造践行</span>
             <span class="tag">生活美学</span>
@@ -474,7 +489,7 @@
         <article class="card">
           <span class="kicker">Bao Yu / Civilization Historian</span>
           <h3>器物如何变成秩序</h3>
-          <p>宝玉卷宗以艺术史课程中的课堂角色与思考路径为中心。课程文件中，他的线索集中在“宝玉系列”“全形拓+联想”“没有危机感的治理术”“天人合一的长期审美结构”。</p>
+          <p>宝玉卷宗以艺术史课程中的课堂角色与思考路径为中心。课程文件中，她的线索集中在“宝玉系列”“全形拓+联想”“没有危机感的治理术”“天人合一的长期审美结构”。</p>
           <div class="tags">
             <span class="tag">铭文</span>
             <span class="tag">全形拓</span>
@@ -491,15 +506,15 @@
           <span class="section-eyebrow">Course Evidence</span>
           <h2>课程洞见索引</h2>
         </div>
-        <p class="lead">本页以已整理的 C1.0-2 至 C1.0-4 课堂洞见为基础，第5课保留承接说明，后续记录将随课程整理继续更新。</p>
+        <p class="lead">本页以已经进入项目记录的课堂洞见为基础，把两位参与者的判断方式放回中国艺术史 C1.0 的课程进程中。</p>
       </div>
       <div class="wall-note">
         <blockquote>美丽问价值如何被感受；宝玉问秩序如何被器物保存。</blockquote>
         <div class="timeline">
-          <div class="timeline-row"><strong>C1.0-2</strong><p class="meta">美丽：“美学时钟 vs 古天文图”的时间尺度差异。宝玉：“宝玉系列”作为课程线索被保存，后续可继续展开。</p></div>
+          <div class="timeline-row"><strong>C1.0-2</strong><p class="meta">美丽：“美学时钟 vs 古天文图”的时间尺度差异。宝玉：“宝玉系列”作为课程线索，被放入“秩序如何被器物保存”的主线。</p></div>
           <div class="timeline-row"><strong>C1.0-3</strong><p class="meta">美丽提出“价格 vs 价值”的高更式思辨，并抓住毛公鼎“天德王民”的价值转折。宝玉用“全形拓+联想”进入铭文解读，并提出“没有危机感”的治理术。</p></div>
           <div class="timeline-row"><strong>C1.0-4</strong><p class="meta">美丽把艺术理解为支撑文明连续体的价值结构。宝玉把铭文理解转化为生活空间审美，提出“天人合一”的长期审美结构。</p></div>
-          <div class="timeline-row"><strong>C1.0-5</strong><p class="meta">第5课作业设计明确延续两人的“日常观察”传统；具体课堂洞见可随课后整理继续补充。</p></div>
+          <div class="timeline-row"><strong>C1.0-5</strong><p class="meta">第5课作业设计延续两人的“日常观察”传统，把生活感受和器物秩序转入秦汉单元的观看入口。</p></div>
         </div>
       </div>
     </section>
@@ -507,35 +522,23 @@
     <section class="section" id="course-images">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Course Images</span>
-          <h2>课程图像切片</h2>
+          <span class="section-eyebrow">Game Interface</span>
+          <h2>游戏界面切片</h2>
         </div>
-        <p class="lead">从课程备课材料和总课件中选取几张代表图，让卷宗保留艺术史课本身的视觉温度。</p>
+        <p class="lead">阶段测验不是附属链接，而是她们参与这门课后留下的重要项目成果。这里保留三张界面切片，呈现游戏的入口、题目与卷宗判断。</p>
       </div>
-      <div class="course-gallery">
-        <figure class="figure wide">
-          <img loading="lazy" src="images/course-star-map.jpg" alt="课程图像：古代天文图">
-          <figcaption>天文与时间：从星图进入中国艺术史的长周期秩序。</figcaption>
-        </figure>
-        <figure class="figure wide">
-          <img loading="lazy" src="images/course-chu-zenghouyi-map.png" alt="课程图像：曾侯乙与楚国地图">
-          <figcaption>地域与礼乐：曾侯乙、楚国与战国世界的空间背景。</figcaption>
+      <div class="course-gallery game-slices">
+        <figure class="figure">
+          <img loading="lazy" src="images/game-slice-entry.png" alt="纸上中洲阶段测验入口界面">
+          <figcaption>入口界面：保留原游戏的黑底、低光和档案室气质。</figcaption>
         </figure>
         <figure class="figure">
-          <img loading="lazy" src="images/course-bronze-forms.jpg" alt="课程图像：青铜器型谱">
-          <figcaption>器物与制度：青铜器型让礼制变成可辨认的形。</figcaption>
+          <img loading="lazy" src="images/game-slice-question.png" alt="纸上中洲阶段测验题目界面">
+          <figcaption>题目界面：十课被转化为选择路径，不是单一标准答案。</figcaption>
         </figure>
         <figure class="figure">
-          <img loading="lazy" src="images/course-ink-landscape.jpeg" alt="课程图像：水墨山水">
-          <figcaption>山水与心性：宋元以后，画面开始承载人的观看位置。</figcaption>
-        </figure>
-        <figure class="figure">
-          <img loading="lazy" src="images/course-handscroll.png" alt="课程图像：绘画手卷">
-          <figcaption>手卷与时间：观看不是一眼完成，而是在展开中发生。</figcaption>
-        </figure>
-        <figure class="figure">
-          <img loading="lazy" src="images/course-court-scene.png" alt="课程图像：人物与宫廷场景">
-          <figcaption>人物与空间：生活场景把制度、趣味和身体姿态放在一起。</figcaption>
+          <img loading="lazy" src="images/game-slice-radar.png" alt="纸上中洲阶段测验雷达卷宗界面">
+          <figcaption>卷宗界面：以价值感、秩序感、证据链与异质想象生成阶段判断。</figcaption>
         </figure>
       </div>
     </section>
@@ -543,22 +546,22 @@
     <section class="section" id="dossiers">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Growth Dossiers</span>
-          <h2>成长卷宗入口</h2>
+          <span class="section-eyebrow">Participant Dossiers</span>
+          <h2>参与者卷宗入口</h2>
         </div>
-        <p class="lead">三份在线卷宗保留更完整的材料表、成长叙事、AOEM 更新和后续观察方向。</p>
+        <p class="lead">项目总览与两份参与者卷宗共同说明：她们如何进入课程讨论，又如何在游戏里变成持续发问的角色。</p>
       </div>
       <div class="dossier-grid">
         <a class="dossier-link" href="dossiers/index.html">
-          <div><span class="kicker">Overview</span><h3>项目记录总览</h3><p>确认本轮已整理材料、记录口径与 V4.0 游戏设计目标。</p></div>
+          <div><span class="kicker">Overview</span><h3>项目卷宗总览</h3><p>说明课程项目的定位、两位参与者的角色，以及阶段测验如何成为课程成果。</p></div>
           <span class="text-link">打开总览</span>
         </a>
         <a class="dossier-link" href="dossiers/wang-meili.html">
-          <div><span class="kicker">Dossier 01</span><h3>王美丽</h3><p>导师课成长材料与中国艺术史课中的观念转化线并列保存。</p></div>
+          <div><span class="kicker">Dossier 01</span><h3>王美丽</h3><p>把个人视觉实践整合为观看底色，重点呈现她在艺术史课中的价值判断。</p></div>
           <span class="text-link">打开卷宗</span>
         </a>
         <a class="dossier-link" href="dossiers/bao-yu.html">
-          <div><span class="kicker">Dossier 02</span><h3>宝玉</h3><p>以课堂洞见和课程角色为主，呈现宝玉在艺术史判断中的结构线索。</p></div>
+          <div><span class="kicker">Dossier 02</span><h3>宝玉</h3><p>以课堂洞见和游戏角色为主，呈现她在艺术史判断中的结构线索。</p></div>
           <span class="text-link">打开卷宗</span>
         </a>
       </div>
@@ -570,36 +573,12 @@
           <span class="section-eyebrow">Stage Quiz Game</span>
           <h2>阶段测验 V4.0</h2>
         </div>
-        <p class="lead">新版本不覆盖 V3.0。它把王美丽和宝玉贯穿到底，用 10 个房间回看这一阶段中国艺术史课程。</p>
+        <p class="lead">阶段测验把王美丽和宝玉贯穿到底，用 10 个房间回看这一阶段中国艺术史课程。</p>
       </div>
       <div class="wall-note">
         <blockquote>十件课程碎片：方法、玉礼、青铜、楚魂、秦汉之桥、佛身与自我、唐风、宋心、元路、明清合卷。</blockquote>
         <p class="meta">玩法延续原游戏的黑底遗迹感、玉/青铜/陶土色系和观察者回应，但加入双角色路径、课程碎片收集与阶段卷宗结果。题目不做单一标准答案，而是让不同选择导向不同的观看偏好。</p>
         <a class="text-link" href="game/index.html">进入 V4.0 阶段测验</a>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="section-eyebrow">Visual Evidence</span>
-          <h2>王美丽成长材料选图</h2>
-        </div>
-        <p class="lead">这些图像选自王美丽导师课成长材料，用于呈现她从视觉实践进入审美判断的过程；中国艺术史课洞见则按课程记录另行保存。</p>
-      </div>
-      <div class="grid three">
-        <figure class="figure">
-          <img src="images/meili-progression-framework.jpg" alt="王美丽导师课综合评级图">
-          <figcaption>综合评级图：王美丽被标记在第 4 阶“创造践行”。</figcaption>
-        </figure>
-        <figure class="figure">
-          <img src="images/meili-art-scale.jpg" alt="王美丽艺术成长量表">
-          <figcaption>艺术量表：创造塑造、技法精研、艺术探索、精进恒力、表现深度五项能力。</figcaption>
-        </figure>
-        <figure class="figure">
-          <img src="images/meili-summer-vision-board-01.png" alt="王美丽 Summer Vision Board 导出页">
-          <figcaption>Summer Vision Board 导出页：生活方式、色彩氛围与视觉板材料。</figcaption>
-        </figure>
       </div>
     </section>
 
@@ -609,16 +588,16 @@
           <span class="section-eyebrow">Material Notes</span>
           <h2>材料说明</h2>
         </div>
-        <p class="lead">本页采用公开项目记录口径：呈现已整理材料，也为后续课程记录保留更新空间。</p>
+        <p class="lead">本页采用公开项目记录口径：只呈现与中国艺术史 C1.0 项目直接相关的课堂洞见、游戏角色与阶段测验。</p>
       </div>
       <div class="grid">
         <article class="card">
           <h3>王美丽</h3>
-          <p>王美丽已有较完整的导师课成长材料；中国艺术史课记录目前以 C1.0-2、C1.0-3、C1.0-4 及第5课承接说明为主，后续第6至第10课可随整理继续补入。</p>
+          <p>王美丽的导师课成长材料只作为本项目的观看背景，用来理解她为什么能从生活感受推进到艺术史判断；页面不把这些材料作为独立作品集展示。</p>
         </article>
         <article class="card">
           <h3>宝玉</h3>
-          <p>宝玉卷宗目前以“中国艺术史 C1.0”课程中的课堂洞见与角色线索为中心，后续如有作品或学习材料，可再扩展为更完整的个人成长记录。</p>
+          <p>宝玉卷宗以“中国艺术史 C1.0”课程中的课堂洞见与游戏角色线索为中心，呈现她如何把器物、铭文和空间读成秩序结构。</p>
         </article>
       </div>
     </section>
