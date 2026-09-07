@@ -779,7 +779,7 @@
   <div id="name-screen">
     <div class="name-box">
       <div class="name-deco"></div>
-      <div class="name-prompt">十课之后，档案室还亮着一盏灯。</div>
+      <div class="name-prompt">C1.0 之后，档案室还亮着一盏灯。</div>
       <div class="name-sub">留下名字，或匿名进入。美丽与宝玉会在途中回应你。</div>
       <input id="name-input" maxlength="20" autocomplete="off" spellcheck="false" placeholder="你的名字">
       <button class="tiny-btn" id="name-submit">进入档案</button>
@@ -1625,7 +1625,7 @@
         return {
           title: "阶段策展人",
           sub: "STAGE ARCHIVE / BALANCED",
-          desc: "主导判断：均衡策展。你在十课里同时调动生命处境、制度结构、证据链和异质想象。下一阶段可以把每个判断都配上一件更精确的图文证据。"
+          desc: "主导判断：均衡策展。你在 C1.0 中同时调动生命处境、制度结构、证据链和异质想象。下一阶段可以把每个判断都配上一件更精确的图文证据。"
         };
       }
       const endings = {
@@ -1787,7 +1787,7 @@
         ? `下一阶段训练：加强 ${quiet.map(item => item.label).join("、")}。${quiet.map(item => adviceMap[item.key]).join("")}`
         : "下一阶段训练：四条线没有明显短板，可以直接把每一课的选择配上更精确的图、文材料。";
       $("miss-list").innerHTML = `
-        <div class="record-title">ROUTE MAP / 十课路径</div>
+        <div class="record-title">ROUTE MAP / C1.0 路径</div>
         <ul class="route-list">${routeRows}</ul>
         <div style="margin-top:12px;color:#777">${escapeHtml(next)}</div>
       `;
