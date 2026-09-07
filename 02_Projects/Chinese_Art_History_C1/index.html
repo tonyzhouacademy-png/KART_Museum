@@ -295,6 +295,40 @@
       overflow: hidden;
     }
 
+    .game-entry {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      margin-top: 14px;
+      padding: 18px 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,253,247,.78);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .game-entry strong {
+      display: block;
+      color: var(--moss);
+      font-family: "Cormorant Garamond", "Times New Roman", "Songti SC", serif;
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    .game-entry span {
+      color: var(--wood);
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .game-entry em {
+      color: var(--muted);
+      font-style: normal;
+      font-size: 14px;
+    }
+
     .game-poster.hero-poster {
       grid-row: span 2;
     }
@@ -303,6 +337,11 @@
     .dossier-card img {
       height: 100%;
       object-fit: cover;
+    }
+
+    .game-poster.hero-poster img {
+      object-fit: contain;
+      background: var(--white);
     }
 
     .voices .game-poster img,
@@ -403,6 +442,11 @@
       .room-grid,
       .fact-grid {
         grid-template-columns: 1fr;
+      }
+
+      .game-entry {
+        align-items: flex-start;
+        flex-direction: column;
       }
       .plate.wide { grid-column: auto; }
     }
@@ -530,6 +574,11 @@
           <img src="images/game-atmosphere-radar.png" alt="纸上中洲阶段测验雷达卷宗设计">
         </figure>
       </div>
+      <a class="game-entry" href="game/index.html">
+        <span>Enter Archive Game</span>
+        <strong>进入阶段测验</strong>
+        <em>打开纸上中洲互动档案</em>
+      </a>
     </section>
 
     <section class="section" id="dossiers">
