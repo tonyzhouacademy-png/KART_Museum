@@ -397,6 +397,29 @@ h3 {
   min-height: 340px;
 }
 
+.response-card.phone .response-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(18px, 3vw, 34px);
+  background:
+    linear-gradient(135deg, rgba(111,125,97,.28), transparent 42%),
+    radial-gradient(circle at 80% 18%, rgba(184,145,62,.18), transparent 34%),
+    #151811;
+}
+
+.response-card.phone .response-media img {
+  width: min(100%, 380px);
+  height: auto;
+  min-height: 0;
+  max-height: 620px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  border: 1px solid rgba(246,244,239,.18);
+  box-shadow: 0 24px 60px rgba(0,0,0,.24);
+  filter: sepia(.08) saturate(.86) brightness(.9);
+}
+
 .response-copy {
   display: flex;
   flex-direction: column;
