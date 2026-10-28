@@ -3,6 +3,7 @@
   const section = document.querySelector('.museum-prologue');
   if (!section) return;
   const scriptBase = new URL('.', document.currentScript.src);
+  const assetVersion = new URL(document.currentScript.src).search;
   const pause = section.querySelector('[data-prologue-pause]');
   const replay = section.querySelector('[data-prologue-replay]');
   const scrub = section.querySelector('[data-prologue-seek]');
@@ -11,7 +12,7 @@
   let paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const load = name => new Promise((resolve, reject) => {
     const script = document.createElement('script');
-    script.src = new URL(name, scriptBase).href;
+    script.src = new URL(name + assetVersion, scriptBase).href;
     script.onload = resolve;
     script.onerror = reject;
     document.head.append(script);
@@ -31,13 +32,9 @@
       if (!window.KARTIntroIcons) await load('icons.js');
       icons();
       if (!window.KARTThree) await load('three-local.js');
-      if (!window.KARTFacadeData) await load('facade-texture.js');
-      const facadeImage = new Image();
-      facadeImage.src = window.KARTFacadeData;
-      await facadeImage.decode();
       if (!window.createKARTWaterway) await load('river-scene.js');
       if (section.hidden) { started = false; return; }
-      scene = window.createKARTWaterway(section, { paused, facadeImage });
+      scene = window.createKARTWaterway(section, { paused, onComplete: enter });
       pause.disabled = replay.disabled = false;
       if (scrub) scrub.disabled = false;
       section.dataset.ready = 'true';
@@ -50,6 +47,7 @@
     section.hidden = false;
     document.documentElement.dataset.kartIntro = 'show';
     window.scrollTo({ top: 0, behavior: 'instant' });
+    scene?.seek(0);
     start();
     section.querySelector('.prologue-enter').focus({ preventScroll: true });
   }
@@ -69,7 +67,16 @@
   pause.addEventListener('click', () => { paused = !paused; scene?.setPaused(paused); icons(); });
   replay.addEventListener('click', () => { paused = false; scene?.replay(); icons(); });
   scrub?.addEventListener('input', () => { const seconds = Number(scrub.value); paused = true; scene?.setPaused(true); scene?.seek(seconds); icons(); });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape' && !section.hidden) enter(event); });
+  document.addEventListener('keydown', event => {
+    if (section.hidden) return;
+    if (event.key === 'Escape') enter(event);
+    if (event.key === 'Tab') {
+      const controls = [...section.querySelectorAll('a,button,input')].filter(el => !el.disabled && el.getClientRects().length);
+      const first = controls[0], last = controls.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+  });
   new IntersectionObserver(([entry]) => scene?.setActive(entry.isIntersecting && !section.hidden), { threshold: .05 }).observe(section);
   document.addEventListener('visibilitychange', () => scene?.setActive(!document.hidden && !section.hidden && section.getBoundingClientRect().bottom > 0));
   section.hidden = document.documentElement.dataset.kartIntro === 'hide';

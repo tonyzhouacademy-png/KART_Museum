@@ -1,7 +1,9 @@
 .museum-prologue {
-  position: relative;
-  height: calc(100svh - 54px);
-  min-height: 620px;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  height: 100svh;
+  min-height: 0;
   overflow: hidden;
   isolation: isolate;
   color: #303c38;
@@ -9,6 +11,8 @@
   font-family: "Times New Roman", "Songti SC", "SimSun", serif;
   letter-spacing: 0;
 }
+html[data-kart-intro="show"], html[data-kart-intro="show"] body { overflow: hidden; }
+html[data-kart-intro="show"] body > :not(.museum-prologue):not(script) { display: none !important; }
 .museum-prologue[hidden], html[data-kart-intro="hide"] .museum-prologue { display: none; }
 .prologue-scene, .prologue-poster, .prologue-scene canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .prologue-poster { object-fit: cover; }
@@ -18,7 +22,7 @@
   position: absolute; top: 0; left: 0; right: 0; padding: 18px 4%;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   z-index: 2;
-  background: rgba(246,244,239,.91); border-bottom: 1px solid rgba(68,86,78,.15);
+  background: rgba(246,244,239,.72); border-bottom: 1px solid rgba(68,86,78,.12);
 }
 .prologue-identity { display: flex; align-items: center; gap: 13px; font: 12px/1.6 Arial, sans-serif; }
 .prologue-seal { display: grid; place-content: center; width: 34px; height: 38px; border: 1px solid #954e45; color: #954e45; font: 19px/1.1 "SimSun", serif; }
@@ -33,7 +37,7 @@
 .prologue-bottom {
   position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 19px 4%;
   display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: end;
-  background: rgba(246,244,239,.94); border-top: 1px solid rgba(68,86,78,.18);
+  background: rgba(246,244,239,.9); border-top: 1px solid rgba(68,86,78,.12);
 }
 .prologue-caption { font: 12px/1.8 Arial, sans-serif; margin: 0; color: #3f574c; }
 .prologue-caption strong { display: block; margin-bottom: 5px; font: 19px/1.5 "SimSun", serif; color: #324a40; }
@@ -60,7 +64,7 @@
 .prologue-replay { border: 0; padding: 0; background: none; color: inherit; font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
 @media (min-width: 1800px) { .prologue-title h2 { font-size: 88px; } }
 @media (max-width: 760px) {
-  .museum-prologue { height: calc(100svh - 48px); min-height: 580px; }
+  .museum-prologue { height: 100svh; min-height: 0; }
   .prologue-top { padding: 16px 22px; }
   .prologue-identity { font-size: 10px; gap: 9px; }
   .prologue-seal { width: 29px; height: 34px; }
@@ -81,7 +85,7 @@
   .prologue-scene, .prologue-enter { transition: none; }
 }
 @media (max-height: 650px) {
-  .museum-prologue { height: calc(100svh - 44px); min-height: 0; }
+  .museum-prologue { height: 100svh; min-height: 0; }
   .prologue-title { top: 19%; }
   .prologue-title h2 { font-size: 46px; }
   .prologue-title .prologue-subtitle { font-size: 13px; margin-top: 12px; }

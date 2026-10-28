@@ -9,8 +9,8 @@
       document.documentElement.dataset.kartIntro = location.hash === '#intro' || (!location.hash && !sessionStorage.getItem('kart-prologue-seen')) ? 'show' : 'hide';
     } catch (_) { document.documentElement.dataset.kartIntro = !location.hash || location.hash === '#intro' ? 'show' : 'hide'; }
   </script>
-  <link rel="stylesheet" href="assets/intro/intro.css">
-  <script src="assets/intro/intro.js" defer></script>
+  <link rel="stylesheet" href="assets/intro/intro.css?v=ink20261028">
+  <script src="assets/intro/intro.js?v=ink20261028" defer></script>
   <link rel="image_src" href="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-wechat.jpg?v=20260728-1">
   <meta itemprop="image" content="https://tonyzhouacademy-png.github.io/KART_Museum/assets/social/kart-museum-wechat.jpg?v=20260728-1">
   <meta name="description" content="KART Museum：全球艺术史、成员档案、写生与综合项目的长期成长馆藏。">
@@ -1277,10 +1277,10 @@
   </style>
 </head>
 <body>
-  <section class="museum-prologue" aria-labelledby="prologue-title">
+  <section class="museum-prologue" role="dialog" aria-modal="true" aria-labelledby="prologue-title">
     <picture>
-      <source media="(max-width: 760px)" srcset="assets/intro/waterway-poster-mobile.jpg">
-      <img class="prologue-poster" src="assets/intro/waterway-poster.jpg" alt="滨水美术馆、铁桥与文化城市天际线" width="1600" height="946" loading="lazy">
+      <source media="(max-width: 760px)" srcset="assets/intro/waterway-poster-mobile.jpg?v=ink20261028">
+      <img class="prologue-poster" src="assets/intro/waterway-poster.jpg?v=ink20261028" alt="淡彩线描中的滨水美术馆、铁桥与城市轮廓" width="1440" height="900" loading="lazy">
     </picture>
     <div class="prologue-scene"></div>
     <div class="prologue-top">
